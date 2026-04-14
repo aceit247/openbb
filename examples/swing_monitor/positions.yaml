@@ -1,0 +1,57 @@
+# Swing trade positions tracker
+# Edit this file when you enter/exit/scale trades. Update fills_avg after each tranche.
+#
+# Currency notes:
+#   - SNDK is in USD; BSE is in INR.
+#   - account_total_inr is your full net worth in INR for risk % calculations.
+#   - usd_inr_rate is used to convert USD positions to INR for cross-sleeve risk math.
+
+account:
+  total_inr: 2750000          # ~27.5L total NW
+  swing_sleeve_inr: 275000    # 10% of NW reserved for swings
+  usd_inr_rate: 83.0          # update occasionally
+
+positions:
+  - ticker: SNDK
+    yf_symbol: SNDK
+    currency: USD
+    status: open
+    entry_avg: 903.00
+    qty: 0.332                 # $300 / $903
+    stop: 820.00
+    targets:
+      - {price: 990.00,  pct_to_sell: 40, label: "T1 +9.6%"}
+      - {price: 1050.00, pct_to_sell: 30, label: "T2 +16.3%"}
+      - {price: 1150.00, pct_to_sell: 20, label: "T3 +27%"}
+    time_stop_days: 10
+    notes: "Chased entry. Tight management, do not move stop down."
+
+  - ticker: BSE.NS
+    yf_symbol: BSE.NS
+    currency: INR
+    status: planned             # change to 'open' after fill, set entry_avg + qty
+    entry_avg: 3303.00          # placeholder until filled
+    qty: 15                     # 15 shares ~= ₹49,545
+    stop: 3085.00
+    targets:
+      - {price: 3500.00, pct_to_sell: 33, label: "T1 +6%"}
+      - {price: 3650.00, pct_to_sell: 33, label: "T2 +10.5%"}
+      - {price: 3800.00, pct_to_sell: 25, label: "T3 +15%"}
+    time_stop_days: 10
+    notes: "Darvas + Minervini + Qullamaggie alignment. Verify earnings date before entry."
+
+# Watchlist: not in position yet, just monitor for setup
+watchlist:
+  - ticker: STX
+    yf_symbol: STX
+    currency: USD
+    trigger_buy_zone: [475, 510]
+    trigger_stop: 448
+  - ticker: NIFTY
+    yf_symbol: "^NSEI"
+    currency: INR
+    note: "Market regime gauge - exit longs if loses 21D EMA"
+  - ticker: QQQ
+    yf_symbol: QQQ
+    currency: USD
+    note: "US market regime gauge"
