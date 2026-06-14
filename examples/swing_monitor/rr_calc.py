@@ -59,14 +59,15 @@ class TradeSetup:
         return (self.risk_per_share / self.entry) * 100
 
     @property
-    def qty(self) -> int | None:
+    def qty(self) -> float | None:
         if self.capital:
-            return int(self.capital / self.entry)
+            raw = self.capital / self.entry
+            return raw if raw < 1 else int(raw)
         return None
 
     @property
     def total_risk(self) -> float | None:
-        if self.qty:
+        if self.qty is not None and self.qty > 0:
             return self.risk_per_share * self.qty
         return None
 
@@ -138,7 +139,7 @@ def calc_multi_target(setup: TradeSetup) -> None:
     info.add_row("Risk/share", f"{sym}{setup.risk_per_share:,.2f} ({setup.risk_pct:.1f}%)")
     if has_capital:
         info.add_row("Capital", f"{sym}{setup.capital:,.0f}")
-        info.add_row("Shares", str(qty))
+        info.add_row("Shares", f"{qty:.3f}" if qty < 1 else str(int(qty)))
         info.add_row("Max risk (full stop)", f"[red]{sym}{setup.total_risk:,.0f}[/red]")
     console.print(info)
     console.print()
@@ -160,10 +161,15 @@ def calc_multi_target(setup: TradeSetup) -> None:
     total_pct_sold = 0.0
     cumul_profit = 0.0
     weighted_rr_sum = 0.0
+    weighted_exit_sum = 0.0  # for avg exit price
+    total_shares_sold = 0
     remaining_shares = qty
 
+    exit_log = []  # collect per-tranche data for journal summary
+
     for i, t in enumerate(setup.targets):
-        shares_this = int(qty * t.pct_of_position / 100)
+        raw_shares = qty * t.pct_of_position / 100
+        shares_this = raw_shares if qty < 1 else int(raw_shares)
         if i == len(setup.targets) - 1:
             shares_this = remaining_shares
 
@@ -174,6 +180,17 @@ def calc_multi_target(setup: TradeSetup) -> None:
         cumul_profit += profit_this
         total_pct_sold += t.pct_of_position
         weighted_rr_sum += ratio * t.pct_of_position
+        weighted_exit_sum += t.price * shares_this
+        total_shares_sold += shares_this
+
+        exit_log.append({
+            "label": t.label or f"T{i+1}",
+            "price": t.price,
+            "shares": shares_this,
+            "pct": t.pct_of_position,
+            "profit": profit_this,
+            "r": ratio,
+        })
 
         # Stop moves to break-even after T2 typically
         if i == 0:
@@ -191,7 +208,7 @@ def calc_multi_target(setup: TradeSetup) -> None:
             f"{t.pct_of_position:.0f}%",
         ]
         if has_capital:
-            row.append(str(shares_this))
+            row.append(f"{shares_this:.3f}" if shares_this < 1 else str(int(shares_this)))
         row.extend([
             f"{sym}{reward:,.2f} (+{reward_pct:.1f}%)",
             f"1:{ratio:.1f}",
@@ -208,18 +225,30 @@ def calc_multi_target(setup: TradeSetup) -> None:
 
     console.print(tbl)
 
-    # Summary
-    avg_rr = weighted_rr_sum / total_pct_sold * (total_pct_sold / 100) if total_pct_sold else 0
+    # Computed averages
     weighted_avg_rr = weighted_rr_sum / total_pct_sold if total_pct_sold else 0
+    avg_exit = weighted_exit_sum / total_shares_sold if total_shares_sold else 0
+    avg_pnl_per_share = cumul_profit / total_shares_sold if total_shares_sold else 0
+    total_r = cumul_profit / (setup.risk_per_share * qty) if (setup.risk_per_share and qty) else 0
 
     console.print()
     summary = Table(title="Summary", box=box.SIMPLE_HEAVY)
     summary.add_column("Metric", style="bold")
     summary.add_column("Value", justify="right")
 
+    # Exit price analytics
+    summary.add_row("Avg exit price (weighted)", f"[bold]{sym}{avg_exit:,.2f}[/bold]")
+    avg_exit_pct = (avg_exit / setup.entry - 1) * 100
+    summary.add_row("Avg exit vs entry", f"[bold green]+{avg_exit_pct:.1f}%[/bold green]")
+    summary.add_row("P&L per share (avg)", f"[green]{sym}{avg_pnl_per_share:,.2f}[/green]")
+    summary.add_row("", "")
+
+    # R multiples
     summary.add_row("Weighted Avg R:R", f"[bold cyan]1:{weighted_avg_rr:.1f}[/bold cyan]")
+    summary.add_row("Total R-multiple (full run)", f"[bold cyan]+{total_r:.1f}R[/bold cyan]")
 
     if has_capital:
+        summary.add_row("", "")
         summary.add_row("Full-run P&L", f"[bold green]{sym}{cumul_profit:,.0f}[/bold green]")
         roi = (cumul_profit / setup.capital) * 100
         summary.add_row("Full-run ROI", f"[bold green]+{roi:.1f}%[/bold green]")
@@ -235,7 +264,8 @@ def calc_multi_target(setup: TradeSetup) -> None:
 
         # After T1 analysis
         t1 = setup.targets[0]
-        t1_shares = int(qty * t1.pct_of_position / 100)
+        t1_raw = qty * t1.pct_of_position / 100
+        t1_shares = t1_raw if qty < 1 else int(t1_raw)
         t1_profit = (t1.price - setup.entry) * t1_shares
         summary.add_row("", "")
         summary.add_row("[dim]If only T1 hits + rest at BE[/dim]",
@@ -245,6 +275,35 @@ def calc_multi_target(setup: TradeSetup) -> None:
                         f"({t1_profit/setup.total_risk*100:.0f}%)[/dim]")
 
     console.print(summary)
+
+    # Journal-ready one-liner
+    console.print()
+    journal = Table(title="Journal Summary (copy to trade log)", box=box.DOUBLE)
+    journal.add_column("Entry", justify="right")
+    journal.add_column("Avg Exit", justify="right")
+    journal.add_column("Stop", justify="right")
+    journal.add_column("Shares", justify="right")
+    journal.add_column("P&L", justify="right")
+    journal.add_column("R", justify="right")
+    journal.add_column("ROI", justify="right")
+    journal.add_column("Exits", justify="left")
+
+    exits_str = " / ".join(
+        f"{e['label']}={sym}{e['price']:,.0f}×{e['shares']}"
+        for e in exit_log
+    )
+
+    journal.add_row(
+        f"{sym}{setup.entry:,.2f}",
+        f"{sym}{avg_exit:,.2f}",
+        f"{sym}{setup.stop:,.2f}",
+        (f"{qty:.3f}" if qty < 1 else str(int(qty))) if has_capital else "—",
+        f"{sym}{cumul_profit:,.0f}" if has_capital else f"{avg_pnl_per_share:,.2f}/sh",
+        f"+{total_r:.1f}R",
+        f"+{(cumul_profit / setup.capital * 100):.1f}%" if has_capital else "—",
+        exits_str,
+    )
+    console.print(journal)
 
 
 def interactive_mode() -> TradeSetup:
