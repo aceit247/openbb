@@ -1,5 +1,5 @@
-# Swing trade positions tracker
-# Edit this file when you enter/exit/scale trades. Update fills_avg after each tranche.
+# Swing trade positions tracker — updated from actual transaction history
+# Source: brokerage transaction export, Jun 14 2026
 #
 # Currency notes:
 #   - account_total_inr is your full net worth in INR for risk % calculations.
@@ -10,51 +10,147 @@ account:
   swing_sleeve_inr: 275000    # 10% of NW reserved for swings
   usd_inr_rate: 83.0          # update occasionally
 
-# --- Closed trades (for journal / hit-rate tracking) ---
+# =========================================================================
+# CLOSED TRADES — actual transaction data
+# =========================================================================
 closed:
+
   - ticker: SNDK
     currency: USD
-    entry_avg: 903.00
-    exit_avg: ~                # update with actual exit price
-    qty: 0.332
     result: profit
-    notes: "Chased entry at 903. Exited at profit."
+    buys:
+      - {date: "2026-04-13", qty: 0.331205, price: 903.13, total: 300.00, commission: 0.88}
+    sells:
+      - {date: "2026-04-30", qty: 0.09214, price: 1085.31, total: 100.00}
+      - {date: "2026-05-18", qty: 0.239065, price: 1315.00, total: 314.37}
+    summary:
+      total_qty: 0.331205
+      avg_entry: 903.13
+      avg_exit: 1250.83            # weighted: (0.09214*1085.31 + 0.239065*1315) / 0.331205
+      total_cost: 300.88           # including commission
+      total_proceeds: 414.37
+      pnl: 113.49
+      pnl_pct: 37.7
+      r_multiple: ~                # fill in based on original stop
+    notes: >
+      Chased entry at 903 (C+ setup). Partial exit at 1085 (T2 zone),
+      final exit at 1315 (T1 target). Both exits at profit. Commission $0.88.
 
   - ticker: BSE.NS
     currency: INR
-    entry_avg: 3303.00
-    exit_avg: ~
-    qty: 15
     result: profit
-    notes: "Darvas breakout. Exited at profit."
+    buys:
+      - {date: "2026-04-15", qty: 8, price: 3415.50, total: 27324}
+    sells:
+      - {date: "2026-06-02", qty: 2, price: 3994.60, total: 7989}
+      - {date: "2026-06-02", qty: 6, price: 3994.50, total: 23967}
+    summary:
+      total_qty: 8
+      avg_entry: 3415.50
+      avg_exit: 3994.53            # weighted: (2*3994.60 + 6*3994.50) / 8
+      total_cost: 27324
+      total_proceeds: 31956
+      pnl: 4632
+      pnl_pct: 17.0
+    notes: >
+      A- setup. Darvas + Minervini + Qullamaggie alignment. Entry at 3415
+      (above our planned 3303 — market gapped). Sold all 8 at ~3994 on Jun 2.
+      Clean +17% win. Held 48 days.
+
+  - ticker: KRN
+    currency: INR
+    result: loss
+    buys:
+      - {date: "2026-04-27", qty: 22, price: 1310.00, total: 28820}
+    sells:
+      - {date: "2026-05-05", qty: 1, price: 1198.00, total: 1198}
+      - {date: "2026-05-06", qty: 16, price: 1197.00, total: 19152}
+      - {date: "2026-05-06", qty: 5, price: 1198.00, total: 5990}
+    summary:
+      total_qty: 22
+      avg_entry: 1310.00
+      avg_exit: 1197.27            # weighted: (1*1198 + 16*1197 + 5*1198) / 22
+      total_cost: 28820
+      total_proceeds: 26340
+      pnl: -2480
+      pnl_pct: -8.6
+    notes: >
+      Krn Heat Exchanger. Stopped out — sold all 22 shares at ~1197-1198 area.
+      Loss of 8.6%. Held 9 days. Disciplined exit.
 
   - ticker: CPRX
     currency: USD
-    entry_avg: 28.00
-    exit_avg: ~                # likely ~31.18 (M&A deal price 31.50)
-    qty: 7
     result: profit
-    notes: "Darvas retest entry. Angelini acquisition at $31.50 capped upside. Exited +11%."
+    buys:
+      - {date: "2026-05-01", qty: 3.671182, price: 27.72, total: 102.08, commission: 0.30}
+      - {date: "2026-05-01", qty: 3.507263, price: 28.35, total: 99.73, commission: 0.30}
+    sells:
+      - {date: "2026-05-15", qty: 7.178445, price: 31.14, total: 223.54}
+    summary:
+      total_qty: 7.178445
+      avg_entry: 28.03             # weighted: (3.671182*27.72 + 3.507263*28.35) / 7.178445
+      avg_exit: 31.14
+      total_cost: 202.41           # 201.81 + 0.60 commission
+      total_proceeds: 223.54
+      pnl: 21.13
+      pnl_pct: 10.4
+    notes: >
+      Darvas retest entry at $28. Angelini Pharma M&A at $31.50 capped upside.
+      Exited at $31.14 on May 15. Clean +10.4%. Held 14 days. Commission $0.60.
+
+  - ticker: ATHERENERG
+    currency: INR
+    result: profit
+    buys:
+      - {date: "2026-04-28", qty: 3, price: 960.20, total: 2881}
+      - {date: "2026-04-30", qty: 4, price: 960.55, total: 3842}
+    sells:
+      - {date: "2026-06-04", qty: 7, price: 979.50, total: 6857}
+    summary:
+      total_qty: 7
+      avg_entry: 960.40            # weighted: (3*960.20 + 4*960.55) / 7
+      avg_exit: 979.50
+      total_cost: 6723
+      total_proceeds: 6857
+      pnl: 134
+      pnl_pct: 2.0
+    notes: >
+      Pilot position only (7 shares). Sold at 979.50 on Jun 4 before
+      the breakout candle to 1022. Small +2% gain. Held 37 days.
+
+# =========================================================================
+# TRADE SCORECARD
+# =========================================================================
+# Wins:  4 (SNDK, BSE, CPRX, ATHERENERG)
+# Losses: 1 (KRN)
+# Win rate: 80%
+#
+# Realized P&L (INR equiv at 83 USD/INR):
+#   SNDK:   +$113.49  = +₹9,420
+#   BSE:    +₹4,632
+#   KRN:    -₹2,480
+#   CPRX:   +$21.13   = +₹1,754
+#   ATHER:  +₹134
+#   ─────────────────────────────
+#   TOTAL:  ~₹13,460 realized profit
+#   ROI on swing sleeve: +4.9%
+# =========================================================================
 
 # --- Active positions ---
 positions:
-  - ticker: ATHERENERG
-    yf_symbol: ATHERENERG.NS
-    currency: INR
+  - ticker: LRCX
+    yf_symbol: LRCX
+    currency: USD
     status: open
-    entry_avg: 1003.00         # blended: 10K pilot + 50K add at ~1003
-    qty: 59                    # ~11 pilot + 48 add
-    capital: 60000
-    stop: 960.00
-    targets:
-      - {price: 1100.00, pct_to_sell: 20, label: "T1 +9.7%"}
-      - {price: 1200.00, pct_to_sell: 25, label: "T2 +19.6%"}
-      - {price: 1350.00, pct_to_sell: 25, label: "T3 +34.6%"}
-      - {price: 1500.00, pct_to_sell: 30, label: "T4 runner +49.6%"}
-    time_stop_days: 7
-    notes: "A-grade second-stage breakout on 2.75x vol. Minervini power play. Stop 960, move to BE after T2."
+    entry_date: "2026-06-09"
+    entry_avg: 346.09
+    qty: 2
+    capital: 692.18              # $692.18
+    stop: ~                      # set your stop!
+    targets: []                  # define targets
+    notes: "Lam Research. New position opened Jun 9. SET STOP AND TARGETS."
 
-# Watchlist: not in position yet, just monitor for setup
+# Watchlist
 watchlist:
   - ticker: STX
     yf_symbol: STX
