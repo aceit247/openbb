@@ -2,7 +2,6 @@
 # Edit this file when you enter/exit/scale trades. Update fills_avg after each tranche.
 #
 # Currency notes:
-#   - SNDK is in USD; BSE is in INR.
 #   - account_total_inr is your full net worth in INR for risk % calculations.
 #   - usd_inr_rate is used to convert USD positions to INR for cross-sleeve risk math.
 
@@ -11,34 +10,49 @@ account:
   swing_sleeve_inr: 275000    # 10% of NW reserved for swings
   usd_inr_rate: 83.0          # update occasionally
 
-positions:
+# --- Closed trades (for journal / hit-rate tracking) ---
+closed:
   - ticker: SNDK
-    yf_symbol: SNDK
     currency: USD
-    status: open
     entry_avg: 903.00
-    qty: 0.332                 # $300 / $903
-    stop: 820.00
-    targets:
-      - {price: 990.00,  pct_to_sell: 40, label: "T1 +9.6%"}
-      - {price: 1050.00, pct_to_sell: 30, label: "T2 +16.3%"}
-      - {price: 1150.00, pct_to_sell: 20, label: "T3 +27%"}
-    time_stop_days: 10
-    notes: "Chased entry. Tight management, do not move stop down."
+    exit_avg: ~                # update with actual exit price
+    qty: 0.332
+    result: profit
+    notes: "Chased entry at 903. Exited at profit."
 
   - ticker: BSE.NS
-    yf_symbol: BSE.NS
     currency: INR
-    status: planned             # change to 'open' after fill, set entry_avg + qty
-    entry_avg: 3303.00          # placeholder until filled
-    qty: 15                     # 15 shares ~= ₹49,545
-    stop: 3085.00
+    entry_avg: 3303.00
+    exit_avg: ~
+    qty: 15
+    result: profit
+    notes: "Darvas breakout. Exited at profit."
+
+  - ticker: CPRX
+    currency: USD
+    entry_avg: 28.00
+    exit_avg: ~                # likely ~31.18 (M&A deal price 31.50)
+    qty: 7
+    result: profit
+    notes: "Darvas retest entry. Angelini acquisition at $31.50 capped upside. Exited +11%."
+
+# --- Active positions ---
+positions:
+  - ticker: ATHERENERG
+    yf_symbol: ATHERENERG.NS
+    currency: INR
+    status: open
+    entry_avg: 1003.00         # blended: 10K pilot + 50K add at ~1003
+    qty: 59                    # ~11 pilot + 48 add
+    capital: 60000
+    stop: 960.00
     targets:
-      - {price: 3500.00, pct_to_sell: 33, label: "T1 +6%"}
-      - {price: 3650.00, pct_to_sell: 33, label: "T2 +10.5%"}
-      - {price: 3800.00, pct_to_sell: 25, label: "T3 +15%"}
-    time_stop_days: 10
-    notes: "Darvas + Minervini + Qullamaggie alignment. Verify earnings date before entry."
+      - {price: 1100.00, pct_to_sell: 20, label: "T1 +9.7%"}
+      - {price: 1200.00, pct_to_sell: 25, label: "T2 +19.6%"}
+      - {price: 1350.00, pct_to_sell: 25, label: "T3 +34.6%"}
+      - {price: 1500.00, pct_to_sell: 30, label: "T4 runner +49.6%"}
+    time_stop_days: 7
+    notes: "A-grade second-stage breakout on 2.75x vol. Minervini power play. Stop 960, move to BE after T2."
 
 # Watchlist: not in position yet, just monitor for setup
 watchlist:
@@ -47,6 +61,12 @@ watchlist:
     currency: USD
     trigger_buy_zone: [475, 510]
     trigger_stop: 448
+  - ticker: WAAREEENER
+    yf_symbol: WAAREEENER.NS
+    currency: INR
+    trigger_buy_zone: [3080, 3120]
+    trigger_stop: 2960
+    note: "B- setup. Wait for pullback to 21 EMA or ATH breakout above 3800."
   - ticker: NIFTY
     yf_symbol: "^NSEI"
     currency: INR
