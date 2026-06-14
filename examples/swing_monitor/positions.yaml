@@ -1,142 +1,135 @@
-# Swing trade positions tracker — updated from actual transaction history
-# Source: brokerage transaction export, Jun 14 2026
-#
-# Currency notes:
-#   - account_total_inr is your full net worth in INR for risk % calculations.
-#   - usd_inr_rate is used to convert USD positions to INR for cross-sleeve risk math.
+# ═══════════════════════════════════════════════════════════════════════
+# VISHESH — Complete Portfolio & Swing Trade Tracker
+# Source: INDmoney + Zerodha Kite export, Jun 14 2026
+# ═══════════════════════════════════════════════════════════════════════
 
-account:
-  total_inr: 2750000          # ~27.5L total NW
-  swing_sleeve_inr: 275000    # 10% of NW reserved for swings
-  usd_inr_rate: 83.0          # update occasionally
+# ─── NET WORTH SNAPSHOT ───
+networth:
+  total_inr: 2634532
+  total_invested: 1579994
+  total_pnl: 1054538
+  zerodha_cash: 142426            # equity segment free cash
+  us_wallet_inr: 46281            # ~$558 USD
+  as_of: "2026-06-14"
 
-# =========================================================================
-# CLOSED TRADES — actual transaction data
-# =========================================================================
-closed:
+  allocation_by_class:
+    indian_equity: {value: 1455779, pct: 55.3}
+    global_equity:  {value: 845402,  pct: 32.1}
+    silver:         {value: 170712,  pct: 6.5}
+    gold:           {value: 116313,  pct: 4.4}
+    liquid:         {value: 46326,   pct: 1.8}
 
-  - ticker: SNDK
-    currency: USD
-    result: profit
-    buys:
-      - {date: "2026-04-13", qty: 0.331205, price: 903.13, total: 300.00, commission: 0.88}
-    sells:
-      - {date: "2026-04-30", qty: 0.09214, price: 1085.31, total: 100.00}
-      - {date: "2026-05-18", qty: 0.239065, price: 1315.00, total: 314.37}
-    summary:
-      total_qty: 0.331205
-      avg_entry: 903.13
-      avg_exit: 1250.83            # weighted: (0.09214*1085.31 + 0.239065*1315) / 0.331205
-      total_cost: 300.88           # including commission
-      total_proceeds: 414.37
-      pnl: 113.49
-      pnl_pct: 37.7
-      r_multiple: ~                # fill in based on original stop
-    notes: >
-      Chased entry at 903 (C+ setup). Partial exit at 1085 (T2 zone),
-      final exit at 1315 (T1 target). Both exits at profit. Commission $0.88.
+  market_cap:
+    large_cap: {value: 1033062, pct: 62.8}
+    mega_cap:  {value: 234004,  pct: 14.2}
+    mid_cap:   {value: 194695,  pct: 11.8}
+    small_cap: {value: 183920,  pct: 11.2}
 
-  - ticker: BSE.NS
-    currency: INR
-    result: profit
-    buys:
-      - {date: "2026-04-15", qty: 8, price: 3415.50, total: 27324}
-    sells:
-      - {date: "2026-06-02", qty: 2, price: 3994.60, total: 7989}
-      - {date: "2026-06-02", qty: 6, price: 3994.50, total: 23967}
-    summary:
-      total_qty: 8
-      avg_entry: 3415.50
-      avg_exit: 3994.53            # weighted: (2*3994.60 + 6*3994.50) / 8
-      total_cost: 27324
-      total_proceeds: 31956
-      pnl: 4632
-      pnl_pct: 17.0
-    notes: >
-      A- setup. Darvas + Minervini + Qullamaggie alignment. Entry at 3415
-      (above our planned 3303 — market gapped). Sold all 8 at ~3994 on Jun 2.
-      Clean +17% win. Held 48 days.
+# ─── ZERODHA HOLDINGS (ETFs, REITs, InvITs) ───
+zerodha_holdings:
+  etfs:
+    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 ETF",       qty: 467, avg: 269.95, ltp: 267.86, value: 125091, pnl: -974}
+    - {symbol: BANKBEES,    name: "Nippon Bank ETF",            qty: 178, avg: 566.62, ltp: 585.42, value: 104205, pnl: 3346}
+    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 ETF",   qty: 109, avg: 717.64, ltp: 755.73, value: 82375,  pnl: 4151}
+    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 268, avg: 239.98, ltp: 229.76, value: 61576,  pnl: -2738}
+    - {symbol: MID150BEES,  name: "Nippon Midcap 150 ETF",      qty: 215, avg: 217.93, ltp: 230.28, value: 49510,  pnl: 2655}
+    - {symbol: GOLDBEES,    name: "Nippon Gold ETF",             qty: 305, avg: 121.21, ltp: 121.92, value: 37186,  pnl: 215}
+    - {symbol: ITBEES,      name: "Nippon IT ETF",              qty: 772, avg: 32.75,  ltp: 30.89,  value: 23847,  pnl: -1438}
+    - {symbol: PSUBNKBEES,  name: "Nippon PSU Bank ETF",        qty: 220, avg: 90.84,  ltp: 95.30,  value: 20966,  pnl: 981}
 
-  - ticker: KRN
-    currency: INR
-    result: loss
-    buys:
-      - {date: "2026-04-27", qty: 22, price: 1310.00, total: 28820}
-    sells:
-      - {date: "2026-05-05", qty: 1, price: 1198.00, total: 1198}
-      - {date: "2026-05-06", qty: 16, price: 1197.00, total: 19152}
-      - {date: "2026-05-06", qty: 5, price: 1198.00, total: 5990}
-    summary:
-      total_qty: 22
-      avg_entry: 1310.00
-      avg_exit: 1197.27            # weighted: (1*1198 + 16*1197 + 5*1198) / 22
-      total_cost: 28820
-      total_proceeds: 26340
-      pnl: -2480
-      pnl_pct: -8.6
-    notes: >
-      Krn Heat Exchanger. Stopped out — sold all 22 shares at ~1197-1198 area.
-      Loss of 8.6%. Held 9 days. Disciplined exit.
+  reits_invits:
+    - {symbol: MINDSPACE-RR, name: "Mindspace REIT",            qty: 119, avg: 482.48, ltp: 460.38, value: 54785,  pnl: -2629}
+    - {symbol: EMBASSY,      name: "Embassy Office REIT",       qty: 102, avg: 429.56, ltp: 429.98, value: 43858,  pnl: 43}
+    - {symbol: BIRET,        name: "Birla Estate REIT",         qty: 129, avg: 327.73, ltp: 319.50, value: 41216,  pnl: -1062}
+    - {symbol: NXST,         name: "Nexus Select Trust REIT",   qty: 230, avg: 155.50, ltp: 154.84, value: 35613,  pnl: -151}
+    - {symbol: KRT-RR,       name: "Kreditbee RR",              qty: 268, avg: 120.14, ltp: 116.46, value: 31211,  pnl: -985}
 
-  - ticker: CPRX
-    currency: USD
-    result: profit
-    buys:
-      - {date: "2026-05-01", qty: 3.671182, price: 27.72, total: 102.08, commission: 0.30}
-      - {date: "2026-05-01", qty: 3.507263, price: 28.35, total: 99.73, commission: 0.30}
-    sells:
-      - {date: "2026-05-15", qty: 7.178445, price: 31.14, total: 223.54}
-    summary:
-      total_qty: 7.178445
-      avg_entry: 28.03             # weighted: (3.671182*27.72 + 3.507263*28.35) / 7.178445
-      avg_exit: 31.14
-      total_cost: 202.41           # 201.81 + 0.60 commission
-      total_proceeds: 223.54
-      pnl: 21.13
-      pnl_pct: 10.4
-    notes: >
-      Darvas retest entry at $28. Angelini Pharma M&A at $31.50 capped upside.
-      Exited at $31.14 on May 15. Clean +10.4%. Held 14 days. Commission $0.60.
+  totals:
+    holdings_value: 711438
+    cash: 142426
+    grand_total: 853864
 
-  - ticker: ATHERENERG
-    currency: INR
-    result: profit
-    buys:
-      - {date: "2026-04-28", qty: 3, price: 960.20, total: 2881}
-      - {date: "2026-04-30", qty: 4, price: 960.55, total: 3842}
-    sells:
-      - {date: "2026-06-04", qty: 7, price: 979.50, total: 6857}
-    summary:
-      total_qty: 7
-      avg_entry: 960.40            # weighted: (3*960.20 + 4*960.55) / 7
-      avg_exit: 979.50
-      total_cost: 6723
-      total_proceeds: 6857
-      pnl: 134
-      pnl_pct: 2.0
-    notes: >
-      Pilot position (7 shares). Exited at 979.50 on Jun 4 — Darvas box
-      support broke, triggering trailing stop-loss. Disciplined exit. +2% gain. Held 37 days.
+# ─── INDmoney INDIAN STOCKS & ETFs (separate demat ••4344) ───
+indmoney_indian:
+  etfs:
+    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 BeES",      qty: 307, ltp: 267.86, value: 82233}
+    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 BeES",  qty: 93,  ltp: 755.73, value: 70283}
+    - {symbol: GOLDBEES,    name: "Nippon Gold BeES",           qty: 550, ltp: 121.92, value: 67056}
+    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 475, ltp: 229.76, value: 109136}
+    - {symbol: MID150BEES,  name: "Nippon Midcap 150 BeES",    qty: 192, ltp: 230.28, value: 44214}
 
-# =========================================================================
-# TRADE SCORECARD
-# =========================================================================
-# Wins:  4 (SNDK, BSE, CPRX, ATHERENERG)
-# Losses: 1 (KRN)
-# Win rate: 80%
-#
-# Realized P&L (INR equiv at 83 USD/INR):
-#   SNDK:   +$113.49  = +₹9,420
-#   BSE:    +₹4,632
-#   KRN:    -₹2,480
-#   CPRX:   +$21.13   = +₹1,754
-#   ATHER:  +₹134
-#   ─────────────────────────────
-#   TOTAL:  ~₹13,460 realized profit
-#   ROI on swing sleeve: +4.9%
-# =========================================================================
+  stocks:
+    - {symbol: HINDALCO,  name: "Hindalco Industries",          qty: 23, ltp: 1021.60, value: 23497, cap: "Large Cap"}
+    - {symbol: GULFPETRO, name: "Gulf Oil Lubricants",           qty: 13, ltp: 939.35,  value: 12212, cap: "Small Cap"}
+    - {symbol: SONACOMS,  name: "Sona BLW Precision",            qty: 15, ltp: 593.05,  value: 8896,  cap: "Mid Cap"}
+    - {symbol: MOTHERSON, name: "Samvardhana Motherson",          qty: 57, ltp: 143.40,  value: 8174,  cap: "Large Cap"}
 
-# --- Active positions ---
+  total: 425700
+
+# ─── MUTUAL FUNDS ───
+mutual_funds:
+  - {fund: "Bandhan Small Cap - Regular",             units: 3544.41, nav: 47.94,   invested: 162492, current: 169926, pnl: 7434,  via: "Naik Wealth"}
+  - {fund: "Kotak Large & Midcap - Regular",          units: 441.96,  nav: 339.08,  invested: 149993, current: 149858, pnl: -135,  via: "Naik Wealth"}
+  - {fund: "Nippon India Multi Cap - Regular",        units: 466.89,  nav: 293.53,  invested: 137493, current: 137046, pnl: -447,  via: "Naik Wealth"}
+  - {fund: "Invesco India Mid Cap - Regular",         units: 564.80,  nav: 184.17,  invested: 99995,  current: 104019, pnl: 4024,  via: "Naik Wealth"}
+  - {fund: "Invesco India Mid Cap - Direct",          units: 251.31,  nav: 223.70,  invested: 49998,  current: 56218,  pnl: 6221,  via: "Zerodha"}
+  - {fund: "HDFC Flexi Cap - Direct",                 units: 24.14,   nav: 2155.38, invested: 52997,  current: 52031,  pnl: -966,  via: "Zerodha"}
+  - {fund: "ICICI Pru Dividend Yield - Direct",       units: 719.26,  nav: 58.83,   invested: 43998,  current: 42314,  pnl: -1684, via: "Zerodha"}
+  - {fund: "Quantum ELSS Tax Saver - Growth",         units: 283.79,  nav: 122.50,  invested: 36498,  current: 34764,  pnl: -1734, via: "Zerodha"}
+  - {fund: "Nippon India Multi Cap - Direct",         units: 80.14,   nav: 324.31,  invested: 24999,  current: 25990,  pnl: 991,   via: "Zerodha"}
+  - {fund: "JioBlackRock Flexi Cap - Direct",         units: 1512.91, nav: 9.64,    invested: 15499,  current: 14577,  pnl: -922,  via: "Zerodha"}
+  - {fund: "Kotak Large & Midcap - Direct",           units: 34.45,   nav: 392.87,  invested: 12499,  current: 13534,  pnl: 1035,  via: "Zerodha"}
+  total_invested: 786461
+  total_current: 800278
+  total_pnl: 13817
+
+# ─── US STOCKS & ETFs (via INDmoney, values in ₹) ───
+us_holdings:
+  etfs:
+    - {symbol: VOO,  name: "Vanguard S&P 500 ETF",              units: 1.622,  value_inr: 104514, pnl: 9104}
+    - {symbol: QQQM, name: "Invesco NASDAQ 100 ETF",            units: 4.034,  value_inr: 113042, pnl: 17630}
+    - {symbol: SCHD, name: "Schwab US Dividend Equity ETF",      units: 24.026, value_inr: 74241,  pnl: 5255}
+    - {symbol: DGRO, name: "iShares Core Dividend Growth ETF",   units: 10.040, value_inr: 71903,  pnl: 2897}
+    - {symbol: VGT,  name: "Vanguard IT ETF",                   units: 5.340,  value_inr: 58877,  pnl: 11373}
+    - {symbol: VUG,  name: "Vanguard Growth ETF",               units: 4.388,  value_inr: 35483,  pnl: 2209}
+    - {symbol: SMH,  name: "VanEck Semiconductor ETF",          units: 0.605,  value_inr: 35031,  pnl: 11273}
+    - {symbol: VFH,  name: "Vanguard Financials ETF",           units: 2.835,  value_inr: 34800,  pnl: 1651}
+    - {symbol: VIG,  name: "Vanguard Dividend Appreciation ETF", units: 1.553,  value_inr: 34583,  pnl: 1264}
+    - {symbol: VXUS, name: "Vanguard All-World Ex-US ETF",      units: 3.986,  value_inr: 31599,  pnl: 2651}
+    - {symbol: VDE,  name: "Vanguard Energy ETF",               units: 1.564,  value_inr: 23934,  pnl: 129}
+    - {symbol: QTUM, name: "Defiance Quantum ETF",              units: 0.913,  value_inr: 13825,  pnl: 3880}
+    - {symbol: EWY,  name: "iShares MSCI South Korea ETF",      units: 0.551,  value_inr: 10418,  pnl: 3720}
+
+  stocks:
+    - {symbol: AMD,  name: "Advanced Micro Devices",  units: 0.308,  value_inr: 14293, pnl: 7903}
+    - {symbol: TSM,  name: "Taiwan Semiconductor",    units: 0.322,  value_inr: 12874, pnl: 2843}
+    - {symbol: GOOG, name: "Alphabet Class C",        units: 0.343,  value_inr: 11612, pnl: 2070}
+    - {symbol: AAPL, name: "Apple",                   units: 0.390,  value_inr: 10951, pnl: 1380}
+    - {symbol: AMZN, name: "Amazon",                  units: 0.465,  value_inr: 10671, pnl: 1132}
+    - {symbol: NVDA, name: "NVIDIA",                  units: 0.545,  value_inr: 10606, pnl: 1232}
+    - {symbol: TSLA, name: "Tesla",                   units: 0.257,  value_inr: 9734,  pnl: 171}
+    - {symbol: V,    name: "Visa",                    units: 0.323,  value_inr: 9791,  pnl: 226}
+    - {symbol: JPM,  name: "JPMorgan Chase",          units: 0.325,  value_inr: 9674,  pnl: 108}
+    - {symbol: META, name: "Meta Platforms",           units: 0.172,  value_inr: 9303,  pnl: -665}
+    - {symbol: MSFT, name: "Microsoft",               units: 0.249,  value_inr: 9231,  pnl: -334}
+    - {symbol: MA,   name: "Mastercard",              units: 0.197,  value_inr: 9087,  pnl: -479}
+    - {symbol: LRCX, name: "Lam Research",            units: 2.000,  value_inr: 68872, pnl: 3121, note: "ACTIVE SWING TRADE"}
+
+  total_invested: 747207
+  total_current: 838949
+  total_pnl: 91742
+
+# ═══════════════════════════════════════════════════════════════════════
+# SWING TRADING SECTION
+# ═══════════════════════════════════════════════════════════════════════
+
+swing_account:
+  sleeve_target_pct: 10           # 10% of NW target for swings
+  sleeve_target_inr: 263453       # 10% of 26.35L
+  zerodha_cash_available: 142426  # actual INR cash in Zerodha
+  us_wallet_available: 46281      # INR equiv, ~$558 USD
+
+# ─── ACTIVE SWING TRADES ───
 positions:
   - ticker: LRCX
     yf_symbol: LRCX
@@ -151,24 +144,68 @@ positions:
       - {price: 500.00, pct_to_sell: 100, label: "T1 +44.5%"}
     notes: "Lam Research. Stop $305 (-11.9%). R:R 1:3.7."
 
-# Watchlist
+# ─── CLOSED SWING TRADES (journal) ───
+closed:
+  - ticker: SNDK
+    currency: USD
+    result: profit
+    buys:
+      - {date: "2026-04-13", qty: 0.331205, price: 903.13, total: 300.00, commission: 0.88}
+    sells:
+      - {date: "2026-04-30", qty: 0.09214, price: 1085.31, total: 100.00}
+      - {date: "2026-05-18", qty: 0.239065, price: 1315.00, total: 314.37}
+    summary: {avg_entry: 903.13, avg_exit: 1250.83, pnl_usd: 113.49, pnl_pct: 37.7, hold_days: 35}
+
+  - ticker: BSE.NS
+    currency: INR
+    result: profit
+    buys:
+      - {date: "2026-04-15", qty: 8, price: 3415.50, total: 27324}
+    sells:
+      - {date: "2026-06-02", qty: 2, price: 3994.60, total: 7989}
+      - {date: "2026-06-02", qty: 6, price: 3994.50, total: 23967}
+    summary: {avg_entry: 3415.50, avg_exit: 3994.53, pnl_inr: 4632, pnl_pct: 17.0, hold_days: 48}
+
+  - ticker: KRN
+    currency: INR
+    result: loss
+    buys:
+      - {date: "2026-04-27", qty: 22, price: 1310.00, total: 28820}
+    sells:
+      - {date: "2026-05-05", qty: 1, price: 1198.00, total: 1198}
+      - {date: "2026-05-06", qty: 16, price: 1197.00, total: 19152}
+      - {date: "2026-05-06", qty: 5, price: 1198.00, total: 5990}
+    summary: {avg_entry: 1310.00, avg_exit: 1197.27, pnl_inr: -2480, pnl_pct: -8.6, hold_days: 9}
+
+  - ticker: CPRX
+    currency: USD
+    result: profit
+    buys:
+      - {date: "2026-05-01", qty: 3.671182, price: 27.72, total: 102.08, commission: 0.30}
+      - {date: "2026-05-01", qty: 3.507263, price: 28.35, total: 99.73, commission: 0.30}
+    sells:
+      - {date: "2026-05-15", qty: 7.178445, price: 31.14, total: 223.54}
+    summary: {avg_entry: 28.03, avg_exit: 31.14, pnl_usd: 21.13, pnl_pct: 10.4, hold_days: 14}
+
+  - ticker: ATHERENERG
+    currency: INR
+    result: profit
+    buys:
+      - {date: "2026-04-28", qty: 3, price: 960.20, total: 2881}
+      - {date: "2026-04-30", qty: 4, price: 960.55, total: 3842}
+    sells:
+      - {date: "2026-06-04", qty: 7, price: 979.50, total: 6857}
+    summary: {avg_entry: 960.40, avg_exit: 979.50, pnl_inr: 134, pnl_pct: 2.0, hold_days: 37}
+
+# ─── SWING SCORECARD ───
+# Wins: 4 | Losses: 1 | Win rate: 80%
+# Avg winner: +16.8% | Avg loser: -8.6%
+# Total realized: ~₹13,460 (INR equiv)
+# Best trade: SNDK +37.7% | Worst: KRN -8.6%
+
+# ─── WATCHLIST ───
 watchlist:
-  - ticker: STX
-    yf_symbol: STX
-    currency: USD
-    trigger_buy_zone: [475, 510]
-    trigger_stop: 448
-  - ticker: WAAREEENER
-    yf_symbol: WAAREEENER.NS
-    currency: INR
-    trigger_buy_zone: [3080, 3120]
-    trigger_stop: 2960
-    note: "B- setup. Wait for pullback to 21 EMA or ATH breakout above 3800."
-  - ticker: NIFTY
-    yf_symbol: "^NSEI"
-    currency: INR
-    note: "Market regime gauge - exit longs if loses 21D EMA"
-  - ticker: QQQ
-    yf_symbol: QQQ
-    currency: USD
-    note: "US market regime gauge"
+  - {ticker: STX,         trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup."}
+  - {ticker: WAAREEENER,  trigger: "₹3080-3120",  stop: "₹2960", note: "B- setup. Wait for ATH >3800."}
+  - {ticker: NIFTY,       yf: "^NSEI",            note: "Regime gauge — exit longs if loses 21D EMA"}
+  - {ticker: QQQ,         yf: "QQQ",              note: "US regime gauge"}
