@@ -1,6 +1,7 @@
 # ═══════════════════════════════════════════════════════════════════════
 # VISHESH — Complete Portfolio & Swing Trade Tracker
 # Source: INDmoney + Zerodha Kite export, Jun 14 2026
+# Last trade update: Jun 16 2026 — DATAPATTNS entry
 # ═══════════════════════════════════════════════════════════════════════
 
 # ─── NET WORTH SNAPSHOT ───
@@ -9,8 +10,9 @@ networth:
   total_invested: 1579994
   total_pnl: 1054538
   zerodha_cash: 142426            # equity segment free cash
-  us_wallet_inr: 46281            # ~$558 USD
-  as_of: "2026-06-14"
+  us_wallet_inr: 53010            # ~$558 USD at 95 rate
+  usd_inr_rate: 95.0
+  as_of: "2026-06-16"
 
   allocation_by_class:
     indian_equity: {value: 1455779, pct: 55.3}
@@ -144,6 +146,24 @@ positions:
       - {price: 500.00, pct_to_sell: 100, label: "T1 +44.5%"}
     notes: "Lam Research. Stop $305 (-11.9%). R:R 1:3.7."
 
+  - ticker: DATAPATTNS
+    yf_symbol: DATAPATTNS.NS
+    currency: INR
+    status: open
+    entry_date: "2026-06-16"
+    entry_avg: 4810.00             # approx — confirm exact fill price
+    qty: 2                         # approx — confirm exact qty from order book
+    capital: 9620.00               # approx
+    stop: 4477.00                  # prior consolidation support (visible on daily)
+    stop_hard: 4303.00             # absolute stop — Darvas box top, must hold
+    targets:
+      - {price: 5040.00, pct_to_sell: 33, label: "T1 Darvas measured move +4.8%"}
+      - {price: 5500.00, pct_to_sell: 33, label: "T2 1.5x extension +14.3%"}
+      - {price: 5800.00, pct_to_sell: 34, label: "T3 2x extension +20.6%"}
+    setup: "Darvas box breakout above 4303 on 1.9x vol. Score 98. Cup & handle base after 18% correction reset. Shakeout-retest power play (Trade 15 failed, Trade 16 re-entry). Base count 1-2 (reset by deep correction). Daily RSI 62 (not overbought). Defense sector structural growth."
+    add_plan: "Add 1: hold 4500+ for 3 days on volume → add shares. Add 2: hits T1, pulls back to 10D EMA → final add. Move stop to breakeven after Add 1."
+    notes: "Data Patterns India. Defense electronics (DRDO/ISRO/BEL). Pilot entry on box breakout."
+
 # ─── CLOSED SWING TRADES (journal) ───
 closed:
   - ticker: SNDK
@@ -198,14 +218,16 @@ closed:
     summary: {avg_entry: 960.40, avg_exit: 979.50, pnl_inr: 134, pnl_pct: 2.0, hold_days: 37}
 
 # ─── SWING SCORECARD ───
-# Wins: 4 | Losses: 1 | Win rate: 80%
+# Closed: Wins 4 | Losses 1 | Win rate 80%
 # Avg winner: +16.8% | Avg loser: -8.6%
 # Total realized: ~₹13,460 (INR equiv)
 # Best trade: SNDK +37.7% | Worst: KRN -8.6%
+# Active: LRCX (US, $346 entry) + DATAPATTNS (IN, ₹4810 entry)
 
 # ─── WATCHLIST ───
 watchlist:
   - {ticker: STX,         trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup."}
   - {ticker: WAAREEENER,  trigger: "₹3080-3120",  stop: "₹2960", note: "B- setup. Wait for ATH >3800."}
+  - {ticker: LAURUSLABS,  trigger: "₹1280-1320",  stop: "₹1177", note: "C+ setup — WAIT. Extended (37% >50W SMA). Only enter on pullback to 10W EMA ~1280. Late-stage base 4-5. Remove if closes below 21W EMA 1177."}
   - {ticker: NIFTY,       yf: "^NSEI",            note: "Regime gauge — exit longs if loses 21D EMA"}
   - {ticker: QQQ,         yf: "QQQ",              note: "US regime gauge"}
