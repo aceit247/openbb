@@ -146,24 +146,6 @@ positions:
       - {price: 500.00, pct_to_sell: 100, label: "T1 +44.5%"}
     notes: "Lam Research. Stop $305 (-11.9%). R:R 1:3.7."
 
-  - ticker: DATAPATTNS
-    yf_symbol: DATAPATTNS.NS
-    currency: INR
-    status: open
-    entry_date: "2026-06-16"
-    entry_avg: 4810.00             # approx — confirm exact fill price
-    qty: 2                         # approx — confirm exact qty from order book
-    capital: 9620.00               # approx
-    stop: 4477.00                  # prior consolidation support (visible on daily)
-    stop_hard: 4303.00             # absolute stop — Darvas box top, must hold
-    targets:
-      - {price: 5040.00, pct_to_sell: 33, label: "T1 Darvas measured move +4.8%"}
-      - {price: 5500.00, pct_to_sell: 33, label: "T2 1.5x extension +14.3%"}
-      - {price: 5800.00, pct_to_sell: 34, label: "T3 2x extension +20.6%"}
-    setup: "Darvas box breakout above 4303 on 1.9x vol. Score 98. Cup & handle base after 18% correction reset. Shakeout-retest power play (Trade 15 failed, Trade 16 re-entry). Base count 1-2 (reset by deep correction). Daily RSI 62 (not overbought). Defense sector structural growth."
-    add_plan: "Add 1: hold 4500+ for 3 days on volume → add shares. Add 2: hits T1, pulls back to 10D EMA → final add. Move stop to breakeven after Add 1."
-    notes: "Data Patterns India. Defense electronics (DRDO/ISRO/BEL). Pilot entry on box breakout."
-
 # ─── CLOSED SWING TRADES (journal) ───
 closed:
   - ticker: SNDK
@@ -217,12 +199,23 @@ closed:
       - {date: "2026-06-04", qty: 7, price: 979.50, total: 6857}
     summary: {avg_entry: 960.40, avg_exit: 979.50, pnl_inr: 134, pnl_pct: 2.0, hold_days: 37}
 
+  - ticker: DATAPATTNS
+    currency: INR
+    result: loss
+    buys:
+      - {date: "2026-06-16", qty: 10, price: 4805.00, total: 48050}
+    sells:
+      - {date: "2026-06-29", qty: 10, price: 4400.00, total: 44000}
+    summary: {avg_entry: 4805.00, avg_exit: 4400.00, pnl_inr: -4050, pnl_pct: -8.4, r_multiple: -1.0}
+    setup: "Darvas box breakout above 4303. Score 98. Cup & handle after 18% correction reset."
+    post_mortem: "Stopped out at 4400. Breakout failed — stock could not hold above box. R:R was 1:1.7 (T1 5500). Risk discipline held: loss = 1.47% of sleeve."
+
 # ─── SWING SCORECARD ───
-# Closed: Wins 4 | Losses 1 | Win rate 80%
-# Avg winner: +16.8% | Avg loser: -8.6%
-# Total realized: ~₹13,460 (INR equiv)
+# Closed: Wins 4 | Losses 2 | Win rate 66.7%
+# Avg winner: +16.8% | Avg loser: -8.5%
+# Total realized: ~₹9,410 (INR equiv, after DATAPATTNS -₹4,050)
 # Best trade: SNDK +37.7% | Worst: KRN -8.6%
-# Active: LRCX (US, $346 entry) + DATAPATTNS (IN, ₹4810 entry)
+# Active: LRCX (US, $346 entry)
 
 # ─── WATCHLIST ───
 watchlist:
