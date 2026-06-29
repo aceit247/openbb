@@ -81,6 +81,8 @@ mutual_funds:
   - {fund: "Nippon India Multi Cap - Direct",         units: 80.14,   nav: 324.31,  invested: 24999,  current: 25990,  pnl: 991,   via: "Zerodha"}
   - {fund: "JioBlackRock Flexi Cap - Direct",         units: 1512.91, nav: 9.64,    invested: 15499,  current: 14577,  pnl: -922,  via: "Zerodha"}
   - {fund: "Kotak Large & Midcap - Direct",           units: 34.45,   nav: 392.87,  invested: 12499,  current: 13534,  pnl: 1035,  via: "Zerodha"}
+
+mutual_funds_totals:
   total_invested: 786461
   total_current: 800278
   total_pnl: 13817
