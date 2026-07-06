@@ -134,19 +134,7 @@ swing_account:
   us_wallet_available: 46281      # INR equiv, ~$558 USD
 
 # ─── ACTIVE SWING TRADES ───
-positions:
-  - ticker: LRCX
-    yf_symbol: LRCX
-    currency: USD
-    status: open
-    entry_date: "2026-06-09"
-    entry_avg: 346.09
-    qty: 2
-    capital: 692.18
-    stop: 305.00
-    targets:
-      - {price: 500.00, pct_to_sell: 100, label: "T1 +44.5%"}
-    notes: "Lam Research. Stop $305 (-11.9%). R:R 1:3.7."
+positions: []          # no open positions as of 2026-07-06
 
 # ─── CLOSED SWING TRADES (journal) ───
 closed:
@@ -201,6 +189,16 @@ closed:
       - {date: "2026-06-04", qty: 7, price: 979.50, total: 6857}
     summary: {avg_entry: 960.40, avg_exit: 979.50, pnl_inr: 134, pnl_pct: 2.0, hold_days: 37}
 
+  - ticker: LRCX
+    currency: USD
+    result: scratch
+    buys:
+      - {date: "2026-06-09", qty: 2, price: 346.09, total: 692.18}
+    sells:
+      - {date: "2026-07-06", qty: 2, price: 346.00, total: 692.00}
+    summary: {avg_entry: 346.09, avg_exit: 346.00, pnl_usd: -0.18, pnl_pct: -0.03, hold_days: 27, r_multiple: 0.0}
+    post_mortem: "Rode +18.7% open profit ($410.91 post-earnings peak). Trailing stop raised from $305 to breakeven after the run. Global chip-sector selloff triggered T-SL at entry price. Zero damage. Lesson: consider scaling out 1/3 into a +8% earnings gap day rather than trailing the full position."
+
   - ticker: DATAPATTNS
     currency: INR
     result: loss
@@ -213,16 +211,19 @@ closed:
     post_mortem: "Stopped out at 4400. Breakout failed — stock could not hold above box. R:R was 1:1.7 (T1 5500). Risk discipline held: loss = 1.47% of sleeve."
 
 # ─── SWING SCORECARD ───
-# Closed: Wins 4 | Losses 2 | Win rate 66.7%
+# Closed: Wins 4 | Losses 2 | Scratch 1 | Win rate 66.7% (ex-scratch)
 # Avg winner: +16.8% | Avg loser: -8.5%
-# Total realized: ~₹9,410 (INR equiv, after DATAPATTNS -₹4,050)
+# Total realized: ~₹9,393 (INR equiv)
 # Best trade: SNDK +37.7% | Worst: KRN -8.6%
-# Active: LRCX (US, $346 entry)
+# Active: NONE — flat as of 2026-07-06. Hunting.
 
 # ─── WATCHLIST ───
 watchlist:
-  - {ticker: STX,         trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup."}
+  - {ticker: POLYCAB,     trigger: "₹9690 reclaim", stop: "₹9265", note: "A- setup. Fresh box breakout to ATH 10,126, now pulling back. Enter 25% pilot on reclaim of 10D EMA 9,690. Add 50% above 10,126. Invalidate below 50D 9,265."}
+  - {ticker: ACUTAAS,     trigger: "₹3333 pullback", stop: "₹3070", note: "WAIT — extended late-stage (box 5+), weekly reversal -4.9%. Only on orderly pullback to 21D ~3,333 holding. Never chase above 3,600."}
+  - {ticker: RSI,         trigger: "$29.69-30.00",  stop: "$29.24", note: "US gaming. Pullback entry to Darvas trail. Skip on close below 29.24."}
+  - {ticker: STX,         trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup — RE-CHECK after global chip selloff before acting."}
   - {ticker: WAAREEENER,  trigger: "₹3080-3120",  stop: "₹2960", note: "B- setup. Wait for ATH >3800."}
-  - {ticker: LAURUSLABS,  trigger: "₹1280-1320",  stop: "₹1177", note: "C+ setup — WAIT. Extended (37% >50W SMA). Only enter on pullback to 10W EMA ~1280. Late-stage base 4-5. Remove if closes below 21W EMA 1177."}
+  - {ticker: LAURUSLABS,  trigger: "₹1280-1320",  stop: "₹1177", note: "C+ setup — WAIT. Extended. Only on pullback to 10W EMA ~1280. Remove if closes below 21W 1177."}
   - {ticker: NIFTY,       yf: "^NSEI",            note: "Regime gauge — exit longs if loses 21D EMA"}
-  - {ticker: QQQ,         yf: "QQQ",              note: "US regime gauge"}
+  - {ticker: QQQ,         yf: "QQQ",              note: "US regime gauge — chip selloff in progress, watch for follow-through distribution"}
