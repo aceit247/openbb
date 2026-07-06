@@ -133,6 +133,14 @@ swing_account:
   zerodha_cash_available: 142426  # actual INR cash in Zerodha
   us_wallet_available: 46281      # INR equiv, ~$558 USD
 
+  # ─── ENTRY PYRAMID POLICY (adopted 2026-07-06) ───
+  # All new entries scale in, max 3 tranches. Default 25-50-25:
+  #   T1 25%: pilot at setup trigger (pullback reclaim or box breakout)
+  #   T2 50%: core add on confirmation (3-5 day hold above trigger, or next box break)
+  #   T3 25%: final add into proven strength (after T1 target or new box forms)
+  # Alt 25-75 (two-tranche) for fast movers. Stop moves to breakeven after T2 fills.
+  # Never add to a position below cost. Max total risk per trade: 2% of sleeve.
+
 # ─── ACTIVE SWING TRADES ───
 positions: []          # no open positions as of 2026-07-06
 
