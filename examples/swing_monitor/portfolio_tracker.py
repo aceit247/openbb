@@ -127,7 +127,16 @@ class Prices:
         self.cache = {}
 
     def get(self, symbol: str, cached_ltp: float | None) -> tuple[float | None, float | None, str]:
-        """Return (price, day_pct, source)."""
+        """Return (price, day_pct, source).
+
+        Only "live" and "override" results are cached by symbol — those are
+        genuinely the same market price no matter which account/holding
+        asks. A "cached" fallback is NOT cached globally: it's derived from
+        the caller's own cached_ltp (e.g. that position's cost basis), which
+        differs per account even for the same symbol (same ticker held in
+        two different accounts at two different avg prices). Caching it by
+        symbol alone would leak one account's cost basis into another's.
+        """
         if symbol in self.cache:
             return self.cache[symbol]
         result = None
@@ -145,10 +154,10 @@ class Prices:
         if result is None and symbol in self.overrides:
             o = self.overrides[symbol]
             result = (o["price"], o.get("day_pct"), "override")
-        if result is None:
-            result = (cached_ltp, None, "cached")
-        self.cache[symbol] = result
-        return result
+        if result is not None:
+            self.cache[symbol] = result
+            return result
+        return (cached_ltp, None, "cached")
 
 
 # ── sheet builders ──────────────────────────────────────────────────────
@@ -245,51 +254,75 @@ def build_mf_sheet(ws, funds, totals):
     ws.freeze_panes = "A3"
 
 
-def build_us_sheet(ws, us, fx, prices: Prices):
+def build_us_sheet(ws, accounts, fx, prices: Prices):
+    """accounts: list of (account_label, us_dict) — each rendered as its own
+    labeled block (ETFs + Stocks sub-sections) with a subtotal, so multiple
+    US brokers/accounts can share one tab without conflating their totals."""
     ws.sheet_view.showGridLines = False
     cols = ["Symbol", "Name", "Units", "Price $", "Value ₹", "Invested ₹", "P&L ₹", "P&L %", "Price Src"]
     row = 1
     grand_value = grand_invested = 0.0
-    for sec_title, items in (("US ETFs", us.get("etfs", [])), ("US Stocks", us.get("stocks", []))):
-        row = section(ws, row, sec_title, len(cols))
-        row = header_row(ws, row, cols)
-        for it in items:
-            units = it["units"]
-            # New schema: qty + avg (USD cost basis). Old schema fallback: value_inr/pnl.
-            if "avg" in it:
-                avg_cost = it["avg"]
-                price, _, src = prices.get(it["symbol"], avg_cost)
-                invested = units * avg_cost * fx
-            else:
-                cached_px = (it["value_inr"] / units / fx) if units else None
-                price, _, src = prices.get(it["symbol"], cached_px)
-                invested = it["value_inr"] - it["pnl"]
-            value_inr = units * price * fx if price else invested
-            pnl = value_inr - invested
-            pnl_pct = pnl / invested * 100 if invested else None
-            vals = [it["symbol"], it.get("name", ""), units, price, value_inr, invested, pnl, pnl_pct, src]
-            for ci, v in enumerate(vals, start=1):
-                cell = ws.cell(row=row, column=ci, value=v)
-                cell.border = THIN
-                if ci == 3:
-                    cell.number_format = "0.000"
-                if ci == 4:
-                    cell.number_format = "#,##0.00"
-                if ci in (5, 6, 7):
-                    cell.number_format = "#,##0"
-                if ci == 7:
-                    pnl_font(cell, pnl)
-                if ci == 8 and pnl_pct is not None:
-                    cell.number_format = "+0.0;-0.0"
-                    pnl_font(cell, pnl_pct)
-                if ci == 9:
-                    cell.font = DIM
-            grand_value += value_inr
-            grand_invested += invested
+    for account_label, us in accounts:
+        acct_value = acct_invested = 0.0
+        for sec_title, items in ((f"{account_label} — ETFs", us.get("etfs", [])),
+                                  (f"{account_label} — Stocks", us.get("stocks", []))):
+            if not items:
+                continue
+            row = section(ws, row, sec_title, len(cols))
+            row = header_row(ws, row, cols)
+            for it in items:
+                units = it["units"]
+                # New schema: qty + avg (USD cost basis). Old schema fallback: value_inr/pnl.
+                if "avg" in it:
+                    avg_cost = it["avg"]
+                    price, _, src = prices.get(it["symbol"], avg_cost)
+                    invested = units * avg_cost * fx
+                else:
+                    cached_px = (it["value_inr"] / units / fx) if units else None
+                    price, _, src = prices.get(it["symbol"], cached_px)
+                    invested = it["value_inr"] - it["pnl"]
+                value_inr = units * price * fx if price else invested
+                pnl = value_inr - invested
+                pnl_pct = pnl / invested * 100 if invested else None
+                vals = [it["symbol"], it.get("name", ""), units, price, value_inr, invested, pnl, pnl_pct, src]
+                for ci, v in enumerate(vals, start=1):
+                    cell = ws.cell(row=row, column=ci, value=v)
+                    cell.border = THIN
+                    if ci == 3:
+                        cell.number_format = "0.000"
+                    if ci == 4:
+                        cell.number_format = "#,##0.00"
+                    if ci in (5, 6, 7):
+                        cell.number_format = "#,##0"
+                    if ci == 7:
+                        pnl_font(cell, pnl)
+                    if ci == 8 and pnl_pct is not None:
+                        cell.number_format = "+0.0;-0.0"
+                        pnl_font(cell, pnl_pct)
+                    if ci == 9:
+                        cell.font = DIM
+                acct_value += value_inr
+                acct_invested += invested
+                row += 1
             row += 1
-        row += 1
+        # account subtotal
+        ws.cell(row=row, column=2, value=f"{account_label} subtotal").font = Font(bold=True)
+        c = ws.cell(row=row, column=6, value=acct_invested)
+        c.number_format = "#,##0"
+        c.font = Font(bold=True)
+        c = ws.cell(row=row, column=5, value=acct_value)
+        c.number_format = "#,##0"
+        c.font = Font(bold=True)
+        c = ws.cell(row=row, column=7, value=acct_value - acct_invested)
+        c.number_format = "#,##0"
+        pnl_font(c, acct_value - acct_invested)
+        c.font = Font(bold=True, color=c.font.color)
+        row += 2
+        grand_value += acct_value
+        grand_invested += acct_invested
     autosize(ws, [9, 34, 9, 10, 12, 12, 11, 8, 9])
     ws.freeze_panes = "A3"
+    return grand_value, grand_invested
     return grand_value, grand_invested
 
 
@@ -623,7 +656,11 @@ def main():
     build_mf_sheet(ws, cfg.get("mutual_funds", []), cfg.get("mutual_funds_totals", {}))
 
     ws = wb.create_sheet("US Holdings")
-    us_v, us_i = build_us_sheet(ws, cfg.get("us_holdings", {}), fx, prices)
+    us_dormant = cfg.get("us_holdings_dormant", {})
+    us_accounts = [("Alpaca (active)", cfg.get("us_holdings", {}))]
+    if us_dormant:
+        us_accounts.append((f"{us_dormant.get('broker', 'Dormant')} (set-and-forget)", us_dormant))
+    us_v, us_i = build_us_sheet(ws, us_accounts, fx, prices)
 
     ws = wb.create_sheet("Swing & Watchlist")
     build_swing_sheet(ws, cfg, prices)

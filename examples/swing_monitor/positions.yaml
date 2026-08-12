@@ -154,6 +154,26 @@ us_holdings:
   total_invested_usd: 9432.39      # sum(qty*avg), matches statement total exactly
   note: "LRCX swing position closed 2026-07-06 (see closed journal) — no longer in this bucket. Run portfolio_tracker.py to fetch live prices and compute current value/P&L."
 
+# ─── US HOLDINGS — DORMANT / SET-AND-FORGET (broker: TBD, confirm name) ───
+# Separate account, not actively traded — only Zerodha (IN) and Alpaca (US)
+# are actively managed. Overlaps in ticker with Alpaca (QQQM, SMH, VDE,
+# VEU, VFH, VOO) but is a DIFFERENT holding in a different account — kept
+# additive, not merged. Source: CSV export, 2026-08-12.
+us_holdings_dormant:
+  broker: "TBD — confirm account/broker name"
+  as_of: "2026-08-12"
+  etfs:
+    - {symbol: QQQM, name: "Invesco NASDAQ 100 ETF",            units: 2.02555, avg: 297.65}
+    - {symbol: SMH,  name: "VanEck Semiconductor ETF",          units: 0.44718, avg: 585.98}
+    - {symbol: VDE,  name: "Vanguard Energy ETF",               units: 1.00000, avg: 167.88}
+    - {symbol: VEU,  name: "Vanguard FTSE All-World ex-US ETF", units: 3.70370, avg: 82.44}
+    - {symbol: VFH,  name: "Vanguard Financials ETF",           units: 2.10229, avg: 127.80}
+    - {symbol: VOO,  name: "Vanguard S&P 500 ETF",              units: 1.17292, avg: 684.38}
+    - {symbol: VTI,  name: "Vanguard Total Stock Market ETF",   units: 0.82840, avg: 362.19}
+
+  total_invested_usd: 2709.60      # sum(qty*avg), matches statement total exactly
+  note: "Long-term hold ETF sleeve, no active management planned. Verify broker name for the label."
+
 # ═══════════════════════════════════════════════════════════════════════
 # SWING TRADING SECTION
 # ═══════════════════════════════════════════════════════════════════════
