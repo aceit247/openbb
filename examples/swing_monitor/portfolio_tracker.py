@@ -60,6 +60,8 @@ YF_MAP = {
     "SONACOMS": "SONACOMS.NS", "MOTHERSON": "MOTHERSON.NS",
     # Father's holdings
     "NESTLEIND": "NESTLEIND.NS", "COLPAL": "COLPAL.NS", "GILLETTE": "GILLETTE.NS",
+    # US tickers are NOT listed here — they equal their own Yahoo symbol,
+    # and Prices.get() falls back to the raw symbol when it's absent above.
 }
 
 # ── styling helpers ─────────────────────────────────────────────────────
@@ -129,9 +131,11 @@ class Prices:
         if symbol in self.cache:
             return self.cache[symbol]
         result = None
-        if self.fetch and symbol in YF_MAP:
+        if self.fetch:
+            # NSE symbols need YF_MAP's .NS suffix; US tickers equal themselves
+            yf_symbol = YF_MAP.get(symbol, symbol)
             try:
-                h = yf.Ticker(YF_MAP[symbol]).history(period="5d", interval="1d")
+                h = yf.Ticker(yf_symbol).history(period="5d", interval="1d")
                 if h is not None and len(h) >= 1:
                     last = float(h["Close"].iloc[-1])
                     prev = float(h["Close"].iloc[-2]) if len(h) > 1 else last
@@ -245,15 +249,22 @@ def build_us_sheet(ws, us, fx, prices: Prices):
     ws.sheet_view.showGridLines = False
     cols = ["Symbol", "Name", "Units", "Price $", "Value ₹", "Invested ₹", "P&L ₹", "P&L %", "Price Src"]
     row = 1
+    grand_value = grand_invested = 0.0
     for sec_title, items in (("US ETFs", us.get("etfs", [])), ("US Stocks", us.get("stocks", []))):
         row = section(ws, row, sec_title, len(cols))
         row = header_row(ws, row, cols)
         for it in items:
             units = it["units"]
-            cached_px = (it["value_inr"] / units / fx) if units else None
-            price, _, src = prices.get(it["symbol"], cached_px)
-            value_inr = units * price * fx if price else it["value_inr"]
-            invested = it["value_inr"] - it["pnl"]
+            # New schema: qty + avg (USD cost basis). Old schema fallback: value_inr/pnl.
+            if "avg" in it:
+                avg_cost = it["avg"]
+                price, _, src = prices.get(it["symbol"], avg_cost)
+                invested = units * avg_cost * fx
+            else:
+                cached_px = (it["value_inr"] / units / fx) if units else None
+                price, _, src = prices.get(it["symbol"], cached_px)
+                invested = it["value_inr"] - it["pnl"]
+            value_inr = units * price * fx if price else invested
             pnl = value_inr - invested
             pnl_pct = pnl / invested * 100 if invested else None
             vals = [it["symbol"], it.get("name", ""), units, price, value_inr, invested, pnl, pnl_pct, src]
@@ -273,10 +284,13 @@ def build_us_sheet(ws, us, fx, prices: Prices):
                     pnl_font(cell, pnl_pct)
                 if ci == 9:
                     cell.font = DIM
+            grand_value += value_inr
+            grand_invested += invested
             row += 1
         row += 1
     autosize(ws, [9, 34, 9, 10, 12, 12, 11, 8, 9])
     ws.freeze_panes = "A3"
+    return grand_value, grand_invested
 
 
 def build_swing_sheet(ws, cfg, prices: Prices):
@@ -593,22 +607,23 @@ def main():
 
     z = cfg.get("zerodha_holdings", {})
     im = cfg.get("indmoney_indian", {})
+    im_broker = im.get("broker", "INDmoney")
     groups = [
         ("Zerodha — ETFs", z.get("etfs", [])),
         ("Zerodha — REITs / InvITs", z.get("reits_invits", [])),
-        ("INDmoney — ETFs", im.get("etfs", [])),
+        (f"{im_broker} — ETFs", im.get("etfs", [])),
     ]
     ws = wb.create_sheet("ETFs & REITs")
     etf_v, etf_i = build_holdings_sheet(ws, "ETFs & REITs", groups, prices)
 
     ws = wb.create_sheet("Stocks India")
-    stk_v, stk_i = build_holdings_sheet(ws, "Stocks", [("INDmoney — Stocks", im.get("stocks", []))], prices)
+    stk_v, stk_i = build_holdings_sheet(ws, "Stocks", [(f"{im_broker} — Stocks", im.get("stocks", []))], prices)
 
     ws = wb.create_sheet("Mutual Funds")
     build_mf_sheet(ws, cfg.get("mutual_funds", []), cfg.get("mutual_funds_totals", {}))
 
     ws = wb.create_sheet("US Holdings")
-    build_us_sheet(ws, cfg.get("us_holdings", {}), fx, prices)
+    us_v, us_i = build_us_sheet(ws, cfg.get("us_holdings", {}), fx, prices)
 
     ws = wb.create_sheet("Swing & Watchlist")
     build_swing_sheet(ws, cfg, prices)
@@ -623,12 +638,11 @@ def main():
     build_father_sheet(ws, fp, prices)
 
     mf_tot = cfg.get("mutual_funds_totals", {})
-    us = cfg.get("us_holdings", {})
     buckets = {
         "ETFs & REITs (IN)": (etf_i, etf_v),
         "Stocks (IN)": (stk_i, stk_v),
         "Mutual Funds": (mf_tot.get("total_invested", 0), mf_tot.get("total_current", 0)),
-        "US Holdings": (us.get("total_invested", 0), us.get("total_current", 0)),
+        "US Holdings": (us_i, us_v),
         "Zerodha cash": (cfg.get("networth", {}).get("zerodha_cash", 0),
                          cfg.get("networth", {}).get("zerodha_cash", 0)),
     }

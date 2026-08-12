@@ -6,15 +6,24 @@
 
 # ─── NET WORTH SNAPSHOT ───
 networth:
-  total_inr: 2634532
-  total_invested: 1579994
-  total_pnl: 1054538
-  zerodha_cash: 142426            # equity segment free cash
-  us_wallet_inr: 53010            # ~$558 USD at 95 rate
+  total_inr: 2634532              # STALE full rollup — see note below
+  total_invested: 1579994         # STALE
+  total_pnl: 1054538              # STALE
+  zerodha_cash: 142426            # equity segment free cash — STALE, not in Aug 12 export, needs refresh
+  us_wallet_inr: 53010            # ~$558 USD at 95 rate — STALE
   usd_inr_rate: 95.0
   as_of: "2026-06-16"
+  note: >
+    Full net-worth rollup (this block) is a STALE snapshot from 2026-06-16.
+    Zerodha ETFs/REITs, HDFC Securities holdings (ex-INDmoney sleeve), 9/11
+    mutual funds, and US holdings (qty/avg) are now current as of
+    2026-08-11/12 in their own sections below — the Excel Dashboard tab
+    sums those live, so treat IT as the current total, not this block.
+    Still stale: zerodha cash, 2 mutual funds (ICICI Pru Div Yield,
+    JioBlackRock Flexi Cap). HDFC Securities account is dormant (no longer
+    actively traded, held passively) but still counted in net worth.
 
-  allocation_by_class:
+  allocation_by_class:  # STALE — from Jun 16 snapshot
     indian_equity: {value: 1455779, pct: 55.3}
     global_equity:  {value: 845402,  pct: 32.1}
     silver:         {value: 170712,  pct: 6.5}
@@ -28,100 +37,122 @@ networth:
     small_cap: {value: 183920,  pct: 11.2}
 
 # ─── ZERODHA HOLDINGS (ETFs, REITs, InvITs) ───
+# Source: Zerodha/Coin export "Combined Holdings Statement", Client GCY832, 2026-08-12
 zerodha_holdings:
+  as_of: "2026-08-12"
   etfs:
-    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 ETF",       qty: 467, avg: 269.95, ltp: 267.86, value: 125091, pnl: -974}
-    - {symbol: BANKBEES,    name: "Nippon Bank ETF",            qty: 178, avg: 566.62, ltp: 585.42, value: 104205, pnl: 3346}
-    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 ETF",   qty: 109, avg: 717.64, ltp: 755.73, value: 82375,  pnl: 4151}
-    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 268, avg: 239.98, ltp: 229.76, value: 61576,  pnl: -2738}
-    - {symbol: MID150BEES,  name: "Nippon Midcap 150 ETF",      qty: 215, avg: 217.93, ltp: 230.28, value: 49510,  pnl: 2655}
-    - {symbol: GOLDBEES,    name: "Nippon Gold ETF",             qty: 305, avg: 121.21, ltp: 121.92, value: 37186,  pnl: 215}
-    - {symbol: ITBEES,      name: "Nippon IT ETF",              qty: 772, avg: 32.75,  ltp: 30.89,  value: 23847,  pnl: -1438}
-    - {symbol: PSUBNKBEES,  name: "Nippon PSU Bank ETF",        qty: 220, avg: 90.84,  ltp: 95.30,  value: 20966,  pnl: 981}
+    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 ETF",       qty: 546, avg: 270.86, ltp: 279.25, value: 152471, pnl: 4581}
+    - {symbol: BANKBEES,    name: "Nippon Bank ETF",            qty: 199, avg: 569.98, ltp: 594.87, value: 118379, pnl: 4953}
+    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 ETF",   qty: 128, avg: 727.95, ltp: 807.95, value: 103418, pnl: 10240}
+    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 282, avg: 238.61, ltp: 222.32, value: 62694,  pnl: -4595}
+    - {symbol: MID150BEES,  name: "Nippon Midcap 150 ETF",      qty: 245, avg: 220.41, ltp: 243.09, value: 59557,  pnl: 5558}
+    - {symbol: GOLDBEES,    name: "Nippon Gold ETF",             qty: 305, avg: 121.21, ltp: 125.53, value: 38287,  pnl: 1317}
+    - {symbol: ITBEES,      name: "Nippon IT ETF",              qty: 860, avg: 32.68,  ltp: 35.24,  value: 30306,  pnl: 2205}
+    - {symbol: PSUBNKBEES,  name: "Nippon PSU Bank ETF",        qty: 220, avg: 90.84,  ltp: 96.45,  value: 21219,  pnl: 1234}
 
   reits_invits:
-    - {symbol: MINDSPACE-RR, name: "Mindspace REIT",            qty: 119, avg: 482.48, ltp: 460.38, value: 54785,  pnl: -2629}
-    - {symbol: EMBASSY,      name: "Embassy Office REIT",       qty: 102, avg: 429.56, ltp: 429.98, value: 43858,  pnl: 43}
-    - {symbol: BIRET,        name: "Birla Estate REIT",         qty: 129, avg: 327.73, ltp: 319.50, value: 41216,  pnl: -1062}
-    - {symbol: NXST,         name: "Nexus Select Trust REIT",   qty: 230, avg: 155.50, ltp: 154.84, value: 35613,  pnl: -151}
-    - {symbol: KRT-RR,       name: "Kreditbee RR",              qty: 268, avg: 120.14, ltp: 116.46, value: 31211,  pnl: -985}
+    - {symbol: MINDSPACE-RR, name: "Mindspace REIT",            qty: 131, avg: 482.80, ltp: 495.94, value: 64968,  pnl: 1722}
+    - {symbol: EMBASSY,      name: "Embassy Office REIT",       qty: 116, avg: 431.16, ltp: 440.07, value: 51048,  pnl: 1033}
+    - {symbol: BIRET,        name: "Birla Estate REIT",         qty: 143, avg: 328.74, ltp: 344.97, value: 49331,  pnl: 2321}
+    - {symbol: NXST,         name: "Nexus Select Trust REIT",   qty: 244, avg: 156.01, ltp: 168.47, value: 41107,  pnl: 3041}
+    - {symbol: KRT-RR,       name: "Kreditbee RR",              qty: 288, avg: 119.91, ltp: 117.00, value: 33696,  pnl: -838}
 
   totals:
-    holdings_value: 711438
-    cash: 142426
-    grand_total: 853864
+    holdings_value: 826480          # from statement: Invested 793,709.49 / Present 826,480.22
+    invested: 793709
+    cash: 142426                    # NOT covered by this export — carried from Jun 14 snapshot, needs refresh
+    grand_total: 968906
 
 # ─── INDmoney INDIAN STOCKS & ETFs (separate demat ••4344) ───
+# NOT covered by the 2026-08-12 Zerodha/Coin export — carried from Jun 14 snapshot.
+# CONFIRM these are still held / get a fresh INDmoney export to refresh.
 indmoney_indian:
+  # RENAMED IN SPIRIT: actually held via HDFC Securities ("Invest Right"),
+  # not INDmoney — key kept as-is to avoid churning tracker code. Refreshed
+  # from HDFC Equity Portfolio export, 2026-08-12.
+  broker: "HDFC Securities"
+  as_of: "2026-08-12"
   etfs:
-    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 BeES",      qty: 307, ltp: 267.86, value: 82233}
-    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 BeES",  qty: 93,  ltp: 755.73, value: 70283}
-    - {symbol: GOLDBEES,    name: "Nippon Gold BeES",           qty: 550, ltp: 121.92, value: 67056}
-    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 475, ltp: 229.76, value: 109136}
-    - {symbol: MID150BEES,  name: "Nippon Midcap 150 BeES",    qty: 192, ltp: 230.28, value: 44214}
+    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 BeES",      qty: 307, avg: 271.26, ltp: 278.32, value: 85444, invested: 83276, pnl: 2169}
+    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 BeES",  qty: 93,  avg: 718.30, ltp: 806.31, value: 74987, invested: 66802, pnl: 8185}
+    - {symbol: GOLDBEES,    name: "Nippon Gold BeES",           qty: 550, avg: 90.89,  ltp: 126.45, value: 69548, invested: 49988, pnl: 19560}
+    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 475, avg: 141.77, ltp: 225.76, value: 107236, invested: 67341, pnl: 39895}
+    - {symbol: MID150BEES,  name: "Nippon Midcap 150 BeES",    qty: 192, avg: 218.39, ltp: 242.77, value: 46612, invested: 41931, pnl: 4681}
 
   stocks:
-    - {symbol: HINDALCO,  name: "Hindalco Industries",          qty: 23, ltp: 1021.60, value: 23497, cap: "Large Cap"}
-    - {symbol: GULFPETRO, name: "Gulf Oil Lubricants",           qty: 13, ltp: 939.35,  value: 12212, cap: "Small Cap"}
-    - {symbol: SONACOMS,  name: "Sona BLW Precision",            qty: 15, ltp: 593.05,  value: 8896,  cap: "Mid Cap"}
-    - {symbol: MOTHERSON, name: "Samvardhana Motherson",          qty: 57, ltp: 143.40,  value: 8174,  cap: "Large Cap"}
+    - {symbol: HINDALCO,  name: "Hindalco Industries",          qty: 23, avg: 662.43, ltp: 1078.50, value: 24806, invested: 15236, pnl: 9570, cap: "Large Cap"}
+    - {symbol: SONACOMS,  name: "Sona BLW Precision",            qty: 15, avg: 477.34, ltp: 804.50,  value: 12068, invested: 7160,  pnl: 4907, cap: "Mid Cap"}
+    - {symbol: MOTHERSON, name: "Samvardhana Motherson",          qty: 57, avg: 97.55,  ltp: 169.50,  value: 9662,  invested: 5560,  pnl: 4101, cap: "Large Cap"}
+    # GULFPETRO (Gulf Oil Lubricants) — confirmed SOLD, no longer held.
 
-  total: 425700
+  total_invested: 337294
+  total_current: 430363
+  total_pnl: 93069
 
 # ─── MUTUAL FUNDS ───
+# 5 Direct-plan funds: Zerodha/Coin export, 2026-08-12.
+# 4 Regular-plan funds (via Naik Wealth): Naik Wealth Portfolio Valuation, 2026-08-11.
+# ICICI Pru Dividend Yield-Direct + JioBlackRock Flexi Cap-Direct: NOT in
+# either source — carried from Jun 14 snapshot, marked stale. Confirm held.
 mutual_funds:
-  - {fund: "Bandhan Small Cap - Regular",             units: 3544.41, nav: 47.94,   invested: 162492, current: 169926, pnl: 7434,  via: "Naik Wealth"}
-  - {fund: "Kotak Large & Midcap - Regular",          units: 441.96,  nav: 339.08,  invested: 149993, current: 149858, pnl: -135,  via: "Naik Wealth"}
-  - {fund: "Nippon India Multi Cap - Regular",        units: 466.89,  nav: 293.53,  invested: 137493, current: 137046, pnl: -447,  via: "Naik Wealth"}
-  - {fund: "Invesco India Mid Cap - Regular",         units: 564.80,  nav: 184.17,  invested: 99995,  current: 104019, pnl: 4024,  via: "Naik Wealth"}
-  - {fund: "Invesco India Mid Cap - Direct",          units: 251.31,  nav: 223.70,  invested: 49998,  current: 56218,  pnl: 6221,  via: "Zerodha"}
-  - {fund: "HDFC Flexi Cap - Direct",                 units: 24.14,   nav: 2155.38, invested: 52997,  current: 52031,  pnl: -966,  via: "Zerodha"}
-  - {fund: "ICICI Pru Dividend Yield - Direct",       units: 719.26,  nav: 58.83,   invested: 43998,  current: 42314,  pnl: -1684, via: "Zerodha"}
-  - {fund: "Quantum ELSS Tax Saver - Growth",         units: 283.79,  nav: 122.50,  invested: 36498,  current: 34764,  pnl: -1734, via: "Zerodha"}
-  - {fund: "Nippon India Multi Cap - Direct",         units: 80.14,   nav: 324.31,  invested: 24999,  current: 25990,  pnl: 991,   via: "Zerodha"}
-  - {fund: "JioBlackRock Flexi Cap - Direct",         units: 1512.91, nav: 9.64,    invested: 15499,  current: 14577,  pnl: -922,  via: "Zerodha"}
-  - {fund: "Kotak Large & Midcap - Direct",           units: 34.45,   nav: 392.87,  invested: 12499,  current: 13534,  pnl: 1035,  via: "Zerodha"}
+  - {fund: "Bandhan Small Cap - Regular",             units: 4036.080, nav: 51.6910, invested: 187500, current: 208629, pnl: 21129, xirr: 17.39, via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Kotak Large & Midcap - Regular",          units: 511.965,  nav: 357.3740, invested: 175000, current: 182963, pnl: 7963,  xirr: 6.95,  via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Nippon India Multi Cap - Regular",        units: 548.382,  nav: 308.1499, invested: 162500, current: 168984, pnl: 6484,  xirr: 6.06,  via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Invesco India Mid Cap - Regular",         units: 564.802,  nav: 199.9700, invested: 100000, current: 112943, pnl: 12944, xirr: 13.38, via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Invesco India Mid Cap - Direct",          units: 251.311,  nav: 244.21,  invested: 49997,  current: 61373,  pnl: 11375, via: "Zerodha/Coin", as_of: "2026-08-12"}
+  - {fund: "HDFC Flexi Cap - Direct",                 units: 30.758,   nav: 2298.07, invested: 67999,  current: 70684,  pnl: 2685,  via: "Zerodha/Coin", as_of: "2026-08-12", note: "units grew 24.14→30.76, additional purchase since Jun 14"}
+  - {fund: "ICICI Pru Dividend Yield - Direct",       units: 719.26,   nav: 58.83,   invested: 43998,  current: 42314,  pnl: -1684, via: "Zerodha", stale_as_of: "2026-06-14"}
+  - {fund: "Quantum ELSS Tax Saver - Growth",         units: 283.789,  nav: 127.82,  invested: 36498,  current: 36274,  pnl: -224,  via: "Zerodha/Coin", as_of: "2026-08-12"}
+  - {fund: "Nippon India Multi Cap - Direct",         units: 80.136,   nav: 340.7896, invested: 24999,  current: 27310,  pnl: 2311,  via: "Zerodha/Coin", as_of: "2026-08-12"}
+  - {fund: "JioBlackRock Flexi Cap - Direct",         units: 1512.91,  nav: 9.64,    invested: 15499,  current: 14577,  pnl: -922,  via: "Zerodha", stale_as_of: "2026-06-14"}
+  - {fund: "Kotak Large & Midcap - Direct",           units: 34.455,   nav: 415.956, invested: 12499,  current: 14332,  pnl: 1833,  via: "Zerodha/Coin", as_of: "2026-08-12"}
 
 mutual_funds_totals:
-  total_invested: 786461
-  total_current: 800278
-  total_pnl: 13817
+  total_invested: 876489
+  total_current: 940383
+  total_pnl: 63894
+  note: "9 of 11 funds live (4 Regular as of 2026-08-11, 5 Direct as of 2026-08-12); 2 Direct funds (ICICI Pru Div Yield, JioBlackRock) stale from 2026-06-14"
 
-# ─── US STOCKS & ETFs (via INDmoney, values in ₹) ───
+# ─── US STOCKS & ETFs (via INDmoney/Alpaca, fractional shares in USD) ───
+# Source: Alpaca broker statement via INDmoney, 2026-08-12.
+# Schema: qty + avg (USD cost basis) — value/pnl computed from LIVE price by
+# portfolio_tracker.py, not hardcoded. "Total Value" col in the source file
+# was cost basis, not market value, so no LTP is available from this export.
 us_holdings:
+  as_of: "2026-08-12"
   etfs:
-    - {symbol: VOO,  name: "Vanguard S&P 500 ETF",              units: 1.622,  value_inr: 104514, pnl: 9104}
-    - {symbol: QQQM, name: "Invesco NASDAQ 100 ETF",            units: 4.034,  value_inr: 113042, pnl: 17630}
-    - {symbol: SCHD, name: "Schwab US Dividend Equity ETF",      units: 24.026, value_inr: 74241,  pnl: 5255}
-    - {symbol: DGRO, name: "iShares Core Dividend Growth ETF",   units: 10.040, value_inr: 71903,  pnl: 2897}
-    - {symbol: VGT,  name: "Vanguard IT ETF",                   units: 5.340,  value_inr: 58877,  pnl: 11373}
-    - {symbol: VUG,  name: "Vanguard Growth ETF",               units: 4.388,  value_inr: 35483,  pnl: 2209}
-    - {symbol: SMH,  name: "VanEck Semiconductor ETF",          units: 0.605,  value_inr: 35031,  pnl: 11273}
-    - {symbol: VFH,  name: "Vanguard Financials ETF",           units: 2.835,  value_inr: 34800,  pnl: 1651}
-    - {symbol: VIG,  name: "Vanguard Dividend Appreciation ETF", units: 1.553,  value_inr: 34583,  pnl: 1264}
-    - {symbol: VXUS, name: "Vanguard All-World Ex-US ETF",      units: 3.986,  value_inr: 31599,  pnl: 2651}
-    - {symbol: VDE,  name: "Vanguard Energy ETF",               units: 1.564,  value_inr: 23934,  pnl: 129}
-    - {symbol: QTUM, name: "Defiance Quantum ETF",              units: 0.913,  value_inr: 13825,  pnl: 3880}
-    - {symbol: EWY,  name: "iShares MSCI South Korea ETF",      units: 0.551,  value_inr: 10418,  pnl: 3720}
+    - {symbol: VOO,  name: "Vanguard S&P 500 ETF",              units: 2.059726,  avg: 632.8753}
+    - {symbol: QQQM, name: "Invesco NASDAQ 100 ETF",            units: 5.063271,  avg: 257.4541}
+    - {symbol: SCHD, name: "Schwab US Dividend Equity ETF",      units: 24.687270, avg: 30.2732}
+    - {symbol: DGRO, name: "iShares Core Dividend Growth ETF",   units: 10.317231, avg: 72.4409}
+    - {symbol: VGT,  name: "Vanguard IT ETF",                   units: 6.213356,  avg: 96.5332}
+    - {symbol: VUG,  name: "Vanguard Growth ETF",               units: 4.973790,  avg: 80.4494}
+    - {symbol: SMH,  name: "VanEck Semiconductor ETF",          units: 0.859175,  avg: 465.1721}
+    - {symbol: VFH,  name: "Vanguard Financials ETF",           units: 2.834662,  avg: 123.1081}
+    - {symbol: VIG,  name: "Vanguard Dividend Appreciation ETF", units: 1.552689,  avg: 225.9113}
+    - {symbol: VEU,  name: "Vanguard FTSE All-World ex-US ETF", units: 5.493727,  avg: 78.2074, note: "replaces VXUS from Jun snapshot — swapped or renamed, confirm"}
+    - {symbol: VDE,  name: "Vanguard Energy ETF",               units: 1.743754,  avg: 160.8637}
+    - {symbol: QTUM, name: "Defiance Quantum ETF",              units: 1.320208,  avg: 128.3965}
+    - {symbol: EWY,  name: "iShares MSCI South Korea ETF",      units: 1.213968,  avg: 164.8516}
 
   stocks:
-    - {symbol: AMD,  name: "Advanced Micro Devices",  units: 0.308,  value_inr: 14293, pnl: 7903}
-    - {symbol: TSM,  name: "Taiwan Semiconductor",    units: 0.322,  value_inr: 12874, pnl: 2843}
-    - {symbol: GOOG, name: "Alphabet Class C",        units: 0.343,  value_inr: 11612, pnl: 2070}
-    - {symbol: AAPL, name: "Apple",                   units: 0.390,  value_inr: 10951, pnl: 1380}
-    - {symbol: AMZN, name: "Amazon",                  units: 0.465,  value_inr: 10671, pnl: 1132}
-    - {symbol: NVDA, name: "NVIDIA",                  units: 0.545,  value_inr: 10606, pnl: 1232}
-    - {symbol: TSLA, name: "Tesla",                   units: 0.257,  value_inr: 9734,  pnl: 171}
-    - {symbol: V,    name: "Visa",                    units: 0.323,  value_inr: 9791,  pnl: 226}
-    - {symbol: JPM,  name: "JPMorgan Chase",          units: 0.325,  value_inr: 9674,  pnl: 108}
-    - {symbol: META, name: "Meta Platforms",           units: 0.172,  value_inr: 9303,  pnl: -665}
-    - {symbol: MSFT, name: "Microsoft",               units: 0.249,  value_inr: 9231,  pnl: -334}
-    - {symbol: MA,   name: "Mastercard",              units: 0.197,  value_inr: 9087,  pnl: -479}
-    - {symbol: LRCX, name: "Lam Research",            units: 2.000,  value_inr: 68872, pnl: 3121, note: "ACTIVE SWING TRADE"}
+    - {symbol: AMD,  name: "Advanced Micro Devices",  units: 0.460633, avg: 325.7130}
+    - {symbol: TSM,  name: "Taiwan Semiconductor",    units: 0.428015, avg: 351.5767}
+    - {symbol: GOOG, name: "Alphabet Class C",        units: 0.487101, avg: 308.5600}
+    - {symbol: AAPL, name: "Apple",                   units: 0.548402, avg: 274.6341}
+    - {symbol: AMZN, name: "Amazon",                  units: 0.678830, avg: 221.3808}
+    - {symbol: NVDA, name: "NVIDIA",                  units: 0.783130, avg: 189.6749}
+    - {symbol: TSLA, name: "Tesla",                   units: 0.381960, avg: 394.0727}
+    - {symbol: V,    name: "Visa",                    units: 0.462536, avg: 325.4883}
+    - {symbol: JPM,  name: "JPMorgan Chase",          units: 0.476694, avg: 315.8211}
+    - {symbol: META, name: "Meta Platforms",           units: 0.252134, avg: 594.1683}
+    - {symbol: MSFT, name: "Microsoft",               units: 0.384190, avg: 391.8375}
+    - {symbol: MA,   name: "Mastercard",              units: 0.299184, avg: 503.2021}
+    - {symbol: CVX,  name: "Chevron",                 units: 0.871760, avg: 171.5611, note: "new position since Jun 14 snapshot"}
+    - {symbol: DRAM, name: "DRAM (confirm exact fund/co.)", units: 3.549237, avg: 56.0899, note: "new position since Jun 14 snapshot — verify ticker identity"}
 
-  total_invested: 747207
-  total_current: 838949
-  total_pnl: 91742
+  total_invested_usd: 9432.39      # sum(qty*avg), matches statement total exactly
+  note: "LRCX swing position closed 2026-07-06 (see closed journal) — no longer in this bucket. Run portfolio_tracker.py to fetch live prices and compute current value/P&L."
 
 # ═══════════════════════════════════════════════════════════════════════
 # SWING TRADING SECTION
