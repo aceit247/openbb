@@ -1,0 +1,43 @@
+# ═══════════════════════════════════════════════════════════════════════
+# FATHER'S PORTFOLIO — managed by Vishesh
+# Source: broker app snapshot 2026-08-11 (shared 2026-08-12)
+# NOTE: snapshot shows COLPAL qty 600 — Vishesh reports position since sold
+#       "almost entirely". Confirm residual qty and update.
+# ═══════════════════════════════════════════════════════════════════════
+
+owner: "Father"
+as_of: "2026-08-11"
+
+holdings:
+  - symbol: NESTLEIND
+    name: "Nestle India"
+    qty: 1700
+    avg: 1153.99
+    invested: 1961784.07
+    action: HOLD
+    note: "Core hold, +30% — FMCG defensive expected to keep performing"
+
+  - symbol: GILLETTE
+    name: "Gillette India"
+    qty: 500
+    avg: 9863.44
+    invested: 4931719.00
+    action: SELL_PLANNED
+    note: "Exit planned at ~-23% loss. Est. proceeds ~38L at current prices"
+
+  - symbol: COLPAL
+    name: "Colgate-Palmolive (India)"
+    qty: 600                      # snapshot qty — CONFIRM residual after sale
+    avg: 2428.21
+    invested: 1456928.30
+    action: MOSTLY_SOLD
+    note: "Sold almost entirely per Vishesh. Snapshot qty 600 predates sale — update residual"
+
+# Capital freed by exits, to be planned (est. ~50L total when both complete)
+planned_trades: []
+cash_available: null              # update after sales settle
+
+snapshot_totals:
+  current_value: 7562450          # 12,02,400 + 38,07,500 + 25,52,550
+  invested: 8350431               # 14,56,928 + 49,31,719 + 19,61,784
+  pnl: -787981                    # -2,54,528 - 11,24,219 + 5,90,766
