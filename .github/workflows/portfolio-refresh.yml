@@ -1,0 +1,53 @@
+name: Portfolio refresh
+
+on:
+  schedule:
+    # 08:40 IST (03:10 UTC) weekdays — before NSE open, Indian focus
+    - cron: "10 3 * * 1-5"
+    # 19:40 IST (14:10 UTC) weekdays — after US open, US focus
+    - cron: "10 14 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/swing-trade-analysis-XtuAs
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install pyyaml openpyxl yfinance
+
+      - name: Decide market focus
+        id: market
+        run: |
+          HOUR=$(date -u +%H)
+          if [ "$HOUR" -lt 10 ]; then echo "market=IN" >> "$GITHUB_OUTPUT"; else echo "market=US" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Regenerate Excel tracker (live prices)
+        working-directory: examples/swing_monitor
+        run: python portfolio_tracker.py
+
+      - name: Scan watchlist setups
+        working-directory: examples/swing_monitor
+        run: python watchlist_scan.py --market "${{ steps.market.outputs.market }}" --out watchlist_report.md
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "portfolio-bot"
+          git config user.email "actions@github.com"
+          git add examples/swing_monitor/Portfolio_Tracker.xlsx examples/swing_monitor/watchlist_report.md
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Auto-refresh tracker + watchlist scan (${{ steps.market.outputs.market }})"
+            git push origin claude/swing-trade-analysis-XtuAs
+          fi

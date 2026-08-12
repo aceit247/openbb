@@ -77,9 +77,12 @@ ACTION_FILL = {
     "HOLD": PatternFill("solid", fgColor="DCFCE7"),
     "BUY": PatternFill("solid", fgColor="DBEAFE"),
     "SELL_PLANNED": PatternFill("solid", fgColor="FEE2E2"),
+    "HOLD_FOR_TLH": PatternFill("solid", fgColor="FEF3C7"),
     "MOSTLY_SOLD": PatternFill("solid", fgColor="F3F4F6"),
     "SOLD": PatternFill("solid", fgColor="F3F4F6"),
 }
+INPUT_FILL = PatternFill("solid", fgColor="FEF9C3")   # yellow = type here
+CALC_FILL = PatternFill("solid", fgColor="F0F9FF")    # blue = computed
 
 
 def header_row(ws, row, cols):
@@ -394,6 +397,133 @@ def build_father_sheet(ws, fp, prices: Prices):
     autosize(ws, [12, 28, 8, 11, 11, 13, 13, 12, 9, 14])
 
 
+def build_calc_sheet(ws, sleeve_inr):
+    """Interactive position-sizing + R:R calculator driven by Excel formulas.
+    Yellow cells = inputs; blue cells = computed. Mirrors rr_calc.py logic."""
+    ws.sheet_view.showGridLines = False
+    ws.cell(row=1, column=1, value="POSITION SIZING & R:R CALCULATOR").font = Font(bold=True, size=14)
+    ws.cell(row=2, column=1, value="Yellow = type your numbers. Blue = auto-computed. Mirrors rr_calc.py.").font = DIM
+
+    def label(r, c, text, bold=False):
+        cell = ws.cell(row=r, column=c, value=text)
+        cell.font = Font(bold=bold, size=10)
+        return cell
+
+    def inp(r, c, val, fmt="#,##0.00"):
+        cell = ws.cell(row=r, column=c, value=val)
+        cell.fill = INPUT_FILL
+        cell.number_format = fmt
+        cell.border = THIN
+        return cell
+
+    def calc(r, c, formula, fmt="#,##0.00"):
+        cell = ws.cell(row=r, column=c, value=formula)
+        cell.fill = CALC_FILL
+        cell.number_format = fmt
+        cell.border = THIN
+        return cell
+
+    # ── inputs ──
+    r = 4
+    section(ws, r, "Trade Inputs", 4)
+    label(r + 1, 1, "Entry price");            inp(r + 1, 2, 100.00)
+    label(r + 2, 1, "Stop loss");              inp(r + 2, 2, 92.00)
+    label(r + 3, 1, "Account / sleeve ₹");     inp(r + 3, 2, sleeve_inr, "#,##0")
+    label(r + 4, 1, "Risk budget %");          inp(r + 4, 2, 2.0, "0.0")
+    # B5=entry B6=stop B7=sleeve B8=risk%
+
+    # ── sizing ──
+    r = 10
+    section(ws, r, "Position Sizing (from risk budget)", 4)
+    label(r + 1, 1, "Risk per share");         calc(r + 1, 2, "=B5-B6")
+    label(r + 2, 1, "Risk % of entry");        calc(r + 2, 2, "=(B5-B6)/B5", "0.00%")
+    label(r + 3, 1, "Max ₹ at risk");          calc(r + 3, 2, "=B7*B8/100", "#,##0")
+    label(r + 4, 1, "Max shares");             calc(r + 4, 2, "=IF(B11>0,FLOOR(B13/B11,1),0)", "#,##0")
+    label(r + 5, 1, "Capital required");       calc(r + 5, 2, "=B14*B5", "#,##0")
+    label(r + 6, 1, "% of sleeve deployed");   calc(r + 6, 2, "=IF(B7>0,B15/B7,0)", "0.0%")
+    # B11 risk/share, B13 max risk, B14 shares, B15 capital
+
+    # ── 25-50-25 pyramid ──
+    r = 18
+    section(ws, r, "25-50-25 Pyramid Split (of max shares)", 4)
+    label(r + 1, 1, "T1 pilot (25%)");         calc(r + 1, 2, "=FLOOR(B14*0.25,1)", "#,##0")
+    label(r + 2, 1, "T2 core (50%)");          calc(r + 2, 2, "=FLOOR(B14*0.5,1)", "#,##0")
+    label(r + 3, 1, "T3 final (25%)");         calc(r + 3, 2, "=B14-B19-B20", "#,##0")
+
+    # ── multi-target R:R ──
+    r = 23
+    section(ws, r, "Targets & Weighted R:R (edit prices + % to sell)", 6)
+    hdr = ["Target", "Price", "% of position", "R:R", "Reward %", "P&L ₹ (at max shares)"]
+    rr = r + 1
+    for ci, h in enumerate(hdr, start=1):
+        cell = ws.cell(row=rr, column=ci, value=h)
+        cell.fill, cell.font = HDR_FILL, HDR_FONT
+    for i, (tp, pct) in enumerate([(110.0, 33), (120.0, 33), (135.0, 34)], start=1):
+        row_i = rr + i
+        label(row_i, 1, f"T{i}")
+        inp(row_i, 2, tp)
+        inp(row_i, 3, pct, "0")
+        calc(row_i, 4, f"=IF($B$5-$B$6>0,(B{row_i}-$B$5)/($B$5-$B$6),0)", "0.00")
+        calc(row_i, 5, f"=(B{row_i}-$B$5)/$B$5", "0.0%")
+        calc(row_i, 6, f"=(B{row_i}-$B$5)*FLOOR($B$14*C{row_i}/100,1)", "#,##0")
+    s = rr + 4
+    label(s, 1, "Weighted avg R:R", bold=True)
+    calc(s, 4, f"=IF(SUM(C{rr+1}:C{rr+3})>0,SUMPRODUCT(D{rr+1}:D{rr+3},C{rr+1}:C{rr+3})/SUM(C{rr+1}:C{rr+3}),0)", "0.00")
+    label(s + 1, 1, "Avg exit price", bold=True)
+    calc(s + 1, 2, f"=IF(SUM(C{rr+1}:C{rr+3})>0,SUMPRODUCT(B{rr+1}:B{rr+3},C{rr+1}:C{rr+3})/SUM(C{rr+1}:C{rr+3}),0)")
+    label(s + 2, 1, "Full-run P&L ₹", bold=True)
+    calc(s + 2, 2, f"=SUM(F{rr+1}:F{rr+3})", "#,##0")
+    label(s + 3, 1, "Payoff ratio (win/loss)", bold=True)
+    calc(s + 3, 2, f"=IF(B13>0,B{s+2}/B13,0)", "0.00")
+    label(s + 4, 1, "Break-even win rate", bold=True)
+    calc(s + 4, 2, f"=IF(B{s+3}>0,1/(1+B{s+3}),0)", "0.0%")
+    autosize(ws, [26, 14, 14, 10, 10, 18])
+
+
+def build_journal_sheet(ws, cfg):
+    """Full trade journal with formula-computed P&L and R-multiples."""
+    ws.sheet_view.showGridLines = False
+    row = section(ws, 1, "SWING TRADE JOURNAL — add new rows below; P&L / R computed by formula", 12)
+    cols = ["Ticker", "Cur", "Result", "Date In", "Date Out", "Qty",
+            "Avg Entry", "Avg Exit", "Stop", "P&L", "P&L %", "R-multiple"]
+    row = header_row(ws, row, cols)
+    for c in cfg.get("closed", []):
+        s = c.get("summary", {})
+        buys = c.get("buys", [])
+        sells = c.get("sells", [])
+        qty = sum(b.get("qty", 0) for b in buys)
+        stop = c.get("stop")
+        vals = [c["ticker"], c.get("currency", ""), c.get("result", ""),
+                buys[0]["date"] if buys else "", sells[-1]["date"] if sells else "",
+                qty, s.get("avg_entry"), s.get("avg_exit"), stop]
+        for ci, v in enumerate(vals, start=1):
+            cell = ws.cell(row=row, column=ci, value=v)
+            cell.border = THIN
+            if ci in (7, 8, 9):
+                cell.number_format = "#,##0.00"
+        # formulas: P&L = (exit-entry)*qty ; P&L% ; R = (exit-entry)/(entry-stop)
+        c10 = ws.cell(row=row, column=10, value=f"=(H{row}-G{row})*F{row}")
+        c10.number_format = "#,##0.00"
+        c10.border = THIN
+        c11 = ws.cell(row=row, column=11, value=f"=IF(G{row}>0,(H{row}-G{row})/G{row},0)")
+        c11.number_format = "+0.0%;-0.0%"
+        c11.border = THIN
+        c12 = ws.cell(row=row, column=12, value=f"=IF(AND(ISNUMBER(I{row}),G{row}-I{row}<>0),(H{row}-G{row})/(G{row}-I{row}),\"\")")
+        c12.number_format = "+0.00;-0.00"
+        c12.border = THIN
+        row += 1
+    # 10 blank formula-ready rows for future trades
+    for _ in range(10):
+        for ci in range(1, 10):
+            ws.cell(row=row, column=ci).border = THIN
+        ws.cell(row=row, column=10, value=f"=IF(F{row}=\"\",\"\",(H{row}-G{row})*F{row})").border = THIN
+        ws.cell(row=row, column=11, value=f"=IF(G{row}=\"\",\"\",(H{row}-G{row})/G{row})").border = THIN
+        ws.cell(row=row, column=12, value=f"=IF(OR(I{row}=\"\",G{row}-I{row}=0),\"\",(H{row}-G{row})/(G{row}-I{row}))").border = THIN
+        row += 1
+    autosize(ws, [13, 5, 9, 11, 11, 8, 11, 11, 10, 12, 9, 10])
+    ws.freeze_panes = "A3"
+
+
 def build_dashboard(ws, cfg, fp, buckets, fx, price_note):
     ws.sheet_view.showGridLines = False
     ws.cell(row=1, column=1, value="PORTFOLIO DASHBOARD").font = Font(bold=True, size=16)
@@ -482,6 +612,12 @@ def main():
 
     ws = wb.create_sheet("Swing & Watchlist")
     build_swing_sheet(ws, cfg, prices)
+
+    ws = wb.create_sheet("Journal")
+    build_journal_sheet(ws, cfg)
+
+    ws = wb.create_sheet("Calc — Sizing & RR")
+    build_calc_sheet(ws, cfg.get("swing_account", {}).get("sleeve_target_inr", 263453))
 
     ws = wb.create_sheet("Father")
     build_father_sheet(ws, fp, prices)
