@@ -213,13 +213,15 @@ positions:
   - ticker: NETWEB
     yf_symbol: NETWEB.NS
     currency: INR
-    status: planned
+    status: open                   # FILLED 2026-08-14
+    entry_date: "2026-08-14"
     sleeve: growth_sleeve          # NOT the 263,453 swing sleeve
-    entry_avg: 5314.05             # pilot reference price, 2026-08-14
-    qty: 6                         # PILOT ONLY — full plan is 24 (see full_plan_qty), gated by regime
+    entry_avg: 5348.00             # actual fill
+    qty: 6                         # PILOT filled — full plan is 24 (see full_plan_qty), gated by regime
     full_plan_qty: 24              # all 3 tranches if regime clears
-    capital: 31884                 # pilot capital only (6 x 5314.05)
-    stop: 4825.00                  # 8% below official pivot 5,244 (Minervini max)
+    capital: 32088                 # 6 x 5348
+    stop: 5085.00                  # tactical SL-M trigger, ~7pt buffer below entry-day low 5,092 (Qullamaggie-style day-1-low stop)
+    stop_structural: 4825.00       # original 8%-below-pivot backstop — not the working order, for reference only
     pivot: 5244.00                 # official MarketSmith O'Neil pivot
     buy_range: [5240, 5500]        # official MarketSmith buy range
     targets:
@@ -227,8 +229,8 @@ positions:
       - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
       - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%, stretch to 6800"}
     setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Jun-26 qtr EPS +178%/Sales +172% YoY, accelerating. 197 funds holding (+15.2% QoQ). Cup w/ handle, 8-week base, first ATH breakout. P/E 109x (in-line w/ own 5yr range 86-173x). 50D avg turnover ₹809 Cr/day — liquidity is not a constraint. Gov't = 55% FY26 revenue (order-book visibility, budget-cycle risk); AI systems = 43% (growth engine). MarketSmith desk itself calls this 'advance buy' — breakout not yet fully decisive, appropriate for pilot only."
-    add_plan: "PILOT 6sh now (within 5240-5500 buy range) — stock-specific strength justifies a toe in despite regime caution. CORE 12sh GATED: only after Nifty 50 reclaims 21D EMA (24,326) and ideally 150D SMA (24,294), OR a recognized O'Neil follow-through day. Do not add Core on the stock's own strength alone while the index rule is active. FINAL 6sh at/after T1 (5800), pullback to 10D EMA holds, market regime still confirming. Stop to breakeven after Core fills; trail 10D/21D EMA after Final. If Nifty 50 closes below 50D SMA (24,124), tighten pilot stop rather than average in."
-    notes: "Reverse-pyramid / 25-50-25 tranche plan. Max risk 1% of growth_sleeve (₹12,000) — CONFIRM this basis before executing. Regime-gated: pilot only until Nifty 50 reclaims 21D EMA (see REGIME CHECK note above)."
+    add_plan: "PILOT 6sh FILLED @5348 2026-08-14. CORE 12sh GATED: only after Nifty 50 reclaims 21D EMA (24,326) and ideally 150D SMA (24,294), OR a recognized O'Neil follow-through day. Do not add Core on the stock's own strength alone while the index rule is active. FINAL 6sh at/after T1 (5800), pullback to 10D EMA holds, market regime still confirming. Stop to breakeven after Core fills; trail 10D/21D EMA after Final."
+    notes: "Reverse-pyramid / 25-50-25 tranche plan. Working stop is the tactical 5,085 (SL-M trigger, day-1-low based) — tighter than the original 4,825 structural stop, appropriate given regime caution. Risk at 5,085: ₹1,578 (0.13% of growth_sleeve). Core/Final still regime-gated per REGIME CHECK note above."
 
 # ─── CLOSED SWING TRADES (journal) ───
 closed:
