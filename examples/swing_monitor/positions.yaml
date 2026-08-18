@@ -184,13 +184,6 @@ swing_account:
   zerodha_cash_available: 142426  # actual INR cash in Zerodha
   us_wallet_available: 46281      # INR equiv, ~$558 USD
 
-  # NEW, separate pool (2026-08-14) — NOT folded into sleeve_target_inr
-  # above pending confirmation of source (fresh capital vs. redeployment
-  # already counted in net worth). Risk % for trades against this pool
-  # assumed to be 1% of growth_sleeve_inr unless told otherwise.
-  growth_sleeve_inr: 1200000
-  growth_sleeve_risk_pct: 1
-
   # ─── ENTRY PYRAMID POLICY (adopted 2026-07-06) ───
   # All new entries scale in, max 3 tranches. Default 25-50-25:
   #   T1 25%: pilot at setup trigger (pullback reclaim or box breakout)
@@ -200,37 +193,10 @@ swing_account:
   # Never add to a position below cost. Max total risk per trade: 2% of sleeve.
 
 # ─── ACTIVE SWING TRADES ───
-# NETWEB: PLANNED, not filled — awaiting confirmation of (a) growth_sleeve
-# risk basis (1% of ₹12L = ₹12,000 assumed) and (b) actual order execution.
-# REGIME CHECK (2026-08-14): Nifty 50 price 24,202 is BELOW its 10D EMA
-# (24,374), 21D EMA (24,326), 150D SMA (24,294), AND 200D SMA (24,714) —
-# only above the 50D (24,124). The codified watchlist rule "exit longs if
-# loses 21D EMA" has fired on Nifty 50. Nifty 500 is weaker but not broken
-# (below 10D EMA 23,591 only, still above 21D/50D/150D/200D). RS vs Nasdaq
-# is 11 (bottom decile) and falling. Net: CAUTION, not clean confirmation.
-# Qty pulled back to PILOT ONLY until regime improves — see gating below.
-positions:
-  - ticker: NETWEB
-    yf_symbol: NETWEB.NS
-    currency: INR
-    status: open                   # FILLED 2026-08-14
-    entry_date: "2026-08-14"
-    sleeve: growth_sleeve          # NOT the 263,453 swing sleeve
-    entry_avg: 5348.00             # actual fill
-    qty: 6                         # PILOT filled — full plan is 24 (see full_plan_qty), gated by regime
-    full_plan_qty: 24              # all 3 tranches if regime clears
-    capital: 32088                 # 6 x 5348
-    stop: 5085.00                  # tactical SL-M trigger, ~7pt buffer below entry-day low 5,092 (Qullamaggie-style day-1-low stop)
-    stop_structural: 4825.00       # original 8%-below-pivot backstop — not the working order, for reference only
-    pivot: 5244.00                 # official MarketSmith O'Neil pivot
-    buy_range: [5240, 5500]        # official MarketSmith buy range
-    targets:
-      - {price: 5800.00, pct_to_sell: 33, label: "T1 handle breakout +9.1%"}
-      - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
-      - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%, stretch to 6800"}
-    setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Jun-26 qtr EPS +178%/Sales +172% YoY, accelerating. 197 funds holding (+15.2% QoQ). Cup w/ handle, 8-week base, first ATH breakout. P/E 109x (in-line w/ own 5yr range 86-173x). 50D avg turnover ₹809 Cr/day — liquidity is not a constraint. Gov't = 55% FY26 revenue (order-book visibility, budget-cycle risk); AI systems = 43% (growth engine). MarketSmith desk itself calls this 'advance buy' — breakout not yet fully decisive, appropriate for pilot only."
-    add_plan: "PILOT 6sh FILLED @5348 2026-08-14. CORE 12sh GATED: only after Nifty 50 reclaims 21D EMA (24,326) and ideally 150D SMA (24,294), OR a recognized O'Neil follow-through day. Do not add Core on the stock's own strength alone while the index rule is active. FINAL 6sh at/after T1 (5800), pullback to 10D EMA holds, market regime still confirming. Stop to breakeven after Core fills; trail 10D/21D EMA after Final."
-    notes: "Reverse-pyramid / 25-50-25 tranche plan. Working stop is the tactical 5,085 (SL-M trigger, day-1-low based) — tighter than the original 4,825 structural stop, appropriate given regime caution. Risk at 5,085: ₹1,578 (0.13% of growth_sleeve). Core/Final still regime-gated per REGIME CHECK note above."
+# NETWEB MOVED to father_portfolio.yaml (2026-08-14) — bought via HDFC
+# Securities under father's account/capital (Colgate sale proceeds), not
+# Vishesh's own Zerodha sleeve. See father_portfolio.yaml → swing_positions.
+positions: []          # no open positions of Vishesh's own as of 2026-08-14
 
 # ─── CLOSED SWING TRADES (journal) ───
 closed:

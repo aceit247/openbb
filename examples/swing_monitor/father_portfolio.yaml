@@ -36,12 +36,44 @@ holdings:
 realized_2026:
   - {symbol: COLPAL, qty_sold: 600, avg_cost: 2428.21, approx_exit: 2005.00, realized_pnl: -253926, note: "approx — update from contract note"}
 
-# Capital freed by exits, to be planned
+# Capital freed by exits, being deployed via HDFC Securities brokerage
+# (father's account, managed by Vishesh — NOT the same as Vishesh's own
+# dormant HDFC Securities/"Invest Right" sleeve tracked in positions.yaml)
+growth_sleeve:
+  broker: "HDFC Securities (father's account)"
+  source: "Colgate-Palmolive sale proceeds"
+  total_inr: 1200000
+  risk_pct_per_trade: 1           # 1% of this pool = ₹12,000 max loss/trade
+  deployed_inr: 32088             # NETWEB pilot fill
+  cash_remaining_inr: 1167912
+
 planned_trades: []
-cash_available: ~1200000          # approx Colgate proceeds (~12L) — confirm
+
+# ─── ACTIVE SWING/GROWTH POSITIONS (managed by Vishesh, father's capital) ───
+swing_positions:
+  - ticker: NETWEB
+    yf_symbol: NETWEB.NS
+    currency: INR
+    status: open
+    entry_date: "2026-08-14"
+    entry_avg: 5348.00
+    qty: 6                         # PILOT filled — full plan is 24, gated by regime
+    full_plan_qty: 24
+    capital: 32088
+    stop: 5085.00                  # tactical SL-M trigger, ~7pt buffer below entry-day low 5,092
+    stop_structural: 4825.00       # original 8%-below-pivot backstop, reference only
+    pivot: 5244.00                 # official MarketSmith O'Neil pivot
+    buy_range: [5240, 5500]
+    targets:
+      - {price: 5800.00, pct_to_sell: 33, label: "T1 handle breakout +9.1%"}
+      - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
+      - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%, stretch to 6800"}
+    setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Jun-26 qtr EPS +178%/Sales +172% YoY, accelerating. 197 funds holding (+15.2% QoQ). Cup w/ handle, 8-week base, ATH breakout. P/E 109x (in-line w/ own 5yr range 86-173x). Gov't = 55% FY26 revenue; AI systems = 43% (growth engine)."
+    add_plan: "PILOT 6sh FILLED @5348 2026-08-14 via HDFC Securities. CORE 12sh GATED: only after Nifty 50 reclaims 21D EMA (24,326) and ideally 150D SMA (24,294), OR a recognized O'Neil follow-through day. FINAL 6sh at/after T1 (5800), pullback to 10D EMA holds. Stop to breakeven after Core fills; trail 10D/21D EMA after Final."
+    notes: "Reverse-pyramid / 25-50-25 tranche plan. Working stop 5,085 (SL-M, day-1-low based) tighter than structural 4,825 — appropriate given regime caution. Risk ₹1,578 (0.13% of growth_sleeve). Core/Final regime-gated on Nifty 50 21D EMA reclaim."
 
 snapshot_totals:
-  note: "COLPAL exited; totals now = NESTLEIND + GILLETTE only"
+  note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
   current_value: 6356450          # 25,52,550 (Nestle, snapshot) + 38,03,900 approx Gillette
   invested: 6893503               # 19,61,784 + 49,31,719
   pnl: -537053

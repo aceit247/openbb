@@ -459,6 +459,43 @@ def build_father_sheet(ws, fp, prices: Prices):
         if ci == 8 and v is not None:
             pnl_font(c, v)
     row += 2
+    gs = fp.get("growth_sleeve", {})
+    if gs:
+        row = section(ws, row, f"Growth Sleeve — {gs.get('broker', '')}", 10)
+        ws.cell(row=row, column=1, value=f"Source: {gs.get('source', '')}  |  Pool: ₹{gs.get('total_inr', 0):,.0f}  |  Risk/trade: {gs.get('risk_pct_per_trade', '?')}%  |  Deployed: ₹{gs.get('deployed_inr', 0):,.0f}  |  Cash remaining: ₹{gs.get('cash_remaining_inr', 0):,.0f}").font = DIM
+        row += 2
+
+    row = section(ws, row, "Active Swing/Growth Positions (managed by Vishesh)", 10)
+    swing_pos = fp.get("swing_positions", [])
+    if swing_pos:
+        row = header_row(ws, row, ["Ticker", "Qty", "Entry", "LTP", "Stop", "Next Target", "P&L %", "Risk ₹", "Src", "Status"])
+        for p in swing_pos:
+            price, _, src = prices.get(p["ticker"], p.get("entry_avg"))
+            pnl_pct = (price / p["entry_avg"] - 1) * 100 if price else None
+            next_t = next((t["price"] for t in p.get("targets", []) if price and t["price"] > price), None)
+            risk = max(0, (p["entry_avg"] - p["stop"])) * p.get("qty", 0)
+            vals = [p["ticker"], p.get("qty"), p.get("entry_avg"), price, p["stop"], next_t, pnl_pct, risk, src, p.get("status", "")]
+            for ci, v in enumerate(vals, start=1):
+                cell = ws.cell(row=row, column=ci, value=v)
+                cell.border = THIN
+                if ci in (3, 4, 5, 6):
+                    cell.number_format = "#,##0.00"
+                if ci == 7 and pnl_pct is not None:
+                    cell.number_format = "+0.0;-0.0"
+                    pnl_font(cell, pnl_pct)
+                if ci == 8:
+                    cell.number_format = "#,##0"
+            row += 1
+            for key, label in (("add_plan", "Plan"), ("notes", "Notes")):
+                if p.get(key):
+                    ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=10)
+                    ws.cell(row=row, column=1, value=f"↳ {label}: {p[key]}").font = DIM
+                    row += 1
+    else:
+        ws.cell(row=row, column=1, value="No active swing/growth positions.").font = DIM
+        row += 1
+    row += 1
+
     row = section(ws, row, "Planned Trades (redeployment of sale proceeds)", 10)
     planned = fp.get("planned_trades") or []
     if planned:
