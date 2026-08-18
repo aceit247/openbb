@@ -202,6 +202,13 @@ swing_account:
 # ─── ACTIVE SWING TRADES ───
 # NETWEB: PLANNED, not filled — awaiting confirmation of (a) growth_sleeve
 # risk basis (1% of ₹12L = ₹12,000 assumed) and (b) actual order execution.
+# REGIME CHECK (2026-08-14): Nifty 50 price 24,202 is BELOW its 10D EMA
+# (24,374), 21D EMA (24,326), 150D SMA (24,294), AND 200D SMA (24,714) —
+# only above the 50D (24,124). The codified watchlist rule "exit longs if
+# loses 21D EMA" has fired on Nifty 50. Nifty 500 is weaker but not broken
+# (below 10D EMA 23,591 only, still above 21D/50D/150D/200D). RS vs Nasdaq
+# is 11 (bottom decile) and falling. Net: CAUTION, not clean confirmation.
+# Qty pulled back to PILOT ONLY until regime improves — see gating below.
 positions:
   - ticker: NETWEB
     yf_symbol: NETWEB.NS
@@ -209,8 +216,9 @@ positions:
     status: planned
     sleeve: growth_sleeve          # NOT the 263,453 swing sleeve
     entry_avg: 5314.05             # pilot reference price, 2026-08-14
-    qty: 24                        # full planned position (all 3 tranches)
-    capital: 127537
+    qty: 6                         # PILOT ONLY — full plan is 24 (see full_plan_qty), gated by regime
+    full_plan_qty: 24              # all 3 tranches if regime clears
+    capital: 31884                 # pilot capital only (6 x 5314.05)
     stop: 4825.00                  # 8% below official pivot 5,244 (Minervini max)
     pivot: 5244.00                 # official MarketSmith O'Neil pivot
     buy_range: [5240, 5500]        # official MarketSmith buy range
@@ -219,8 +227,8 @@ positions:
       - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
       - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%, stretch to 6800"}
     setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Jun-26 qtr EPS +178%/Sales +172% YoY, accelerating. 197 funds holding (+15.2% QoQ). Cup w/ handle, 8-week base, first ATH breakout. P/E 109x (in-line w/ own 5yr range 86-173x). 50D avg turnover ₹809 Cr/day — liquidity is not a constraint. Gov't = 55% FY26 revenue (order-book visibility, budget-cycle risk); AI systems = 43% (growth engine). MarketSmith desk itself calls this 'advance buy' — breakout not yet fully decisive, appropriate for pilot only."
-    add_plan: "Pilot 6sh now (within 5240-5500 buy range). Core 12sh add on decisive breakout >5500 on above-avg volume, OR 3-5 days holding >5244. Final 6sh at/after T1 (5800), pullback to 10D EMA holds. Stop to breakeven after Core fills; trail 10D/21D EMA after Final."
-    notes: "Reverse-pyramid / 25-50-25 tranche plan. Max risk 1% of growth_sleeve (₹12,000) — CONFIRM this basis before executing. Check Nifty regime (M in CANSLIM) before deploying Core/Final tranches."
+    add_plan: "PILOT 6sh now (within 5240-5500 buy range) — stock-specific strength justifies a toe in despite regime caution. CORE 12sh GATED: only after Nifty 50 reclaims 21D EMA (24,326) and ideally 150D SMA (24,294), OR a recognized O'Neil follow-through day. Do not add Core on the stock's own strength alone while the index rule is active. FINAL 6sh at/after T1 (5800), pullback to 10D EMA holds, market regime still confirming. Stop to breakeven after Core fills; trail 10D/21D EMA after Final. If Nifty 50 closes below 50D SMA (24,124), tighten pilot stop rather than average in."
+    notes: "Reverse-pyramid / 25-50-25 tranche plan. Max risk 1% of growth_sleeve (₹12,000) — CONFIRM this basis before executing. Regime-gated: pilot only until Nifty 50 reclaims 21D EMA (see REGIME CHECK note above)."
 
 # ─── CLOSED SWING TRADES (journal) ───
 closed:
@@ -311,5 +319,6 @@ watchlist:
   - {ticker: STX,         yf: "STX",           market: US, zone: [475, 510],      invalidate: 448,   trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup — RE-CHECK after global chip selloff before acting."}
   - {ticker: WAAREEENER,  yf: "WAAREEENER.NS", market: IN, zone: [3080, 3120],    invalidate: 2960,  trigger: "₹3080-3120",  stop: "₹2960", note: "B- setup. Wait for ATH >3800."}
   - {ticker: LAURUSLABS,  yf: "LAURUSLABS.NS", market: IN, zone: [1280, 1320],    invalidate: 1177,  trigger: "₹1280-1320",  stop: "₹1177", note: "C+ setup — WAIT. Extended. Only on pullback to 10W EMA ~1280. Remove if closes below 21W 1177."}
-  - {ticker: NIFTY,       yf: "^NSEI",         market: IN, regime: true,          note: "Regime gauge — exit longs if loses 21D EMA"}
+  - {ticker: NIFTY,       yf: "^NSEI",         market: IN, regime: true, as_of: "2026-08-14", note: "RULE FIRED 2026-08-14: price 24,202 lost 21D EMA (24,326) AND 10D EMA (24,374) AND 150D SMA (24,294) AND 200D SMA (24,714) — only above 50D (24,124). Do not deploy new swing longs beyond pilot size until 21D EMA reclaimed."}
+  - {ticker: NIFTY500,    yf: "^CRSLDX",       market: IN, regime: true, as_of: "2026-08-14", note: "Weaker but not broken: price 23,508 below 10D EMA (23,591) only, still above 21D/50D/150D/200D. Broader-market gauge for mid/small-cap names (more relevant than Nifty50 for names like NETWEB). RS vs Nasdaq at 11 (bottom decile), falling."}
   - {ticker: QQQ,         yf: "QQQ",           market: US, regime: true,          note: "US regime gauge — chip selloff in progress, watch for follow-through distribution"}
