@@ -184,6 +184,13 @@ swing_account:
   zerodha_cash_available: 142426  # actual INR cash in Zerodha
   us_wallet_available: 46281      # INR equiv, ~$558 USD
 
+  # NEW, separate pool (2026-08-14) — NOT folded into sleeve_target_inr
+  # above pending confirmation of source (fresh capital vs. redeployment
+  # already counted in net worth). Risk % for trades against this pool
+  # assumed to be 1% of growth_sleeve_inr unless told otherwise.
+  growth_sleeve_inr: 1200000
+  growth_sleeve_risk_pct: 1
+
   # ─── ENTRY PYRAMID POLICY (adopted 2026-07-06) ───
   # All new entries scale in, max 3 tranches. Default 25-50-25:
   #   T1 25%: pilot at setup trigger (pullback reclaim or box breakout)
@@ -193,7 +200,27 @@ swing_account:
   # Never add to a position below cost. Max total risk per trade: 2% of sleeve.
 
 # ─── ACTIVE SWING TRADES ───
-positions: []          # no open positions as of 2026-07-06
+# NETWEB: PLANNED, not filled — awaiting confirmation of (a) growth_sleeve
+# risk basis (1% of ₹12L = ₹12,000 assumed) and (b) actual order execution.
+positions:
+  - ticker: NETWEB
+    yf_symbol: NETWEB.NS
+    currency: INR
+    status: planned
+    sleeve: growth_sleeve          # NOT the 263,453 swing sleeve
+    entry_avg: 5314.05             # pilot reference price, 2026-08-14
+    qty: 24                        # full planned position (all 3 tranches)
+    capital: 127537
+    stop: 4825.00                  # 8% below official pivot 5,244 (Minervini max)
+    pivot: 5244.00                 # official MarketSmith O'Neil pivot
+    buy_range: [5240, 5500]        # official MarketSmith buy range
+    targets:
+      - {price: 5800.00, pct_to_sell: 33, label: "T1 handle breakout +9.1%"}
+      - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
+      - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%, stretch to 6800"}
+    setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Jun-26 qtr EPS +178%/Sales +172% YoY, accelerating. 197 funds holding (+15.2% QoQ). Cup w/ handle, 8-week base, first ATH breakout. P/E 109x (in-line w/ own 5yr range 86-173x). 50D avg turnover ₹809 Cr/day — liquidity is not a constraint. Gov't = 55% FY26 revenue (order-book visibility, budget-cycle risk); AI systems = 43% (growth engine). MarketSmith desk itself calls this 'advance buy' — breakout not yet fully decisive, appropriate for pilot only."
+    add_plan: "Pilot 6sh now (within 5240-5500 buy range). Core 12sh add on decisive breakout >5500 on above-avg volume, OR 3-5 days holding >5244. Final 6sh at/after T1 (5800), pullback to 10D EMA holds. Stop to breakeven after Core fills; trail 10D/21D EMA after Final."
+    notes: "Reverse-pyramid / 25-50-25 tranche plan. Max risk 1% of growth_sleeve (₹12,000) — CONFIRM this basis before executing. Check Nifty regime (M in CANSLIM) before deploying Core/Final tranches."
 
 # ─── CLOSED SWING TRADES (journal) ───
 closed:

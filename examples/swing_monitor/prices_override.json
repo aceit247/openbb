@@ -19,5 +19,6 @@
   "GILLETTE":     {"price": 7589.50, "day_pct": -0.68},
   "HINDALCO":     {"price": 1078.50, "day_pct": 2.80},
   "SONACOMS":     {"price": 804.50,  "day_pct": 0.56},
-  "MOTHERSON":    {"price": 169.50,  "day_pct": 0.14}
+  "MOTHERSON":    {"price": 169.50,  "day_pct": 0.14},
+  "NETWEB":       {"price": 5314.05, "day_pct": 2.08}
 }

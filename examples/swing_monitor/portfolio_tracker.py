@@ -57,7 +57,7 @@ YF_MAP = {
     "BIRET": "BIRET.NS", "NXST": "NXST.NS",
     # Indian stocks (note: Gulf Oil Lubricants is GULFOILLUB, not GULFPETRO)
     "HINDALCO": "HINDALCO.NS", "GULFPETRO": "GULFOILLUB.NS",
-    "SONACOMS": "SONACOMS.NS", "MOTHERSON": "MOTHERSON.NS",
+    "SONACOMS": "SONACOMS.NS", "MOTHERSON": "MOTHERSON.NS", "NETWEB": "NETWEB.NS",
     # Father's holdings
     "NESTLEIND": "NESTLEIND.NS", "COLPAL": "COLPAL.NS", "GILLETTE": "GILLETTE.NS",
     # US tickers are NOT listed here — they equal their own Yahoo symbol,
@@ -333,6 +333,9 @@ def build_swing_sheet(ws, cfg, prices: Prices):
     if open_pos:
         row = header_row(ws, row, ["Ticker", "Qty", "Entry", "LTP", "Stop", "Next Target", "P&L %", "Risk ₹", "Src"])
         for p in open_pos:
+            # Look up by the plain ticker (matches YF_MAP and prices_override.json
+            # convention used everywhere else) — NOT yf_symbol, which would bypass
+            # both and only work for live yfinance fetch, silently missing overrides.
             price, _, src = prices.get(p["ticker"], p.get("entry_avg"))
             pnl_pct = (price / p["entry_avg"] - 1) * 100 if price else None
             next_t = next((t["price"] for t in p.get("targets", []) if price and t["price"] > price), None)
@@ -347,6 +350,35 @@ def build_swing_sheet(ws, cfg, prices: Prices):
             row += 1
     else:
         ws.cell(row=row, column=1, value="No open positions — flat.").font = DIM
+        row += 1
+    row += 1
+
+    row = section(ws, row, "Planned Positions (staged, not filled)", 9)
+    planned_pos = [p for p in cfg.get("positions", []) if p.get("status") == "planned"]
+    if planned_pos:
+        row = header_row(ws, row, ["Ticker", "Plan Qty", "Pilot Entry", "LTP", "Stop", "Pivot", "Dist to Buy Zone", "Risk ₹ (full)", "Src"])
+        for p in planned_pos:
+            price, _, src = prices.get(p["ticker"], p.get("entry_avg"))
+            zone = p.get("buy_range")
+            if zone and price:
+                lo, hi = zone
+                dist = "IN ZONE" if lo <= price <= hi else (f"{(lo/price-1)*100:+.1f}% to zone" if price < lo else f"{(price/hi-1)*100:+.1f}% past zone")
+            else:
+                dist = ""
+            risk = max(0, (p["entry_avg"] - p["stop"])) * p.get("qty", 0)
+            vals = [p["ticker"], p.get("qty"), p.get("entry_avg"), price, p["stop"], p.get("pivot"), dist, risk, src]
+            for ci, v in enumerate(vals, start=1):
+                cell = ws.cell(row=row, column=ci, value=v)
+                cell.border = THIN
+                cell.fill = PatternFill("solid", fgColor="FEF3C7")
+            row += 1
+        # planned position notes below the table
+        for p in planned_pos:
+            ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=9)
+            ws.cell(row=row, column=1, value=f"↳ {p['ticker']}: {p.get('add_plan', '')}").font = DIM
+            row += 1
+    else:
+        ws.cell(row=row, column=1, value="No planned positions.").font = DIM
         row += 1
     row += 1
 
