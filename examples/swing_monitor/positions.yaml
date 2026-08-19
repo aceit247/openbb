@@ -193,10 +193,28 @@ swing_account:
   # Never add to a position below cost. Max total risk per trade: 2% of sleeve.
 
 # ─── ACTIVE SWING TRADES ───
-# NETWEB MOVED to father_portfolio.yaml (2026-08-14) — bought via HDFC
-# Securities under father's account/capital (Colgate sale proceeds), not
-# Vishesh's own Zerodha sleeve. See father_portfolio.yaml → swing_positions.
-positions: []          # no open positions of Vishesh's own as of 2026-08-14
+# NETWEB is in father_portfolio.yaml (2026-08-14) — bought via HDFC
+# Securities under father's account/capital, not Vishesh's own.
+positions:
+  - ticker: LPG
+    yf_symbol: LPG
+    currency: USD
+    status: planned          # not yet confirmed filled
+    account: "INDmoney/Alpaca (Vishesh's own US trading capital, $1,000)"
+    entry_avg: 49.39          # reference price at analysis time — confirm actual fill
+    qty: 7                    # 1% risk ($10) / $1.39 risk-per-share, whole shares
+    qty_fractional: 7.19      # if fractional shares used instead
+    capital: 345.73
+    stop: 48.00                # user's explicit choice: stop AT the breakout pivot
+    pivot: 48.00                # back-calculated from "+3% from pivot" note
+    buy_range: [48.00, 51.00]   # pivot to ~5% Minervini buy zone
+    add_plan: "Single clean entry ~7sh (not tranched, small account). Stop AT breakout pivot $48 per explicit choice — tight 2.8% stop, expect higher stop-out frequency than a wider stop in exchange for hard-capped $10 loss. Watch ceasefire news as a fundamental override signal independent of price action."
+    targets:
+      - {price: 55.00, pct_to_sell: 50, label: "T1 consensus analyst PT, +11.4%, R:R 4.0:1"}
+      - {price: 59.00, pct_to_sell: 50, label: "T2 stretch/measured move, +19.5%, R:R ~7:1"}
+    setup: "Dorian LPG (NYSE:LPG) — VLGC shipping. Q1 FY27 (Jun'26 qtr, reported Aug 5) EPS $2.52 vs $2.115 est (+19%), revenue $187.9M vs ~$161-170M est, record TCE/day $75,926. $600M cash post vessel sales, ~8% div yield, low leverage. SEPA stack clean (price > 10D/21D/50D/200D). RS 68 — solid but declining, real divergence flag. Off-low +556%, huge multi-quarter cup base, current cup-with-handle breakout ~3% past pivot."
+    risk_flag: "EVENT-DRIVEN, NOT STRUCTURAL: earnings driven by Strait of Hormuz closure (Middle East conflict) disrupting VLGC routes and spiking freight rates — not secular demand growth like NETWEB. Management itself flagged caution on 'fast evolving geopolitical events.' Freight rates already softened after a US-Iran ceasefire MOU (softening limited so far — market doubts durability). A confirmed, HOLDING ceasefire is the single biggest risk to this thesis and could unwind gains faster than the chart suggests. Next earnings (Sep'26 qtr) likely early Nov 2026 — re-rating risk date."
+    notes: "Stop set AT breakout point ($48, pivot) per explicit choice — only 2.8% stop distance. Tight stop = hard-capped $10 loss but meaningfully higher chance of noise-driven stop-out vs. a wider stop (e.g. 10D EMA ~46.85, ~5.1%). R:R to T1 is 4.0:1 specifically because the stop is tight. Single clean entry, not tranched (small account size)."
 
 # ─── CLOSED SWING TRADES (journal) ───
 closed:
