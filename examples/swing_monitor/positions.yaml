@@ -199,12 +199,12 @@ positions:
   - ticker: LPG
     yf_symbol: LPG
     currency: USD
-    status: planned          # not yet confirmed filled
+    status: open              # FILLED 2026-08-19, 11:24 PM
+    entry_date: "2026-08-19"
     account: "INDmoney/Alpaca (Vishesh's own US trading capital, $1,000)"
-    entry_avg: 49.39          # reference price at analysis time — confirm actual fill
-    qty: 7                    # 1% risk ($10) / $1.39 risk-per-share, whole shares
-    qty_fractional: 7.19      # if fractional shares used instead
-    capital: 345.73
+    entry_avg: 49.381          # actual fill (BUY, Market)
+    qty: 7
+    capital: 345.67            # actual order value
     stop: 48.00                # user's explicit choice: stop AT the breakout pivot
     pivot: 48.00                # back-calculated from "+3% from pivot" note
     buy_range: [48.00, 51.00]   # pivot to ~5% Minervini buy zone
