@@ -510,6 +510,33 @@ def build_father_sheet(ws, fp, prices: Prices):
             row += 1
     else:
         ws.cell(row=row, column=1, value="None yet — ~₹50L expected free after GILLETTE + COLPAL exits. Plan before redeploying.").font = DIM
+    row += 2
+
+    row = section(ws, row, "Closed Swing/Growth Journal", 10)
+    closed = fp.get("closed_swing_positions", [])
+    if closed:
+        row = header_row(ws, row, ["Ticker", "Result", "Avg Entry", "Avg Exit", "P&L", "P&L %", "R", "", "", ""])
+        for c in closed:
+            s = c.get("summary", {})
+            pnl = s.get("pnl_inr")
+            vals = [c["ticker"], c.get("result", ""), s.get("avg_entry"), s.get("avg_exit"),
+                    f"₹{pnl:,.0f}" if pnl is not None else "", s.get("pnl_pct"), s.get("r_multiple")]
+            for ci, v in enumerate(vals, start=1):
+                cell = ws.cell(row=row, column=ci, value=v)
+                cell.border = THIN
+                if ci == 6 and isinstance(v, (int, float)):
+                    cell.number_format = "+0.0;-0.0"
+                    pnl_font(cell, v)
+                if ci == 7 and isinstance(v, (int, float)):
+                    cell.number_format = "+0.00;-0.00"
+                    pnl_font(cell, v)
+            row += 1
+            if c.get("post_mortem"):
+                ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=10)
+                ws.cell(row=row, column=1, value=f"↳ {c['post_mortem']}").font = DIM
+                row += 1
+    else:
+        ws.cell(row=row, column=1, value="No closed swing/growth trades yet.").font = DIM
     autosize(ws, [12, 28, 8, 11, 11, 13, 13, 12, 9, 14])
 
 

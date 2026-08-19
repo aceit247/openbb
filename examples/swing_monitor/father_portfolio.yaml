@@ -44,33 +44,26 @@ growth_sleeve:
   source: "Colgate-Palmolive sale proceeds"
   total_inr: 1200000
   risk_pct_per_trade: 1           # 1% of this pool = ₹12,000 max loss/trade
-  deployed_inr: 32088             # NETWEB pilot fill
-  cash_remaining_inr: 1167912
+  deployed_inr: 0                 # NETWEB stopped out — fully flat again
+  cash_remaining_inr: 1198422     # 1,200,000 - 1,578 realized loss
 
 planned_trades: []
 
 # ─── ACTIVE SWING/GROWTH POSITIONS (managed by Vishesh, father's capital) ───
-swing_positions:
+swing_positions: []          # flat — NETWEB stopped out, see closed_swing_positions
+
+# ─── CLOSED SWING/GROWTH POSITIONS (journal) ───
+closed_swing_positions:
   - ticker: NETWEB
-    yf_symbol: NETWEB.NS
     currency: INR
-    status: open
-    entry_date: "2026-08-14"
-    entry_avg: 5348.00
-    qty: 6                         # PILOT filled — full plan is 24, gated by regime
-    full_plan_qty: 24
-    capital: 32088
-    stop: 5085.00                  # tactical SL-M trigger, ~7pt buffer below entry-day low 5,092
-    stop_structural: 4825.00       # original 8%-below-pivot backstop, reference only
-    pivot: 5244.00                 # official MarketSmith O'Neil pivot
-    buy_range: [5240, 5500]
-    targets:
-      - {price: 5800.00, pct_to_sell: 33, label: "T1 handle breakout +9.1%"}
-      - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
-      - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%, stretch to 6800"}
-    setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Jun-26 qtr EPS +178%/Sales +172% YoY, accelerating. 197 funds holding (+15.2% QoQ). Cup w/ handle, 8-week base, ATH breakout. P/E 109x (in-line w/ own 5yr range 86-173x). Gov't = 55% FY26 revenue; AI systems = 43% (growth engine)."
-    add_plan: "PILOT 6sh FILLED @5348 2026-08-14 via HDFC Securities. CORE 12sh GATED: only after Nifty 50 reclaims 21D EMA (24,326) and ideally 150D SMA (24,294), OR a recognized O'Neil follow-through day. FINAL 6sh at/after T1 (5800), pullback to 10D EMA holds. Stop to breakeven after Core fills; trail 10D/21D EMA after Final."
-    notes: "Reverse-pyramid / 25-50-25 tranche plan. Working stop 5,085 (SL-M, day-1-low based) tighter than structural 4,825 — appropriate given regime caution. Risk ₹1,578 (0.13% of growth_sleeve). Core/Final regime-gated on Nifty 50 21D EMA reclaim."
+    result: loss
+    buys:
+      - {date: "2026-08-14", qty: 6, price: 5348.00, total: 32088}
+    sells:
+      - {date: "2026-08-1?", qty: 6, price: 5085.00, total: 30510}
+    summary: {avg_entry: 5348.00, avg_exit: 5085.00, pnl_inr: -1578, pnl_pct: -4.92, r_multiple: -1.0}
+    setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Cup w/ handle, 8-week base, ATH breakout. Entered pilot only, Core/Final gated on Nifty 50 regime."
+    post_mortem: "Stopped out via SL-M ~5,085 on a Nifty distribution day — stock down ~5% intraday from prior close on market-wide instability, not company-specific news. Exit price is an ESTIMATE (SL-M trigger level) — CONFIRM exact fill + exact date from the HDFC Securities contract note. Textbook outcome of the regime-gating call: the Nifty 50 21D EMA loss flagged the day before turned into exactly the kind of broad selloff that stops out pilot positions. Working stop (day-1-low based, tighter than the 4,825 structural level) did its job — loss capped at planned 0.13% of sleeve, no damage beyond the plan."
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
