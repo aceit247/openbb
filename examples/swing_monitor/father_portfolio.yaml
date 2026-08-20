@@ -62,7 +62,7 @@ swing_positions:
     capital: 32088
     stop: 5085.00                  # trigger price
     stop_limit: 5050.00            # limit price — GTD SL (SL-M unsupported with GTD on this account)
-    stop_order_status: "PLACED 2026-08-20, GTD, confirm in order book it shows ACTIVE/OPEN"
+    stop_order_status: "CONFIRMED ACTIVE in HDFC Securities order book, 2026-08-20"
     stop_structural: 4825.00
     pivot: 5244.00
     buy_range: [5240, 5500]
@@ -82,6 +82,33 @@ swing_positions:
       sharp down-day). CONFIRM this order shows ACTIVE in HDFC Securities'
       order book, not just "placed."
     notes: "Reverse-pyramid / 25-50-25 plan. Do NOT widen the stop below 5,085. Core/Final tranches remain gated on Nifty 50 reclaiming its 21D EMA."
+
+  - ticker: DATAPATTNS
+    yf_symbol: DATAPATTNS.NS
+    currency: INR
+    status: order_pending          # buy-stop placed, not yet filled
+    entry_order: {trigger: 4830.00, limit: 4895.00, qty: 11, validity: "GTD through 2026-08-21"}
+    entry_avg: 4830.00              # placeholder = trigger, until actual fill confirmed
+    qty: 11
+    capital: 53130                  # 11 x trigger, actual will differ on fill
+    stop: 4700.00                   # NOT YET PLACED — must be queued the instant entry fills
+    stop_limit: 4650.00
+    pivot: 4830.00                  # R1 pivot reclaim level, NOT the 52W high/Core gate (4955.90)
+    core_gate: 4955.90              # original Core-tranche trigger — this entry is BELOW that, a smaller/earlier confirmation
+    targets:
+      - {price: 4955.90, pct_to_sell: 0, label: "52W high / prior resistance, watch not sell"}
+    setup: "Data Patterns — defense electronics. RS 91-99 (elite), but Group Rank 69/197 POOR, MarketSmith AI verdict Medium conviction 65%. Q1FY27 profit -13.5% YoY (partly seasonal — Jun quarter historically weak). Rich vs peers (PE ~100x vs sector 36-49x). ST Advanced Composites acquisition integration unresolved."
+    history_note: >
+      2026-08-19/20: Spiked to 'Buy Zone' tag, vol badge later clarified
+      as a WEEKLY (not single-day) comparison — weaker confirmation than
+      first read. Gave back most of the spike next session (pulled back
+      to ~4785-4790). This buy-stop (4830) targets a smaller R1-pivot
+      reclaim, not a reclaim of the prior high (4918) or the original
+      Core-tranche gate (4955.90 ATH). Pilot-sized (11sh matches the
+      original 25% tranche), so risk is small even if this doesn't pan
+      out — but treat this as a speculative "buying the first reclaim
+      after a pullback" entry, not a confirmed-breakout buy.
+    notes: "STOP NOT YET LIVE. The instant a fill confirms, place GTD SL trigger 4,700 / limit 4,650 same session — do not leave overnight unprotected (see NETWEB history for why this matters)."
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
