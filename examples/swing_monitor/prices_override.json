@@ -20,6 +20,7 @@
   "HINDALCO":     {"price": 1078.50, "day_pct": 2.80},
   "SONACOMS":     {"price": 804.50,  "day_pct": 0.56},
   "MOTHERSON":    {"price": 169.50,  "day_pct": 0.14},
-  "NETWEB":       {"price": 5314.05, "day_pct": 2.08},
+  "NETWEB":       {"price": 5292.60, "day_pct": 4.49},
+  "DATAPATTNS":   {"price": 4894.85, "day_pct": 2.53},
   "LPG":          {"price": 49.39,   "day_pct": 1.31}
 }

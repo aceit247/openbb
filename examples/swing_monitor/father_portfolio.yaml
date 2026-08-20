@@ -44,26 +44,51 @@ growth_sleeve:
   source: "Colgate-Palmolive sale proceeds"
   total_inr: 1200000
   risk_pct_per_trade: 1           # 1% of this pool = ₹12,000 max loss/trade
-  deployed_inr: 0                 # NETWEB stopped out — fully flat again
-  cash_remaining_inr: 1198422     # 1,200,000 - 1,578 realized loss
+  deployed_inr: 32088             # NETWEB still held — stop never executed
+  cash_remaining_inr: 1167912
 
 planned_trades: []
 
 # ─── ACTIVE SWING/GROWTH POSITIONS (managed by Vishesh, father's capital) ───
-swing_positions: []          # flat — NETWEB stopped out, see closed_swing_positions
-
-# ─── CLOSED SWING/GROWTH POSITIONS (journal) ───
-closed_swing_positions:
+swing_positions:
   - ticker: NETWEB
+    yf_symbol: NETWEB.NS
     currency: INR
-    result: loss
-    buys:
-      - {date: "2026-08-14", qty: 6, price: 5348.00, total: 32088}
-    sells:
-      - {date: "2026-08-1?", qty: 6, price: 5085.00, total: 30510}
-    summary: {avg_entry: 5348.00, avg_exit: 5085.00, pnl_inr: -1578, pnl_pct: -4.92, r_multiple: -1.0}
-    setup: "Netweb Technologies — AI/HPC infra (brands Tyrone, Skylus). CANSLIM: EPS Rating 99, RS 93, Buyer Demand A, Group Rank 15/197, Master Score B. Cup w/ handle, 8-week base, ATH breakout. Entered pilot only, Core/Final gated on Nifty 50 regime."
-    post_mortem: "Stopped out via SL-M ~5,085 on a Nifty distribution day — stock down ~5% intraday from prior close on market-wide instability, not company-specific news. Exit price is an ESTIMATE (SL-M trigger level) — CONFIRM exact fill + exact date from the HDFC Securities contract note. Textbook outcome of the regime-gating call: the Nifty 50 21D EMA loss flagged the day before turned into exactly the kind of broad selloff that stops out pilot positions. Working stop (day-1-low based, tighter than the 4,825 structural level) did its job — loss capped at planned 0.13% of sleeve, no damage beyond the plan."
+    status: open
+    entry_date: "2026-08-14"
+    entry_avg: 5348.00
+    qty: 6
+    full_plan_qty: 24
+    capital: 32088
+    stop: 5085.00                  # ORIGINAL tactical SL-M trigger
+    stop_structural: 4825.00
+    pivot: 5244.00
+    buy_range: [5240, 5500]
+    targets:
+      - {price: 5800.00, pct_to_sell: 33, label: "T1 handle breakout +9.1%"}
+      - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
+      - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%"}
+    setup: "Netweb Technologies — AI/HPC infra (Tyrone, Skylus brands). CANSLIM: EPS 99, RS 93, Group Rank 15/197. Cup w/ handle, ATH breakout. Pilot only; Core/Final regime-gated."
+    STOP_NOT_EXECUTED_ALERT: >
+      2026-08-20: Position is STILL OPEN — the SL-M at 5,085 never fired,
+      despite the stock closing at 5,065 the prior session (BELOW the
+      trigger). An active stop order would have executed. Strong evidence
+      the order was NOT live at the time — most likely a DAY-validity
+      order that expired at close and was never re-placed. CONFIRM in the
+      HDFC Securities order book / order history whether the SL order
+      shows as EXPIRED, CANCELLED, or was never accepted.
+      Per plan discipline the trade should already be flat (stop violated
+      on a closing basis). Stock has since rebounded to 5,292.60 (+4.49%
+      on 2026-08-20), so the position is near breakeven (-1.04%) rather
+      than at the planned -4.92% loss. Treat this as luck, not validation.
+      DECISION REQUIRED — see notes.
+    notes: >
+      Original plan: reverse-pyramid 25-50-25, max risk 1% of growth_sleeve.
+      Two clean options now: (A) honour the original stop and exit near
+      breakeven (~-₹332), restarting on a fresh setup; or (B) consciously
+      RE-UNDERWRITE as a new trade with a new stop and a restarted clock.
+      Do NOT widen the stop below 5,085 — never widen a stop after entry.
+      Core/Final tranches remain gated on Nifty 50 reclaiming its 21D EMA.
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
