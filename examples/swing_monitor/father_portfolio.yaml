@@ -60,7 +60,9 @@ swing_positions:
     qty: 6
     full_plan_qty: 24
     capital: 32088
-    stop: 5085.00                  # ORIGINAL tactical SL-M trigger
+    stop: 5085.00                  # trigger price
+    stop_limit: 5050.00            # limit price — GTD SL (SL-M unsupported with GTD on this account)
+    stop_order_status: "PLACED 2026-08-20, GTD, confirm in order book it shows ACTIVE/OPEN"
     stop_structural: 4825.00
     pivot: 5244.00
     buy_range: [5240, 5500]
@@ -69,26 +71,17 @@ swing_positions:
       - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
       - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%"}
     setup: "Netweb Technologies — AI/HPC infra (Tyrone, Skylus brands). CANSLIM: EPS 99, RS 93, Group Rank 15/197. Cup w/ handle, ATH breakout. Pilot only; Core/Final regime-gated."
-    STOP_NOT_EXECUTED_ALERT: >
-      2026-08-20: Position is STILL OPEN — the SL-M at 5,085 never fired,
-      despite the stock closing at 5,065 the prior session (BELOW the
-      trigger). An active stop order would have executed. Strong evidence
-      the order was NOT live at the time — most likely a DAY-validity
-      order that expired at close and was never re-placed. CONFIRM in the
-      HDFC Securities order book / order history whether the SL order
-      shows as EXPIRED, CANCELLED, or was never accepted.
-      Per plan discipline the trade should already be flat (stop violated
-      on a closing basis). Stock has since rebounded to 5,292.60 (+4.49%
-      on 2026-08-20), so the position is near breakeven (-1.04%) rather
-      than at the planned -4.92% loss. Treat this as luck, not validation.
-      DECISION REQUIRED — see notes.
-    notes: >
-      Original plan: reverse-pyramid 25-50-25, max risk 1% of growth_sleeve.
-      Two clean options now: (A) honour the original stop and exit near
-      breakeven (~-₹332), restarting on a fresh setup; or (B) consciously
-      RE-UNDERWRITE as a new trade with a new stop and a restarted clock.
-      Do NOT widen the stop below 5,085 — never widen a stop after entry.
-      Core/Final tranches remain gated on Nifty 50 reclaiming its 21D EMA.
+    history_note: >
+      2026-08-20: First SL-M attempt never fired (was DAY-validity, expired
+      unnoticed) — stock traded through 5,085 on a closing basis and the
+      position stayed open by accident, not by design. Re-underwritten in
+      place: same 5,085 stop level, now a proper GTD SL order (trigger
+      5,085 / limit 5,050, ~0.69% buffer — tighter than the ~1.5% ATR-based
+      buffer originally suggested; protects fill price, slightly raises
+      non-fill risk on a violent gap — check the order book at open on any
+      sharp down-day). CONFIRM this order shows ACTIVE in HDFC Securities'
+      order book, not just "placed."
+    notes: "Reverse-pyramid / 25-50-25 plan. Do NOT widen the stop below 5,085. Core/Final tranches remain gated on Nifty 50 reclaiming its 21D EMA."
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"

@@ -486,7 +486,7 @@ def build_father_sheet(ws, fp, prices: Prices):
                 if ci == 8:
                     cell.number_format = "#,##0"
             row += 1
-            for key, label in (("add_plan", "Plan"), ("notes", "Notes")):
+            for key, label in (("add_plan", "Plan"), ("history_note", "History"), ("notes", "Notes")):
                 if p.get(key):
                     ws.merge_cells(start_row=row, start_column=1, end_row=row, end_column=10)
                     ws.cell(row=row, column=1, value=f"↳ {label}: {p[key]}").font = DIM
