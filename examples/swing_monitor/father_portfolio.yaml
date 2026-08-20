@@ -87,27 +87,29 @@ swing_positions:
     yf_symbol: DATAPATTNS.NS
     currency: INR
     status: order_pending          # buy-stop placed, not yet filled
-    entry_order: {trigger: 4830.00, limit: 4895.00, qty: 11, validity: "GTD through 2026-08-21"}
-    entry_avg: 4830.00              # placeholder = trigger, until actual fill confirmed
+    entry_order: {trigger: 4895.00, limit: 4950.00, qty: 11, validity: "GTD through 2026-08-22"}
+    entry_avg: 4895.00              # placeholder = trigger, until actual fill confirmed
     qty: 11
-    capital: 53130                  # 11 x trigger, actual will differ on fill
+    capital: 53845                  # 11 x trigger, actual will differ on fill
     stop: 4700.00                   # NOT YET PLACED — must be queued the instant entry fills
     stop_limit: 4650.00
-    pivot: 4830.00                  # R1 pivot reclaim level, NOT the 52W high/Core gate (4955.90)
-    core_gate: 4955.90              # original Core-tranche trigger — this entry is BELOW that, a smaller/earlier confirmation
+    pivot: 4895.00                  # reclaim of the actual 'Buy Zone' session price, NOT the 52W high/Core gate (4955.90)
+    core_gate: 4955.90              # original Core-tranche trigger — this entry is still BELOW that
     targets:
       - {price: 4955.90, pct_to_sell: 0, label: "52W high / prior resistance, watch not sell"}
     setup: "Data Patterns — defense electronics. RS 91-99 (elite), but Group Rank 69/197 POOR, MarketSmith AI verdict Medium conviction 65%. Q1FY27 profit -13.5% YoY (partly seasonal — Jun quarter historically weak). Rich vs peers (PE ~100x vs sector 36-49x). ST Advanced Composites acquisition integration unresolved."
     history_note: >
-      2026-08-19/20: Spiked to 'Buy Zone' tag, vol badge later clarified
-      as a WEEKLY (not single-day) comparison — weaker confirmation than
-      first read. Gave back most of the spike next session (pulled back
-      to ~4785-4790). This buy-stop (4830) targets a smaller R1-pivot
-      reclaim, not a reclaim of the prior high (4918) or the original
-      Core-tranche gate (4955.90 ATH). Pilot-sized (11sh matches the
-      original 25% tranche), so risk is small even if this doesn't pan
-      out — but treat this as a speculative "buying the first reclaim
-      after a pullback" entry, not a confirmed-breakout buy.
+      2026-08-19/20: Spiked to 'Buy Zone' tag at 4,894.85, vol badge later
+      clarified as a WEEKLY (not single-day) comparison — weaker
+      confirmation than first read. Gave back most of the spike next
+      session (pulled back to ~4785-4790).
+      2026-08-20: First order (trigger 4,830, R1 pivot reclaim) revised
+      UP to trigger 4,895 / limit 4,950 — now requires reclaiming the
+      actual Buy Zone session price, not just a minor pivot. Better
+      confirmation, still below the 4,955.90 ATH/Core gate. Pilot-sized
+      (11sh, matches the original 25% tranche) — risk to the 4,700 stop
+      is 0.18-0.23% of sleeve regardless of exact fill price. Stop level
+      unchanged at 4,700 (technical support, not adjusted for entry price).
     notes: "STOP NOT YET LIVE. The instant a fill confirms, place GTD SL trigger 4,700 / limit 4,650 same session — do not leave overnight unprotected (see NETWEB history for why this matters)."
 
 snapshot_totals:
