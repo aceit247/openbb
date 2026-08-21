@@ -44,8 +44,8 @@ growth_sleeve:
   source: "Colgate-Palmolive sale proceeds"
   total_inr: 1200000
   risk_pct_per_trade: 1           # 1% of this pool = ₹12,000 max loss/trade
-  deployed_inr: 32088             # NETWEB still held — stop never executed
-  cash_remaining_inr: 1167912
+  deployed_inr: 85933              # NETWEB 32,088 + DATAPATTNS 53,845
+  cash_remaining_inr: 1114067
 
 planned_trades: []
 
@@ -86,13 +86,15 @@ swing_positions:
   - ticker: DATAPATTNS
     yf_symbol: DATAPATTNS.NS
     currency: INR
-    status: order_pending          # buy-stop placed, not yet filled
+    status: open                    # FILLED 2026-08-20 at trigger
+    entry_date: "2026-08-20"
     entry_order: {trigger: 4895.00, limit: 4950.00, qty: 11, validity: "GTD through 2026-08-22"}
-    entry_avg: 4895.00              # placeholder = trigger, until actual fill confirmed
+    entry_avg: 4895.00               # confirmed fill
     qty: 11
-    capital: 53845                  # 11 x trigger, actual will differ on fill
-    stop: 4700.00                   # NOT YET PLACED — must be queued the instant entry fills
+    capital: 53845
+    stop: 4700.00
     stop_limit: 4650.00
+    stop_order_status: "PLACED 2026-08-20 (GTD, trigger 4,700 / limit 4,650) — same session as fill. CONFIRM shows ACTIVE in order book."
     pivot: 4895.00                  # reclaim of the actual 'Buy Zone' session price, NOT the 52W high/Core gate (4955.90)
     core_gate: 4955.90              # original Core-tranche trigger — this entry is still BELOW that
     targets:
@@ -110,7 +112,7 @@ swing_positions:
       (11sh, matches the original 25% tranche) — risk to the 4,700 stop
       is 0.18-0.23% of sleeve regardless of exact fill price. Stop level
       unchanged at 4,700 (technical support, not adjusted for entry price).
-    notes: "STOP NOT YET LIVE. The instant a fill confirms, place GTD SL trigger 4,700 / limit 4,650 same session — do not leave overnight unprotected (see NETWEB history for why this matters)."
+    notes: "Reverse-pyramid / 25-50-25 plan. Pilot filled + protected same session — correct discipline, matches the NETWEB lesson. Core (23sh) still gated on close above 4,955.90 ATH on volume + Nifty 50 21D EMA reclaim."
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
