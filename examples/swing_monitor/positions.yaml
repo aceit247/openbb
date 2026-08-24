@@ -308,3 +308,19 @@ watchlist:
   - {ticker: NIFTY,       yf: "^NSEI",         market: IN, regime: true, as_of: "2026-08-14", note: "RULE FIRED 2026-08-14: price 24,202 lost 21D EMA (24,326) AND 10D EMA (24,374) AND 150D SMA (24,294) AND 200D SMA (24,714) — only above 50D (24,124). Do not deploy new swing longs beyond pilot size until 21D EMA reclaimed."}
   - {ticker: NIFTY500,    yf: "^CRSLDX",       market: IN, regime: true, as_of: "2026-08-14", note: "Weaker but not broken: price 23,508 below 10D EMA (23,591) only, still above 21D/50D/150D/200D. Broader-market gauge for mid/small-cap names (more relevant than Nifty50 for names like NETWEB). RS vs Nasdaq at 11 (bottom decile), falling."}
   - {ticker: QQQ,         yf: "QQQ",           market: US, regime: true,          note: "US regime gauge — chip selloff in progress, watch for follow-through distribution"}
+  - {ticker: WT, market: US, note: "From TradingView 'Breaking Out' follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: ATUSF, market: US, note: "From TradingView 'Breaking Out' follow list, 2026-08-24. Ticker/company identity unconfirmed (OTC-style suffix) — verify before analysis. No analysis yet."}
+  - {ticker: LRCX, yf: "LRCX", market: US, note: "From TradingView follow list, 2026-08-24. Previously closed swing (entry 346, scratch exit). Re-following, not re-entered. No fresh analysis yet."}
+  - {ticker: SNDK, yf: "SNDK", market: US, note: "From TradingView follow list, 2026-08-24. Previously closed swing (+37.7%). Re-following. No fresh analysis yet."}
+  - {ticker: WDC, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: INTC, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: OUST, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: CGNX, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: KALYANKJIL, yf: "KALYANKJIL.NS", market: IN, note: "Kalyan Jewellers India. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: RAINBOW, yf: "RAINBOW.NS", market: IN, note: "Rainbow Childrens Medicare. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: AUROPHARMA, yf: "AUROPHARMA.NS", market: IN, note: "Aurobindo Pharma. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: ATHERENERG, yf: "ATHERENERG.NS", market: IN, note: "Ather Energy. From TradingView follow list, 2026-08-24. Previously closed swing (+2.0%). Re-following, not re-entered. No fresh analysis yet."}
+  - {ticker: NEULANDLAB, yf: "NEULANDLAB.NS", market: IN, note: "Neuland Laboratories. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: SANDHAR, yf: "SANDHAR.NS", market: IN, note: "Sandhar Technologies. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: CGPOWER, yf: "CGPOWER.NS", market: IN, note: "CG Power & Industrial Solutions. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: KERNEX, yf: "KERNEX.NS", market: IN, note: "Name partially visible in screenshot (cut off) — likely Kernex Microsystems, CONFIRM. From TradingView follow list, 2026-08-24. No analysis yet."}
