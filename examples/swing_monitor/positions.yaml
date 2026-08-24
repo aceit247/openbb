@@ -299,11 +299,9 @@ closed:
 
 # ─── WATCHLIST ───
 watchlist:
-  - {ticker: POLYCAB,     yf: "POLYCAB.NS",    market: IN, zone: [9690, 10126],   invalidate: 9265,  trigger: "₹9690 reclaim", stop: "₹9265", note: "A- setup. Fresh box breakout to ATH 10,126, now pulling back. Enter 25% pilot on reclaim of 10D EMA 9,690. Add 50% above 10,126. Invalidate below 50D 9,265."}
   - {ticker: ACUTAAS,     yf: "ACUTAAS.NS",    market: IN, zone: [3070, 3333],    invalidate: 3070,  trigger: "₹3333 pullback", stop: "₹3070", note: "WAIT — extended late-stage (box 5+), weekly reversal -4.9%. Only on orderly pullback to 21D ~3,333 holding. Never chase above 3,600."}
   - {ticker: RSI,         yf: "RSI",           market: US, zone: [29.69, 30.00],  invalidate: 29.24, trigger: "$29.69-30.00",  stop: "$29.24", note: "US gaming. Pullback entry to Darvas trail. Skip on close below 29.24."}
   - {ticker: STX,         yf: "STX",           market: US, zone: [475, 510],      invalidate: 448,   trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup — RE-CHECK after global chip selloff before acting."}
-  - {ticker: WAAREEENER,  yf: "WAAREEENER.NS", market: IN, zone: [3080, 3120],    invalidate: 2960,  trigger: "₹3080-3120",  stop: "₹2960", note: "B- setup. Wait for ATH >3800."}
   - {ticker: LAURUSLABS,  yf: "LAURUSLABS.NS", market: IN, zone: [1280, 1320],    invalidate: 1177,  trigger: "₹1280-1320",  stop: "₹1177", note: "C+ setup — WAIT. Extended. Only on pullback to 10W EMA ~1280. Remove if closes below 21W 1177."}
   - {ticker: NIFTY,       yf: "^NSEI",         market: IN, regime: true, as_of: "2026-08-14", note: "RULE FIRED 2026-08-14: price 24,202 lost 21D EMA (24,326) AND 10D EMA (24,374) AND 150D SMA (24,294) AND 200D SMA (24,714) — only above 50D (24,124). Do not deploy new swing longs beyond pilot size until 21D EMA reclaimed."}
   - {ticker: NIFTY500,    yf: "^CRSLDX",       market: IN, regime: true, as_of: "2026-08-14", note: "Weaker but not broken: price 23,508 below 10D EMA (23,591) only, still above 21D/50D/150D/200D. Broader-market gauge for mid/small-cap names (more relevant than Nifty50 for names like NETWEB). RS vs Nasdaq at 11 (bottom decile), falling."}
