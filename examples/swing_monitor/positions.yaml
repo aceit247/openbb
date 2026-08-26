@@ -1,0 +1,315 @@
+# ═══════════════════════════════════════════════════════════════════════
+# VISHESH — Complete Portfolio & Swing Trade Tracker
+# Source: INDmoney + Zerodha Kite export, Jun 14 2026
+# Last trade update: Jun 16 2026 — DATAPATTNS entry
+# ═══════════════════════════════════════════════════════════════════════
+
+# ─── NET WORTH SNAPSHOT ───
+networth:
+  total_inr: 2634532              # STALE full rollup — see note below
+  total_invested: 1579994         # STALE
+  total_pnl: 1054538              # STALE
+  zerodha_cash: 142426            # equity segment free cash — STALE, not in Aug 12 export, needs refresh
+  us_wallet_inr: 53010            # ~$558 USD at 95 rate — STALE
+  usd_inr_rate: 95.0
+  as_of: "2026-06-16"
+  note: >
+    Full net-worth rollup (this block) is a STALE snapshot from 2026-06-16.
+    Zerodha ETFs/REITs, HDFC Securities holdings (ex-INDmoney sleeve), 9/11
+    mutual funds, and US holdings (qty/avg) are now current as of
+    2026-08-11/12 in their own sections below — the Excel Dashboard tab
+    sums those live, so treat IT as the current total, not this block.
+    Still stale: zerodha cash, 2 mutual funds (ICICI Pru Div Yield,
+    JioBlackRock Flexi Cap). HDFC Securities account is dormant (no longer
+    actively traded, held passively) but still counted in net worth.
+
+  allocation_by_class:  # STALE — from Jun 16 snapshot
+    indian_equity: {value: 1455779, pct: 55.3}
+    global_equity:  {value: 845402,  pct: 32.1}
+    silver:         {value: 170712,  pct: 6.5}
+    gold:           {value: 116313,  pct: 4.4}
+    liquid:         {value: 46326,   pct: 1.8}
+
+  market_cap:
+    large_cap: {value: 1033062, pct: 62.8}
+    mega_cap:  {value: 234004,  pct: 14.2}
+    mid_cap:   {value: 194695,  pct: 11.8}
+    small_cap: {value: 183920,  pct: 11.2}
+
+# ─── ZERODHA HOLDINGS (ETFs, REITs, InvITs) ───
+# Source: Zerodha/Coin export "Combined Holdings Statement", Client GCY832, 2026-08-12
+zerodha_holdings:
+  as_of: "2026-08-12"
+  etfs:
+    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 ETF",       qty: 546, avg: 270.86, ltp: 279.25, value: 152471, pnl: 4581}
+    - {symbol: BANKBEES,    name: "Nippon Bank ETF",            qty: 199, avg: 569.98, ltp: 594.87, value: 118379, pnl: 4953}
+    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 ETF",   qty: 128, avg: 727.95, ltp: 807.95, value: 103418, pnl: 10240}
+    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 282, avg: 238.61, ltp: 222.32, value: 62694,  pnl: -4595}
+    - {symbol: MID150BEES,  name: "Nippon Midcap 150 ETF",      qty: 245, avg: 220.41, ltp: 243.09, value: 59557,  pnl: 5558}
+    - {symbol: GOLDBEES,    name: "Nippon Gold ETF",             qty: 305, avg: 121.21, ltp: 125.53, value: 38287,  pnl: 1317}
+    - {symbol: ITBEES,      name: "Nippon IT ETF",              qty: 860, avg: 32.68,  ltp: 35.24,  value: 30306,  pnl: 2205}
+    - {symbol: PSUBNKBEES,  name: "Nippon PSU Bank ETF",        qty: 220, avg: 90.84,  ltp: 96.45,  value: 21219,  pnl: 1234}
+
+  reits_invits:
+    - {symbol: MINDSPACE-RR, name: "Mindspace REIT",            qty: 131, avg: 482.80, ltp: 495.94, value: 64968,  pnl: 1722}
+    - {symbol: EMBASSY,      name: "Embassy Office REIT",       qty: 116, avg: 431.16, ltp: 440.07, value: 51048,  pnl: 1033}
+    - {symbol: BIRET,        name: "Birla Estate REIT",         qty: 143, avg: 328.74, ltp: 344.97, value: 49331,  pnl: 2321}
+    - {symbol: NXST,         name: "Nexus Select Trust REIT",   qty: 244, avg: 156.01, ltp: 168.47, value: 41107,  pnl: 3041}
+    - {symbol: KRT-RR,       name: "Kreditbee RR",              qty: 288, avg: 119.91, ltp: 117.00, value: 33696,  pnl: -838}
+
+  totals:
+    holdings_value: 826480          # from statement: Invested 793,709.49 / Present 826,480.22
+    invested: 793709
+    cash: 142426                    # NOT covered by this export — carried from Jun 14 snapshot, needs refresh
+    grand_total: 968906
+
+# ─── INDmoney INDIAN STOCKS & ETFs (separate demat ••4344) ───
+# NOT covered by the 2026-08-12 Zerodha/Coin export — carried from Jun 14 snapshot.
+# CONFIRM these are still held / get a fresh INDmoney export to refresh.
+indmoney_indian:
+  # RENAMED IN SPIRIT: actually held via HDFC Securities ("Invest Right"),
+  # not INDmoney — key kept as-is to avoid churning tracker code. Refreshed
+  # from HDFC Equity Portfolio export, 2026-08-12.
+  broker: "HDFC Securities"
+  as_of: "2026-08-12"
+  etfs:
+    - {symbol: NIFTYBEES,   name: "Nippon Nifty 50 BeES",      qty: 307, avg: 271.26, ltp: 278.32, value: 85444, invested: 83276, pnl: 2169}
+    - {symbol: JUNIORBEES,  name: "Nippon Nifty Next 50 BeES",  qty: 93,  avg: 718.30, ltp: 806.31, value: 74987, invested: 66802, pnl: 8185}
+    - {symbol: GOLDBEES,    name: "Nippon Gold BeES",           qty: 550, avg: 90.89,  ltp: 126.45, value: 69548, invested: 49988, pnl: 19560}
+    - {symbol: SILVERBEES,  name: "Nippon Silver ETF",          qty: 475, avg: 141.77, ltp: 225.76, value: 107236, invested: 67341, pnl: 39895}
+    - {symbol: MID150BEES,  name: "Nippon Midcap 150 BeES",    qty: 192, avg: 218.39, ltp: 242.77, value: 46612, invested: 41931, pnl: 4681}
+
+  stocks:
+    - {symbol: HINDALCO,  name: "Hindalco Industries",          qty: 23, avg: 662.43, ltp: 1078.50, value: 24806, invested: 15236, pnl: 9570, cap: "Large Cap"}
+    - {symbol: SONACOMS,  name: "Sona BLW Precision",            qty: 15, avg: 477.34, ltp: 804.50,  value: 12068, invested: 7160,  pnl: 4907, cap: "Mid Cap"}
+    - {symbol: MOTHERSON, name: "Samvardhana Motherson",          qty: 57, avg: 97.55,  ltp: 169.50,  value: 9662,  invested: 5560,  pnl: 4101, cap: "Large Cap"}
+    # GULFPETRO (Gulf Oil Lubricants) — confirmed SOLD, no longer held.
+
+  total_invested: 337294
+  total_current: 430363
+  total_pnl: 93069
+
+# ─── MUTUAL FUNDS ───
+# 5 Direct-plan funds: Zerodha/Coin export, 2026-08-12.
+# 4 Regular-plan funds (via Naik Wealth): Naik Wealth Portfolio Valuation, 2026-08-11.
+# ICICI Pru Dividend Yield-Direct + JioBlackRock Flexi Cap-Direct: NOT in
+# either source — carried from Jun 14 snapshot, marked stale. Confirm held.
+mutual_funds:
+  - {fund: "Bandhan Small Cap - Regular",             units: 4036.080, nav: 51.6910, invested: 187500, current: 208629, pnl: 21129, xirr: 17.39, via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Kotak Large & Midcap - Regular",          units: 511.965,  nav: 357.3740, invested: 175000, current: 182963, pnl: 7963,  xirr: 6.95,  via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Nippon India Multi Cap - Regular",        units: 548.382,  nav: 308.1499, invested: 162500, current: 168984, pnl: 6484,  xirr: 6.06,  via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Invesco India Mid Cap - Regular",         units: 564.802,  nav: 199.9700, invested: 100000, current: 112943, pnl: 12944, xirr: 13.38, via: "Naik Wealth", as_of: "2026-08-11"}
+  - {fund: "Invesco India Mid Cap - Direct",          units: 251.311,  nav: 244.21,  invested: 49997,  current: 61373,  pnl: 11375, via: "Zerodha/Coin", as_of: "2026-08-12"}
+  - {fund: "HDFC Flexi Cap - Direct",                 units: 30.758,   nav: 2298.07, invested: 67999,  current: 70684,  pnl: 2685,  via: "Zerodha/Coin", as_of: "2026-08-12", note: "units grew 24.14→30.76, additional purchase since Jun 14"}
+  - {fund: "ICICI Pru Dividend Yield - Direct",       units: 719.26,   nav: 58.83,   invested: 43998,  current: 42314,  pnl: -1684, via: "Zerodha", stale_as_of: "2026-06-14"}
+  - {fund: "Quantum ELSS Tax Saver - Growth",         units: 283.789,  nav: 127.82,  invested: 36498,  current: 36274,  pnl: -224,  via: "Zerodha/Coin", as_of: "2026-08-12"}
+  - {fund: "Nippon India Multi Cap - Direct",         units: 80.136,   nav: 340.7896, invested: 24999,  current: 27310,  pnl: 2311,  via: "Zerodha/Coin", as_of: "2026-08-12"}
+  - {fund: "JioBlackRock Flexi Cap - Direct",         units: 1512.91,  nav: 9.64,    invested: 15499,  current: 14577,  pnl: -922,  via: "Zerodha", stale_as_of: "2026-06-14"}
+  - {fund: "Kotak Large & Midcap - Direct",           units: 34.455,   nav: 415.956, invested: 12499,  current: 14332,  pnl: 1833,  via: "Zerodha/Coin", as_of: "2026-08-12"}
+
+mutual_funds_totals:
+  total_invested: 876489
+  total_current: 940383
+  total_pnl: 63894
+  note: "9 of 11 funds live (4 Regular as of 2026-08-11, 5 Direct as of 2026-08-12); 2 Direct funds (ICICI Pru Div Yield, JioBlackRock) stale from 2026-06-14"
+
+# ─── US STOCKS & ETFs (via INDmoney/Alpaca, fractional shares in USD) ───
+# Source: Alpaca broker statement via INDmoney, 2026-08-12.
+# Schema: qty + avg (USD cost basis) — value/pnl computed from LIVE price by
+# portfolio_tracker.py, not hardcoded. "Total Value" col in the source file
+# was cost basis, not market value, so no LTP is available from this export.
+us_holdings:
+  as_of: "2026-08-12"
+  etfs:
+    - {symbol: VOO,  name: "Vanguard S&P 500 ETF",              units: 2.059726,  avg: 632.8753}
+    - {symbol: QQQM, name: "Invesco NASDAQ 100 ETF",            units: 5.063271,  avg: 257.4541}
+    - {symbol: SCHD, name: "Schwab US Dividend Equity ETF",      units: 24.687270, avg: 30.2732}
+    - {symbol: DGRO, name: "iShares Core Dividend Growth ETF",   units: 10.317231, avg: 72.4409}
+    - {symbol: VGT,  name: "Vanguard IT ETF",                   units: 6.213356,  avg: 96.5332}
+    - {symbol: VUG,  name: "Vanguard Growth ETF",               units: 4.973790,  avg: 80.4494}
+    - {symbol: SMH,  name: "VanEck Semiconductor ETF",          units: 0.859175,  avg: 465.1721}
+    - {symbol: VFH,  name: "Vanguard Financials ETF",           units: 2.834662,  avg: 123.1081}
+    - {symbol: VIG,  name: "Vanguard Dividend Appreciation ETF", units: 1.552689,  avg: 225.9113}
+    - {symbol: VEU,  name: "Vanguard FTSE All-World ex-US ETF", units: 5.493727,  avg: 78.2074, note: "replaces VXUS from Jun snapshot — swapped or renamed, confirm"}
+    - {symbol: VDE,  name: "Vanguard Energy ETF",               units: 1.743754,  avg: 160.8637}
+    - {symbol: QTUM, name: "Defiance Quantum ETF",              units: 1.320208,  avg: 128.3965}
+    - {symbol: EWY,  name: "iShares MSCI South Korea ETF",      units: 1.213968,  avg: 164.8516}
+
+  stocks:
+    - {symbol: AMD,  name: "Advanced Micro Devices",  units: 0.460633, avg: 325.7130}
+    - {symbol: TSM,  name: "Taiwan Semiconductor",    units: 0.428015, avg: 351.5767}
+    - {symbol: GOOG, name: "Alphabet Class C",        units: 0.487101, avg: 308.5600}
+    - {symbol: AAPL, name: "Apple",                   units: 0.548402, avg: 274.6341}
+    - {symbol: AMZN, name: "Amazon",                  units: 0.678830, avg: 221.3808}
+    - {symbol: NVDA, name: "NVIDIA",                  units: 0.783130, avg: 189.6749}
+    - {symbol: TSLA, name: "Tesla",                   units: 0.381960, avg: 394.0727}
+    - {symbol: V,    name: "Visa",                    units: 0.462536, avg: 325.4883}
+    - {symbol: JPM,  name: "JPMorgan Chase",          units: 0.476694, avg: 315.8211}
+    - {symbol: META, name: "Meta Platforms",           units: 0.252134, avg: 594.1683}
+    - {symbol: MSFT, name: "Microsoft",               units: 0.384190, avg: 391.8375}
+    - {symbol: MA,   name: "Mastercard",              units: 0.299184, avg: 503.2021}
+    - {symbol: CVX,  name: "Chevron",                 units: 0.871760, avg: 171.5611, note: "new position since Jun 14 snapshot"}
+    - {symbol: DRAM, name: "DRAM (confirm exact fund/co.)", units: 3.549237, avg: 56.0899, note: "new position since Jun 14 snapshot — verify ticker identity"}
+
+  total_invested_usd: 9432.39      # sum(qty*avg), matches statement total exactly
+  note: "LRCX swing position closed 2026-07-06 (see closed journal) — no longer in this bucket. Run portfolio_tracker.py to fetch live prices and compute current value/P&L."
+
+# ─── US HOLDINGS — DORMANT / SET-AND-FORGET (broker: TBD, confirm name) ───
+# Separate account, not actively traded — only Zerodha (IN) and Alpaca (US)
+# are actively managed. Overlaps in ticker with Alpaca (QQQM, SMH, VDE,
+# VEU, VFH, VOO) but is a DIFFERENT holding in a different account — kept
+# additive, not merged. Source: CSV export, 2026-08-12.
+us_holdings_dormant:
+  broker: "TBD — confirm account/broker name"
+  as_of: "2026-08-12"
+  etfs:
+    - {symbol: QQQM, name: "Invesco NASDAQ 100 ETF",            units: 2.02555, avg: 297.65}
+    - {symbol: SMH,  name: "VanEck Semiconductor ETF",          units: 0.44718, avg: 585.98}
+    - {symbol: VDE,  name: "Vanguard Energy ETF",               units: 1.00000, avg: 167.88}
+    - {symbol: VEU,  name: "Vanguard FTSE All-World ex-US ETF", units: 3.70370, avg: 82.44}
+    - {symbol: VFH,  name: "Vanguard Financials ETF",           units: 2.10229, avg: 127.80}
+    - {symbol: VOO,  name: "Vanguard S&P 500 ETF",              units: 1.17292, avg: 684.38}
+    - {symbol: VTI,  name: "Vanguard Total Stock Market ETF",   units: 0.82840, avg: 362.19}
+
+  total_invested_usd: 2709.60      # sum(qty*avg), matches statement total exactly
+  note: "Long-term hold ETF sleeve, no active management planned. Verify broker name for the label."
+
+# ═══════════════════════════════════════════════════════════════════════
+# SWING TRADING SECTION
+# ═══════════════════════════════════════════════════════════════════════
+
+swing_account:
+  sleeve_target_pct: 10           # 10% of NW target for swings
+  sleeve_target_inr: 263453       # 10% of 26.35L
+  zerodha_cash_available: 142426  # actual INR cash in Zerodha
+  us_wallet_available: 46281      # INR equiv, ~$558 USD
+
+  # ─── ENTRY PYRAMID POLICY (adopted 2026-07-06) ───
+  # All new entries scale in, max 3 tranches. Default 25-50-25:
+  #   T1 25%: pilot at setup trigger (pullback reclaim or box breakout)
+  #   T2 50%: core add on confirmation (3-5 day hold above trigger, or next box break)
+  #   T3 25%: final add into proven strength (after T1 target or new box forms)
+  # Alt 25-75 (two-tranche) for fast movers. Stop moves to breakeven after T2 fills.
+  # Never add to a position below cost. Max total risk per trade: 2% of sleeve.
+
+# ─── ACTIVE SWING TRADES ───
+# NETWEB is in father_portfolio.yaml (2026-08-14) — bought via HDFC
+# Securities under father's account/capital, not Vishesh's own.
+positions: []          # flat — LPG stopped out 2026-08-19, see closed journal
+
+# ─── CLOSED SWING TRADES (journal) ───
+closed:
+  - ticker: LPG
+    currency: USD
+    result: loss
+    buys:
+      - {date: "2026-08-19", qty: 7, price: 49.381, total: 345.67}
+    sells:
+      - {date: "2026-08-26", qty: 7, price: 48.21, total: 337.47}
+    summary: {avg_entry: 49.381, avg_exit: 48.21, pnl_usd: -8.20, pnl_pct: -2.37, r_multiple: -0.85, hold_days: 7}
+    setup: "Dorian LPG (NYSE:LPG) — VLGC shipping, event-driven Strait of Hormuz freight-rate spike, not structural growth. Stop set at breakout pivot $48.00 (2.8% distance) per explicit choice."
+    post_mortem: "Held 7 days (entered 19 Aug, stopped out 26 Aug) — not the same-day whipsaw first assumed; the confirmation screenshot's 'Trade Date' was when the GTD stop order was PLACED, not executed. Stop filled at 48.21, slightly better than the 48.00 trigger (favorable slippage) — clean execution. Loss $8.20 (-2.37%), close to the tight 2.8%-stop plan. 7-day hold means the ceasefire/freight-rate softening risk played out over about a week, not instantly — worth re-checking whether Hormuz-related news in that window explains the move before writing this off as pure noise."
+  - ticker: SNDK
+    currency: USD
+    result: profit
+    buys:
+      - {date: "2026-04-13", qty: 0.331205, price: 903.13, total: 300.00, commission: 0.88}
+    sells:
+      - {date: "2026-04-30", qty: 0.09214, price: 1085.31, total: 100.00}
+      - {date: "2026-05-18", qty: 0.239065, price: 1315.00, total: 314.37}
+    summary: {avg_entry: 903.13, avg_exit: 1250.83, pnl_usd: 113.49, pnl_pct: 37.7, hold_days: 35}
+
+  - ticker: BSE.NS
+    currency: INR
+    result: profit
+    buys:
+      - {date: "2026-04-15", qty: 8, price: 3415.50, total: 27324}
+    sells:
+      - {date: "2026-06-02", qty: 2, price: 3994.60, total: 7989}
+      - {date: "2026-06-02", qty: 6, price: 3994.50, total: 23967}
+    summary: {avg_entry: 3415.50, avg_exit: 3994.53, pnl_inr: 4632, pnl_pct: 17.0, hold_days: 48}
+
+  - ticker: KRN
+    currency: INR
+    result: loss
+    buys:
+      - {date: "2026-04-27", qty: 22, price: 1310.00, total: 28820}
+    sells:
+      - {date: "2026-05-05", qty: 1, price: 1198.00, total: 1198}
+      - {date: "2026-05-06", qty: 16, price: 1197.00, total: 19152}
+      - {date: "2026-05-06", qty: 5, price: 1198.00, total: 5990}
+    summary: {avg_entry: 1310.00, avg_exit: 1197.27, pnl_inr: -2480, pnl_pct: -8.6, hold_days: 9}
+
+  - ticker: CPRX
+    currency: USD
+    result: profit
+    buys:
+      - {date: "2026-05-01", qty: 3.671182, price: 27.72, total: 102.08, commission: 0.30}
+      - {date: "2026-05-01", qty: 3.507263, price: 28.35, total: 99.73, commission: 0.30}
+    sells:
+      - {date: "2026-05-15", qty: 7.178445, price: 31.14, total: 223.54}
+    summary: {avg_entry: 28.03, avg_exit: 31.14, pnl_usd: 21.13, pnl_pct: 10.4, hold_days: 14}
+
+  - ticker: ATHERENERG
+    currency: INR
+    result: profit
+    buys:
+      - {date: "2026-04-28", qty: 3, price: 960.20, total: 2881}
+      - {date: "2026-04-30", qty: 4, price: 960.55, total: 3842}
+    sells:
+      - {date: "2026-06-04", qty: 7, price: 979.50, total: 6857}
+    summary: {avg_entry: 960.40, avg_exit: 979.50, pnl_inr: 134, pnl_pct: 2.0, hold_days: 37}
+
+  - ticker: LRCX
+    currency: USD
+    result: scratch
+    buys:
+      - {date: "2026-06-09", qty: 2, price: 346.09, total: 692.18}
+    sells:
+      - {date: "2026-07-06", qty: 2, price: 346.00, total: 692.00}
+    summary: {avg_entry: 346.09, avg_exit: 346.00, pnl_usd: -0.18, pnl_pct: -0.03, hold_days: 27, r_multiple: 0.0}
+    post_mortem: "Rode +18.7% open profit ($410.91 post-earnings peak). Trailing stop raised from $305 to breakeven after the run. Global chip-sector selloff triggered T-SL at entry price. Zero damage. Lesson: consider scaling out 1/3 into a +8% earnings gap day rather than trailing the full position."
+
+  - ticker: DATAPATTNS
+    currency: INR
+    result: loss
+    buys:
+      - {date: "2026-06-16", qty: 10, price: 4805.00, total: 48050}
+    sells:
+      - {date: "2026-06-29", qty: 10, price: 4400.00, total: 44000}
+    summary: {avg_entry: 4805.00, avg_exit: 4400.00, pnl_inr: -4050, pnl_pct: -8.4, r_multiple: -1.0}
+    setup: "Darvas box breakout above 4303. Score 98. Cup & handle after 18% correction reset."
+    post_mortem: "Stopped out at 4400. Breakout failed — stock could not hold above box. R:R was 1:1.7 (T1 5500). Risk discipline held: loss = 1.47% of sleeve."
+
+# ─── SWING SCORECARD ───
+# Closed: Wins 4 | Losses 2 | Scratch 1 | Win rate 66.7% (ex-scratch)
+# Avg winner: +16.8% | Avg loser: -8.5%
+# Total realized: ~₹9,393 (INR equiv)
+# Best trade: SNDK +37.7% | Worst: KRN -8.6%
+# Active: NONE — flat as of 2026-07-06. Hunting.
+
+# ─── WATCHLIST ───
+watchlist:
+  - {ticker: ACUTAAS,     yf: "ACUTAAS.NS",    market: IN, zone: [3070, 3333],    invalidate: 3070,  trigger: "₹3333 pullback", stop: "₹3070", note: "WAIT — extended late-stage (box 5+), weekly reversal -4.9%. Only on orderly pullback to 21D ~3,333 holding. Never chase above 3,600."}
+  - {ticker: RSI,         yf: "RSI",           market: US, zone: [29.69, 30.00],  invalidate: 29.24, trigger: "$29.69-30.00",  stop: "$29.24", note: "US gaming. Pullback entry to Darvas trail. Skip on close below 29.24."}
+  - {ticker: STX,         yf: "STX",           market: US, zone: [475, 510],      invalidate: 448,   trigger: "$475-510",    stop: "$448",  note: "US semis. B+ setup — RE-CHECK after global chip selloff before acting."}
+  - {ticker: LAURUSLABS,  yf: "LAURUSLABS.NS", market: IN, zone: [1280, 1320],    invalidate: 1177,  trigger: "₹1280-1320",  stop: "₹1177", note: "C+ setup — WAIT. Extended. Only on pullback to 10W EMA ~1280. Remove if closes below 21W 1177."}
+  - {ticker: NIFTY,       yf: "^NSEI",         market: IN, regime: true, as_of: "2026-08-14", note: "RULE FIRED 2026-08-14: price 24,202 lost 21D EMA (24,326) AND 10D EMA (24,374) AND 150D SMA (24,294) AND 200D SMA (24,714) — only above 50D (24,124). Do not deploy new swing longs beyond pilot size until 21D EMA reclaimed."}
+  - {ticker: NIFTY500,    yf: "^CRSLDX",       market: IN, regime: true, as_of: "2026-08-14", note: "Weaker but not broken: price 23,508 below 10D EMA (23,591) only, still above 21D/50D/150D/200D. Broader-market gauge for mid/small-cap names (more relevant than Nifty50 for names like NETWEB). RS vs Nasdaq at 11 (bottom decile), falling."}
+  - {ticker: QQQ,         yf: "QQQ",           market: US, regime: true,          note: "US regime gauge — chip selloff in progress, watch for follow-through distribution"}
+  - {ticker: WT, market: US, note: "From TradingView 'Breaking Out' follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: ATUSF, market: US, note: "From TradingView 'Breaking Out' follow list, 2026-08-24. Ticker/company identity unconfirmed (OTC-style suffix) — verify before analysis. No analysis yet."}
+  - {ticker: LRCX, yf: "LRCX", market: US, note: "From TradingView follow list, 2026-08-24. Previously closed swing (entry 346, scratch exit). Re-following, not re-entered. No fresh analysis yet."}
+  - {ticker: SNDK, yf: "SNDK", market: US, note: "From TradingView follow list, 2026-08-24. Previously closed swing (+37.7%). Re-following. No fresh analysis yet."}
+  - {ticker: WDC, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: INTC, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: OUST, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: CGNX, market: US, note: "From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: KALYANKJIL, yf: "KALYANKJIL.NS", market: IN, note: "Kalyan Jewellers India. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: RAINBOW, yf: "RAINBOW.NS", market: IN, note: "Rainbow Childrens Medicare. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: AUROPHARMA, yf: "AUROPHARMA.NS", market: IN, note: "Aurobindo Pharma. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: ATHERENERG, yf: "ATHERENERG.NS", market: IN, note: "Ather Energy. From TradingView follow list, 2026-08-24. Previously closed swing (+2.0%). Re-following, not re-entered. No fresh analysis yet."}
+  - {ticker: NEULANDLAB, yf: "NEULANDLAB.NS", market: IN, note: "Neuland Laboratories. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: SANDHAR, yf: "SANDHAR.NS", market: IN, note: "Sandhar Technologies. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: CGPOWER, yf: "CGPOWER.NS", market: IN, note: "CG Power & Industrial Solutions. From TradingView follow list, 2026-08-24. No analysis yet — pending review."}
+  - {ticker: KERNEX, yf: "KERNEX.NS", market: IN, note: "Name partially visible in screenshot (cut off) — likely Kernex Microsystems, CONFIRM. From TradingView follow list, 2026-08-24. No analysis yet."}

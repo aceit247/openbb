@@ -1,0 +1,104 @@
+# ═══════════════════════════════════════════════════════════════════════
+# FATHER'S PORTFOLIO — managed by Vishesh
+# Source: broker app snapshot 2026-08-11 (shared 2026-08-12)
+# NOTE: snapshot shows COLPAL qty 600 — Vishesh reports position since sold
+#       "almost entirely". Confirm residual qty and update.
+# ═══════════════════════════════════════════════════════════════════════
+
+owner: "Father"
+as_of: "2026-08-12"
+
+holdings:
+  - symbol: NESTLEIND
+    name: "Nestle India"
+    qty: 1700
+    avg: 1153.99
+    invested: 1961784.07
+    action: HOLD
+    note: "Core hold, +30% — FMCG defensive expected to keep performing"
+
+  - symbol: GILLETTE
+    name: "Gillette India"
+    qty: 500
+    avg: 9863.44
+    invested: 4931719.00
+    action: HOLD_FOR_TLH
+    note: "Deliberate hold: exit to be timed against realized GAINS elsewhere for tax-loss harvesting (~11L loss available to offset). Not a conviction hold."
+
+  - symbol: COLPAL
+    name: "Colgate-Palmolive (India)"
+    qty: 0
+    avg: 2428.21
+    invested: 0
+    action: SOLD
+    note: "Fully exited — all 600 units sold Aug 2026. Realized loss ~₹2.5L (confirm exact from contract note)"
+
+realized_2026:
+  - {symbol: COLPAL, qty_sold: 600, avg_cost: 2428.21, approx_exit: 2005.00, realized_pnl: -253926, note: "approx — update from contract note"}
+
+# Capital freed by exits, being deployed via HDFC Securities brokerage
+# (father's account, managed by Vishesh — NOT the same as Vishesh's own
+# dormant HDFC Securities/"Invest Right" sleeve tracked in positions.yaml)
+growth_sleeve:
+  broker: "HDFC Securities (father's account)"
+  source: "Colgate-Palmolive sale proceeds"
+  total_inr: 1200000
+  risk_pct_per_trade: 1           # 1% of this pool = ₹12,000 max loss/trade
+  deployed_inr: 32088              # NETWEB only — DATAPATTNS stopped out
+  cash_remaining_inr: 1165217      # 1,200,000 - 32,088 (NETWEB) - 2,695 (DATAPATTNS realized loss)
+
+planned_trades: []
+
+# ─── ACTIVE SWING/GROWTH POSITIONS (managed by Vishesh, father's capital) ───
+swing_positions:
+  - ticker: NETWEB
+    yf_symbol: NETWEB.NS
+    currency: INR
+    status: open
+    entry_date: "2026-08-14"
+    entry_avg: 5348.00
+    qty: 6
+    full_plan_qty: 24
+    capital: 32088
+    stop: 5085.00                  # trigger price
+    stop_limit: 5050.00            # limit price — GTD SL (SL-M unsupported with GTD on this account)
+    stop_order_status: "CONFIRMED ACTIVE in HDFC Securities order book, 2026-08-20"
+    stop_structural: 4825.00
+    pivot: 5244.00
+    buy_range: [5240, 5500]
+    targets:
+      - {price: 5800.00, pct_to_sell: 33, label: "T1 handle breakout +9.1%"}
+      - {price: 6150.00, pct_to_sell: 33, label: "T2 measured move +15.7%"}
+      - {price: 6500.00, pct_to_sell: 34, label: "T3 cup extension +22.3%"}
+    setup: "Netweb Technologies — AI/HPC infra (Tyrone, Skylus brands). CANSLIM: EPS 99, RS 93, Group Rank 15/197. Cup w/ handle, ATH breakout. Pilot only; Core/Final regime-gated."
+    history_note: >
+      2026-08-20: First SL-M attempt never fired (was DAY-validity, expired
+      unnoticed) — stock traded through 5,085 on a closing basis and the
+      position stayed open by accident, not by design. Re-underwritten in
+      place: same 5,085 stop level, now a proper GTD SL order (trigger
+      5,085 / limit 5,050, ~0.69% buffer — tighter than the ~1.5% ATR-based
+      buffer originally suggested; protects fill price, slightly raises
+      non-fill risk on a violent gap — check the order book at open on any
+      sharp down-day). CONFIRM this order shows ACTIVE in HDFC Securities'
+      order book, not just "placed."
+    notes: "Reverse-pyramid / 25-50-25 plan. Do NOT widen the stop below 5,085. Core/Final tranches remain gated on Nifty 50 reclaiming its 21D EMA."
+
+
+# ─── CLOSED SWING/GROWTH POSITIONS (journal) ───
+closed_swing_positions:
+  - ticker: DATAPATTNS
+    currency: INR
+    result: loss
+    buys:
+      - {date: "2026-08-20", qty: 11, price: 4895.00, total: 53845}
+    sells:
+      - {date: "2026-08-25", qty: 11, price: 4650.00, total: 51150}
+    summary: {avg_entry: 4895.00, avg_exit: 4650.00, pnl_inr: -2695, pnl_pct: -5.01, r_multiple: -1.00, hold_days: 5}
+    setup: "Data Patterns — defense electronics. RS 91-99 (elite), but Group Rank 69/197 POOR, MarketSmith AI verdict Medium conviction 65%. Q1FY27 profit -13.5% YoY (partly seasonal). Rich vs peers (PE ~100x vs sector 36-49x)."
+    post_mortem: "Held 5 days (entered 20 Aug, stopped out 25 Aug) at the GTD SL limit price (4,650). Loss ₹2,695 (-5.01%), landed right at the planned stop distance — clean execution, stop was placed and protected in the same session as entry. Second consecutive loss on this stock (first was June, -8.4%) — same pattern both times: elite RS/chart quality undermined by a real fundamental crack (June: fresh earnings miss; this time: same Q1FY27 miss plus POOR group rank and Medium conviction). Worth treating any future DATAPATTNS setup with extra skepticism regardless of how clean the chart looks."
+
+snapshot_totals:
+  note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
+  current_value: 6356450          # 25,52,550 (Nestle, snapshot) + 38,03,900 approx Gillette
+  invested: 6893503               # 19,61,784 + 49,31,719
+  pnl: -537053
