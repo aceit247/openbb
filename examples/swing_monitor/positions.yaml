@@ -205,10 +205,10 @@ closed:
     buys:
       - {date: "2026-08-19", qty: 7, price: 49.381, total: 345.67}
     sells:
-      - {date: "TBD — confirm today's date", qty: 7, price: 48.21, total: 337.47}
-    summary: {avg_entry: 49.381, avg_exit: 48.21, pnl_usd: -8.20, pnl_pct: -2.37, r_multiple: -0.85, hold_days: null}
+      - {date: "2026-08-26", qty: 7, price: 48.21, total: 337.47}
+    summary: {avg_entry: 49.381, avg_exit: 48.21, pnl_usd: -8.20, pnl_pct: -2.37, r_multiple: -0.85, hold_days: 7}
     setup: "Dorian LPG (NYSE:LPG) — VLGC shipping, event-driven Strait of Hormuz freight-rate spike, not structural growth. Stop set at breakout pivot $48.00 (2.8% distance) per explicit choice."
-    post_mortem: "CORRECTED: the sell order's 'Trade Date' in the confirmation screenshot was the date the GTD stop order was PLACED, not when it executed — an ambiguous field I misread as an execution date. User confirmed the actual exit was several days later ('today', relative to the correction). Exit date pending exact calendar confirmation. Stop order filled at 48.21, slightly better than the 48.00 trigger (favorable slippage) — clean execution regardless of exact date. Loss $8.20 (-2.37%), close to the tight 2.8%-stop plan."
+    post_mortem: "Held 7 days (entered 19 Aug, stopped out 26 Aug) — not the same-day whipsaw first assumed; the confirmation screenshot's 'Trade Date' was when the GTD stop order was PLACED, not executed. Stop filled at 48.21, slightly better than the 48.00 trigger (favorable slippage) — clean execution. Loss $8.20 (-2.37%), close to the tight 2.8%-stop plan. 7-day hold means the ceasefire/freight-rate softening risk played out over about a week, not instantly — worth re-checking whether Hormuz-related news in that window explains the move before writing this off as pure noise."
   - ticker: SNDK
     currency: USD
     result: profit
