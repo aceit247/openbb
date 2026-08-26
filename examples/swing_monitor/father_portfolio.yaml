@@ -92,10 +92,10 @@ closed_swing_positions:
     buys:
       - {date: "2026-08-20", qty: 11, price: 4895.00, total: 53845}
     sells:
-      - {date: "2026-08-2?", qty: 11, price: 4650.00, total: 51150}
-    summary: {avg_entry: 4895.00, avg_exit: 4650.00, pnl_inr: -2695, pnl_pct: -5.01, r_multiple: -1.00}
+      - {date: "TBD — confirm today's date, exit was 'yesterday' per user", qty: 11, price: 4650.00, total: 51150}
+    summary: {avg_entry: 4895.00, avg_exit: 4650.00, pnl_inr: -2695, pnl_pct: -5.01, r_multiple: -1.00, hold_days: null}
     setup: "Data Patterns — defense electronics. RS 91-99 (elite), but Group Rank 69/197 POOR, MarketSmith AI verdict Medium conviction 65%. Q1FY27 profit -13.5% YoY (partly seasonal). Rich vs peers (PE ~100x vs sector 36-49x)."
-    post_mortem: "Stopped out at the GTD SL limit price (4,650) — confirmed by user, exact date pending contract note (placeholder '2026-08-2?'). Loss ₹2,695 (-5.01%), landed right at the planned stop distance — clean execution, stop was placed and protected in the same session as entry. Second consecutive loss on this stock (first was June, -8.4%) — same pattern both times: elite RS/chart quality undermined by a real fundamental crack (June: fresh earnings miss; this time: same Q1FY27 miss plus POOR group rank and Medium conviction). Worth treating any future DATAPATTNS setup with extra skepticism regardless of how clean the chart looks."
+    post_mortem: "Stopped out at the GTD SL limit price (4,650) — confirmed by user. Exact date pending confirmation. Loss ₹2,695 (-5.01%), landed right at the planned stop distance — clean execution, stop was placed and protected in the same session as entry. Second consecutive loss on this stock (first was June, -8.4%) — same pattern both times: elite RS/chart quality undermined by a real fundamental crack (June: fresh earnings miss; this time: same Q1FY27 miss plus POOR group rank and Medium conviction). Worth treating any future DATAPATTNS setup with extra skepticism regardless of how clean the chart looks."
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
