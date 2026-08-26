@@ -44,8 +44,8 @@ growth_sleeve:
   source: "Colgate-Palmolive sale proceeds"
   total_inr: 1200000
   risk_pct_per_trade: 1           # 1% of this pool = ₹12,000 max loss/trade
-  deployed_inr: 85933              # NETWEB 32,088 + DATAPATTNS 53,845
-  cash_remaining_inr: 1114067
+  deployed_inr: 32088              # NETWEB only — DATAPATTNS stopped out
+  cash_remaining_inr: 1165217      # 1,200,000 - 32,088 (NETWEB) - 2,695 (DATAPATTNS realized loss)
 
 planned_trades: []
 
@@ -83,36 +83,19 @@ swing_positions:
       order book, not just "placed."
     notes: "Reverse-pyramid / 25-50-25 plan. Do NOT widen the stop below 5,085. Core/Final tranches remain gated on Nifty 50 reclaiming its 21D EMA."
 
+
+# ─── CLOSED SWING/GROWTH POSITIONS (journal) ───
+closed_swing_positions:
   - ticker: DATAPATTNS
-    yf_symbol: DATAPATTNS.NS
     currency: INR
-    status: open                    # FILLED 2026-08-20 at trigger
-    entry_date: "2026-08-20"
-    entry_order: {trigger: 4895.00, limit: 4950.00, qty: 11, validity: "GTD through 2026-08-22"}
-    entry_avg: 4895.00               # confirmed fill
-    qty: 11
-    capital: 53845
-    stop: 4700.00
-    stop_limit: 4650.00
-    stop_order_status: "PLACED 2026-08-20 (GTD, trigger 4,700 / limit 4,650) — same session as fill. CONFIRM shows ACTIVE in order book."
-    pivot: 4895.00                  # reclaim of the actual 'Buy Zone' session price, NOT the 52W high/Core gate (4955.90)
-    core_gate: 4955.90              # original Core-tranche trigger — this entry is still BELOW that
-    targets:
-      - {price: 4955.90, pct_to_sell: 0, label: "52W high / prior resistance, watch not sell"}
-    setup: "Data Patterns — defense electronics. RS 91-99 (elite), but Group Rank 69/197 POOR, MarketSmith AI verdict Medium conviction 65%. Q1FY27 profit -13.5% YoY (partly seasonal — Jun quarter historically weak). Rich vs peers (PE ~100x vs sector 36-49x). ST Advanced Composites acquisition integration unresolved."
-    history_note: >
-      2026-08-19/20: Spiked to 'Buy Zone' tag at 4,894.85, vol badge later
-      clarified as a WEEKLY (not single-day) comparison — weaker
-      confirmation than first read. Gave back most of the spike next
-      session (pulled back to ~4785-4790).
-      2026-08-20: First order (trigger 4,830, R1 pivot reclaim) revised
-      UP to trigger 4,895 / limit 4,950 — now requires reclaiming the
-      actual Buy Zone session price, not just a minor pivot. Better
-      confirmation, still below the 4,955.90 ATH/Core gate. Pilot-sized
-      (11sh, matches the original 25% tranche) — risk to the 4,700 stop
-      is 0.18-0.23% of sleeve regardless of exact fill price. Stop level
-      unchanged at 4,700 (technical support, not adjusted for entry price).
-    notes: "Reverse-pyramid / 25-50-25 plan. Pilot filled + protected same session — correct discipline, matches the NETWEB lesson. Core (23sh) still gated on close above 4,955.90 ATH on volume + Nifty 50 21D EMA reclaim."
+    result: loss
+    buys:
+      - {date: "2026-08-20", qty: 11, price: 4895.00, total: 53845}
+    sells:
+      - {date: "2026-08-2?", qty: 11, price: 4650.00, total: 51150}
+    summary: {avg_entry: 4895.00, avg_exit: 4650.00, pnl_inr: -2695, pnl_pct: -5.01, r_multiple: -1.00}
+    setup: "Data Patterns — defense electronics. RS 91-99 (elite), but Group Rank 69/197 POOR, MarketSmith AI verdict Medium conviction 65%. Q1FY27 profit -13.5% YoY (partly seasonal). Rich vs peers (PE ~100x vs sector 36-49x)."
+    post_mortem: "Stopped out at the GTD SL limit price (4,650) — confirmed by user, exact date pending contract note (placeholder '2026-08-2?'). Loss ₹2,695 (-5.01%), landed right at the planned stop distance — clean execution, stop was placed and protected in the same session as entry. Second consecutive loss on this stock (first was June, -8.4%) — same pattern both times: elite RS/chart quality undermined by a real fundamental crack (June: fresh earnings miss; this time: same Q1FY27 miss plus POOR group rank and Medium conviction). Worth treating any future DATAPATTNS setup with extra skepticism regardless of how clean the chart looks."
 
 snapshot_totals:
   note: "COLPAL exited; totals = NESTLEIND + GILLETTE (buy-hold) + growth_sleeve cash/positions"
